@@ -1,0 +1,123 @@
+\chapter{遥测系统 }
+\hypertarget{md_packages_2core_2src_2telemetry_2index}{}\label{md_packages_2core_2src_2telemetry_2index}\index{遥测系统@{遥测系统}}
+\label{md_packages_2core_2src_2telemetry_2index_autotoc_md764}%
+\Hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md764}%
+
+
+遥测系统负责收集和发送使用数据，帮助改进产品和服务。\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md765}{}\doxysection{\texorpdfstring{核心组件}{核心组件}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md765}
+\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md766}{}\doxysubsection{\texorpdfstring{Telemetry\+Target 枚举}{Telemetry\+Target 枚举}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md766}
+定义遥测数据的目标：
+\begin{DoxyItemize}
+\item {\ttfamily GCP} -\/ 发送到 Google Cloud Platform
+\item {\ttfamily LOCAL} -\/ 本地记录
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md767}{}\doxysubsection{\texorpdfstring{initialize\+Telemetry()}{initialize\+Telemetry()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md767}
+初始化遥测 SDK：
+\begin{DoxyItemize}
+\item 配置资源属性
+\item 设置导出器（\+OTLP、文件或控制台）
+\item 启动 Node\+SDK
+\item 初始化指标
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md768}{}\doxysubsection{\texorpdfstring{shutdown\+Telemetry()}{shutdown\+Telemetry()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md768}
+关闭遥测 SDK：
+\begin{DoxyItemize}
+\item 关闭 Clearcut\+Logger
+\item 关闭 Node\+SDK
+\item 清理资源
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md769}{}\doxysection{\texorpdfstring{日志记录器}{日志记录器}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md769}
+\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md770}{}\doxysubsection{\texorpdfstring{log\+Cli\+Configuration()}{log\+Cli\+Configuration()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md770}
+记录 CLI 配置信息：
+\begin{DoxyItemize}
+\item 模型设置
+\item 沙箱配置
+\item 工具启用状态
+\item 认证方式
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md771}{}\doxysubsection{\texorpdfstring{log\+User\+Prompt()}{log\+User\+Prompt()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md771}
+记录用户提示：
+\begin{DoxyItemize}
+\item 提示长度
+\item 提示\+ID
+\item 认证类型
+\item 提示内容（可选）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md772}{}\doxysubsection{\texorpdfstring{log\+Tool\+Call()}{log\+Tool\+Call()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md772}
+记录工具调用：
+\begin{DoxyItemize}
+\item 工具名称
+\item 调用参数
+\item 执行时间
+\item 成功状态
+\item 错误信息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md773}{}\doxysubsection{\texorpdfstring{log\+Api\+Request()}{log\+Api\+Request()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md773}
+记录 API 请求：
+\begin{DoxyItemize}
+\item 模型名称
+\item 提示\+ID
+\item 请求文本
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md774}{}\doxysubsection{\texorpdfstring{log\+Api\+Error()}{log\+Api\+Error()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md774}
+记录 API 错误：
+\begin{DoxyItemize}
+\item 模型名称
+\item 错误信息
+\item 错误类型
+\item 状态码
+\item 执行时间
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md775}{}\doxysubsection{\texorpdfstring{log\+Api\+Response()}{log\+Api\+Response()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md775}
+记录 API 响应：
+\begin{DoxyItemize}
+\item 模型名称
+\item 状态码
+\item 执行时间
+\item Token 使用统计
+\item 响应文本
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md776}{}\doxysection{\texorpdfstring{指标记录}{指标记录}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md776}
+\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md777}{}\doxysubsection{\texorpdfstring{record\+Api\+Error\+Metrics()}{record\+Api\+Error\+Metrics()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md777}
+记录 API 错误指标：
+\begin{DoxyItemize}
+\item 错误计数
+\item 按模型和错误类型分类
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md778}{}\doxysubsection{\texorpdfstring{record\+Token\+Usage\+Metrics()}{record\+Token\+Usage\+Metrics()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md778}
+记录 Token 使用指标：
+\begin{DoxyItemize}
+\item 输入 Token
+\item 输出 Token
+\item 缓存 Token
+\item 思考 Token
+\item 工具 Token
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md779}{}\doxysubsection{\texorpdfstring{record\+Api\+Response\+Metrics()}{record\+Api\+Response\+Metrics()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md779}
+记录 API 响应指标：
+\begin{DoxyItemize}
+\item 响应时间
+\item 成功率
+\item 状态码分布
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md780}{}\doxysubsection{\texorpdfstring{record\+Tool\+Call\+Metrics()}{record\+Tool\+Call\+Metrics()}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md780}
+记录工具调用指标：
+\begin{DoxyItemize}
+\item 调用计数
+\item 执行时间
+\item 成功率
+\item 工具类型分布
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md781}{}\doxysection{\texorpdfstring{常量}{常量}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md781}
+\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md782}{}\doxysubsection{\texorpdfstring{默认设置}{默认设置}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md782}
+
+\begin{DoxyItemize}
+\item {\ttfamily DEFAULT\+\_\+\+TELEMETRY\+\_\+\+TARGET} -\/ 默认遥测目标：\+LOCAL
+\item {\ttfamily DEFAULT\+\_\+\+OTLP\+\_\+\+ENDPOINT} -\/ 默认 OTLP 端点：http\+://localhost\+:4317
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md783}{}\doxysection{\texorpdfstring{集成组件}{集成组件}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md783}
+\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md784}{}\doxysubsection{\texorpdfstring{Open\+Telemetry SDK}{Open\+Telemetry SDK}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md784}
+使用 Open\+Telemetry Node\+SDK：
+\begin{DoxyItemize}
+\item 跨平台遥测收集
+\item 多种导出器支持
+\item 标准化指标和追踪
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md785}{}\doxysubsection{\texorpdfstring{Clearcut\+Logger}{Clearcut\+Logger}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md785}
+Google 内部日志记录器：
+\begin{DoxyItemize}
+\item 专门用于 Google 服务集成
+\item 结构化日志记录
+\item 安全的数据传输
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_autotoc_md786}{}\doxysubsection{\texorpdfstring{文件导出器}{文件导出器}}\label{md_packages_2core_2src_2telemetry_2index_autotoc_md786}
+本地文件记录支持：
+\begin{DoxyItemize}
+\item File\+Span\+Exporter
+\item File\+Log\+Exporter
+\item File\+Metric\+Exporter 
+\end{DoxyItemize}

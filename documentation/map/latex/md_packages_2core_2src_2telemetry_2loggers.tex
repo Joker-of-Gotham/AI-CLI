@@ -1,0 +1,142 @@
+\chapter{遥测日志记录器 (loggers.\+ts) }
+\hypertarget{md_packages_2core_2src_2telemetry_2loggers}{}\label{md_packages_2core_2src_2telemetry_2loggers}\index{遥测日志记录器 (loggers.ts)@{遥测日志记录器 (loggers.ts)}}
+\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md800}%
+\Hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md800}%
+
+
+遥测日志记录器提供结构化的日志记录功能，将事件数据发送到遥测系统。\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md801}{}\doxysection{\texorpdfstring{核心功能}{核心功能}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md801}
+
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}事件记录\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：记录各种遥测事件
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}指标收集\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：收集和处理性能指标
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}数据丰富\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：添加上下文信息到日志
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}条件记录\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：根据配置决定是否记录敏感数据
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md802}{}\doxysection{\texorpdfstring{核心函数}{核心函数}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md802}
+\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md803}{}\doxysubsection{\texorpdfstring{log\+Cli\+Configuration()}{log\+Cli\+Configuration()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md803}
+记录 CLI 配置加载事件：
+\begin{DoxyItemize}
+\item 模型设置
+\item 沙箱配置
+\item 工具启用状态
+\item 认证方式
+\item 文件过滤设置
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md804}{}\doxysubsection{\texorpdfstring{log\+User\+Prompt()}{log\+User\+Prompt()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md804}
+记录用户提示事件：
+\begin{DoxyItemize}
+\item 提示长度
+\item 提示\+ID
+\item 认证类型
+\item 提示内容（根据配置决定是否记录）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md805}{}\doxysubsection{\texorpdfstring{log\+Tool\+Call()}{log\+Tool\+Call()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md805}
+记录工具调用事件：
+\begin{DoxyItemize}
+\item 工具名称
+\item 调用参数（\+JSON序列化）
+\item 执行时间
+\item 成功状态
+\item 错误信息
+\item 工具类型
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md806}{}\doxysubsection{\texorpdfstring{log\+File\+Operation()}{log\+File\+Operation()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md806}
+记录文件操作事件：
+\begin{DoxyItemize}
+\item 工具名称
+\item 操作类型
+\item 行数
+\item MIME类型
+\item 文件扩展名
+\item 编程语言
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md807}{}\doxysubsection{\texorpdfstring{log\+Api\+Request()}{log\+Api\+Request()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md807}
+记录 API 请求事件：
+\begin{DoxyItemize}
+\item 模型名称
+\item 提示\+ID
+\item 请求文本
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md808}{}\doxysubsection{\texorpdfstring{log\+Api\+Error()}{log\+Api\+Error()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md808}
+记录 API 错误事件：
+\begin{DoxyItemize}
+\item 模型名称
+\item 错误信息
+\item 错误类型
+\item 状态码
+\item 执行时间
+\item 认证类型
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md809}{}\doxysubsection{\texorpdfstring{log\+Api\+Response()}{log\+Api\+Response()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md809}
+记录 API 响应事件：
+\begin{DoxyItemize}
+\item 模型名称
+\item 状态码
+\item 执行时间
+\item Token 使用统计
+\item 响应文本
+\item 错误信息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md810}{}\doxysection{\texorpdfstring{辅助函数}{辅助函数}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md810}
+\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md811}{}\doxysubsection{\texorpdfstring{get\+Common\+Attributes()}{get\+Common\+Attributes()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md811}
+获取通用日志属性：
+\begin{DoxyItemize}
+\item 会话\+ID
+\item 用户邮箱（如果可用）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md812}{}\doxysubsection{\texorpdfstring{should\+Log\+User\+Prompts()}{should\+Log\+User\+Prompts()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md812}
+检查是否应该记录用户提示：
+\begin{DoxyItemize}
+\item 根据配置决定是否记录提示内容
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md813}{}\doxysection{\texorpdfstring{指标记录集成}{指标记录集成}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md813}
+\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md814}{}\doxysubsection{\texorpdfstring{record\+Tool\+Call\+Metrics()}{record\+Tool\+Call\+Metrics()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md814}
+记录工具调用指标：
+\begin{DoxyItemize}
+\item 调用计数
+\item 执行时间分布
+\item 成功率
+\item 工具决策分布
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md815}{}\doxysubsection{\texorpdfstring{record\+File\+Operation\+Metric()}{record\+File\+Operation\+Metric()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md815}
+记录文件操作指标：
+\begin{DoxyItemize}
+\item 操作类型分布
+\item 文件类型统计
+\item 行数分布
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md816}{}\doxysubsection{\texorpdfstring{record\+Api\+Error\+Metrics()}{record\+Api\+Error\+Metrics()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md816}
+记录 API 错误指标：
+\begin{DoxyItemize}
+\item 错误类型分布
+\item 状态码统计
+\item 模型错误率
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md817}{}\doxysubsection{\texorpdfstring{record\+Token\+Usage\+Metrics()}{record\+Token\+Usage\+Metrics()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md817}
+记录 Token 使用指标：
+\begin{DoxyItemize}
+\item 输入/输出 Token 消耗
+\item 缓存 Token 使用
+\item 思考 Token 消耗
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md818}{}\doxysubsection{\texorpdfstring{record\+Api\+Response\+Metrics()}{record\+Api\+Response\+Metrics()}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md818}
+记录 API 响应指标：
+\begin{DoxyItemize}
+\item 响应时间分布
+\item 成功率
+\item 状态码分布
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md819}{}\doxysection{\texorpdfstring{Clearcut 集成}{Clearcut 集成}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md819}
+所有主要事件都会同时发送到 Clearcut 日志系统：
+\begin{DoxyItemize}
+\item log\+Start\+Session\+Event()
+\item log\+New\+Prompt\+Event()
+\item log\+Tool\+Call\+Event()
+\item log\+Api\+Request\+Event()
+\item log\+Api\+Error\+Event()
+\item log\+Api\+Response\+Event()
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md820}{}\doxysection{\texorpdfstring{UI 遥测集成}{UI 遥测集成}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md820}
+关键事件同时发送到 UI 遥测服务：
+\begin{DoxyItemize}
+\item 工具调用事件
+\item API 错误事件
+\item API 响应事件
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md821}{}\doxysection{\texorpdfstring{数据安全}{数据安全}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md821}
+\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md822}{}\doxysubsection{\texorpdfstring{敏感数据处理}{敏感数据处理}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md822}
+
+\begin{DoxyItemize}
+\item 用户提示内容根据配置决定是否记录
+\item 错误消息进行适当的清理
+\item 参数数据进行安全的 JSON 序列化
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2loggers_autotoc_md823}{}\doxysubsection{\texorpdfstring{数据验证}{数据验证}}\label{md_packages_2core_2src_2telemetry_2loggers_autotoc_md823}
+
+\begin{DoxyItemize}
+\item 验证事件数据的完整性
+\item 处理缺失或无效的数据字段
+\item 提供默认值和错误处理 
+\end{DoxyItemize}

@@ -1,0 +1,53 @@
+\chapter{colors.\+ts }
+\hypertarget{md_packages_2cli_2src_2ui_2colors_8ts}{}\label{md_packages_2cli_2src_2ui_2colors_8ts}\index{colors.ts@{colors.ts}}
+\label{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md442}%
+\Hypertarget{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md442}%
+\hypertarget{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md443}{}\doxysection{\texorpdfstring{概述}{概述}}\label{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md443}
+{\ttfamily \doxylink{colors_8ts}{colors.\+ts}} 是 cli 包中处理颜色主题的模块。该文件导出一个 {\ttfamily Colors} 对象，提供对当前活动主题颜色的访问。\hypertarget{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md444}{}\doxysection{\texorpdfstring{导出的对象}{导出的对象}}\label{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md444}
+\hypertarget{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md445}{}\doxysubsection{\texorpdfstring{Colors}{Colors}}\label{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md445}
+颜色主题对象，提供对当前活动主题颜色的访问：
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{属性}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily type}\+: 颜色主题类型
+\item {\ttfamily Foreground}\+: 前景色
+\item {\ttfamily Background}\+: 背景色
+\item {\ttfamily Light\+Blue}\+: 浅蓝色
+\item {\ttfamily Accent\+Blue}\+: 强调蓝色
+\item {\ttfamily Accent\+Purple}\+: 强调紫色
+\item {\ttfamily Accent\+Cyan}\+: 强调青色
+\item {\ttfamily Accent\+Green}\+: 强调绿色
+\item {\ttfamily Accent\+Yellow}\+: 强调黄色
+\item {\ttfamily Accent\+Red}\+: 强调红色
+\item {\ttfamily Diff\+Added}\+: 差异添加颜色
+\item {\ttfamily Diff\+Removed}\+: 差异删除颜色
+\item {\ttfamily Comment}\+: 注释颜色
+\item {\ttfamily Gray}\+: 灰色
+\item {\ttfamily Gradient\+Colors}\+: 渐变颜色数组
+\end{DoxyItemize}
+\item {\bfseries{实现方式}}\+:
+\begin{DoxyItemize}
+\item 使用 getter 方法动态获取当前活动主题的颜色值
+\item 通过 {\ttfamily theme\+Manager.\+get\+Active\+Theme().colors} 访问实际颜色值
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md446}{}\doxysection{\texorpdfstring{依赖模块}{依赖模块}}\label{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md446}
+
+\begin{DoxyItemize}
+\item {\ttfamily ./themes/theme-\/manager.js}\+: 主题管理器
+\item {\ttfamily ./themes/theme.js}\+: 颜色主题类型定义
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md447}{}\doxysection{\texorpdfstring{使用场景}{使用场景}}\label{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md447}
+该模块主要用于：
+\begin{DoxyEnumerate}
+\item 在 UI 组件中访问当前主题的颜色
+\item 提供一致的颜色访问接口
+\item 支持主题切换时的颜色更新
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md448}{}\doxysection{\texorpdfstring{设计考虑}{设计考虑}}\label{md_packages_2cli_2src_2ui_2colors_8ts_autotoc_md448}
+该模块的设计考虑了：
+\begin{DoxyEnumerate}
+\item 通过 getter 方法实现动态颜色访问
+\item 与主题管理器的集成
+\item 提供完整的颜色属性集合
+\item 保持与主题系统的同步 
+\end{DoxyEnumerate}

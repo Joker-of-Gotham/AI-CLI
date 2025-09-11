@@ -1,0 +1,98 @@
+\chapter{遥测 SDK (sdk.\+ts) }
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk}{}\label{md_packages_2core_2src_2telemetry_2sdk}\index{遥测 SDK (sdk.ts)@{遥测 SDK (sdk.ts)}}
+\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md849}%
+\Hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md849}%
+
+
+遥测 SDK 负责初始化和管理 Open\+Telemetry 运行时环境。\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md850}{}\doxysection{\texorpdfstring{核心功能}{核心功能}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md850}
+
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+SDK 初始化\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：配置和启动 Open\+Telemetry SDK
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}资源管理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：设置遥测数据的资源属性
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}导出器配置\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：配置不同的数据导出方式
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}生命周期管理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：启动和关闭 SDK
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md851}{}\doxysection{\texorpdfstring{核心变量}{核心变量}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md851}
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md852}{}\doxysubsection{\texorpdfstring{sdk}{sdk}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md852}
+Node\+SDK 实例，全局单例：
+\begin{DoxyItemize}
+\item 管理整个遥测生命周期
+\item 配置所有遥测组件
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md853}{}\doxysubsection{\texorpdfstring{telemetry\+Initialized}{telemetry\+Initialized}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md853}
+遥测初始化状态：
+\begin{DoxyItemize}
+\item 跟踪 SDK 是否已初始化
+\item 避免重复初始化
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md854}{}\doxysection{\texorpdfstring{核心函数}{核心函数}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md854}
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md855}{}\doxysubsection{\texorpdfstring{initialize\+Telemetry()}{initialize\+Telemetry()}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md855}
+初始化遥测 SDK 的主要函数：
+\begin{DoxyEnumerate}
+\item 检查是否已启用遥测
+\item 配置资源属性（服务名、版本、会话\+ID等）
+\item 解析 OTLP 端点配置
+\item 根据配置选择导出器
+\item 启动 Node\+SDK
+\item 初始化指标系统
+\item 注册关闭处理程序
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md856}{}\doxysubsection{\texorpdfstring{shutdown\+Telemetry()}{shutdown\+Telemetry()}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md856}
+关闭遥测 SDK：
+\begin{DoxyEnumerate}
+\item 关闭 Clearcut\+Logger
+\item 关闭 Node\+SDK
+\item 重置初始化状态
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md857}{}\doxysubsection{\texorpdfstring{is\+Telemetry\+Sdk\+Initialized()}{is\+Telemetry\+Sdk\+Initialized()}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md857}
+检查遥测 SDK 是否已初始化：
+\begin{DoxyItemize}
+\item 返回初始化状态
+\item 用于条件性遥测记录
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md858}{}\doxysubsection{\texorpdfstring{parse\+Otlp\+Endpoint()}{parse\+Otlp\+Endpoint()}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md858}
+解析 OTLP 端点 URL：
+\begin{DoxyItemize}
+\item 处理带引号的端点配置
+\item 根据协议类型返回适当格式
+\item 错误处理和日志记录
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md859}{}\doxysection{\texorpdfstring{导出器配置}{导出器配置}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md859}
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md860}{}\doxysubsection{\texorpdfstring{OTLP 导出器}{OTLP 导出器}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md860}
+支持 g\+RPC 和 HTTP 协议：
+\begin{DoxyItemize}
+\item OTLPTrace\+Exporter / OTLPTrace\+Exporter\+Http
+\item OTLPLog\+Exporter / OTLPLog\+Exporter\+Http
+\item OTLPMetric\+Exporter / OTLPMetric\+Exporter\+Http
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md861}{}\doxysubsection{\texorpdfstring{文件导出器}{文件导出器}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md861}
+本地文件记录：
+\begin{DoxyItemize}
+\item File\+Span\+Exporter
+\item File\+Log\+Exporter
+\item File\+Metric\+Exporter
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md862}{}\doxysubsection{\texorpdfstring{控制台导出器}{控制台导出器}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md862}
+开发调试用：
+\begin{DoxyItemize}
+\item Console\+Span\+Exporter
+\item Console\+Log\+Record\+Exporter
+\item Console\+Metric\+Exporter
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md863}{}\doxysection{\texorpdfstring{资源配置}{资源配置}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md863}
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md864}{}\doxysubsection{\texorpdfstring{Semantic\+Resource\+Attributes}{Semantic\+Resource\+Attributes}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md864}
+标准资源属性：
+\begin{DoxyItemize}
+\item SERVICE\+\_\+\+NAME -\/ 服务名称
+\item SERVICE\+\_\+\+VERSION -\/ 服务版本
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md865}{}\doxysubsection{\texorpdfstring{自定义属性}{自定义属性}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md865}
+
+\begin{DoxyItemize}
+\item session.\+id -\/ 会话\+ID
+\item user.\+email -\/ 用户邮箱（如果可用）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md866}{}\doxysection{\texorpdfstring{信号处理}{信号处理}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md866}
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md867}{}\doxysubsection{\texorpdfstring{进程信号监听}{进程信号监听}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md867}
+自动注册关闭处理程序：
+\begin{DoxyItemize}
+\item SIGTERM -\/ 优雅关闭
+\item SIGINT -\/ 中断信号（\+Ctrl+\+C）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md868}{}\doxysection{\texorpdfstring{依赖组件}{依赖组件}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md868}
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk_autotoc_md869}{}\doxysubsection{\texorpdfstring{Open\+Telemetry 组件}{Open\+Telemetry 组件}}\label{md_packages_2core_2src_2telemetry_2sdk_autotoc_md869}
+
+\begin{DoxyItemize}
+\item Node\+SDK -\/ 核心 SDK
+\item Http\+Instrumentation -\/ HTTP 请求检测
+\item Batch\+Span\+Processor -\/ 批量跨度处理
+\item Batch\+Log\+Record\+Processor -\/ 批量日志处理
+\item Periodic\+Exporting\+Metric\+Reader -\/ 周期性指标导出 
+\end{DoxyItemize}

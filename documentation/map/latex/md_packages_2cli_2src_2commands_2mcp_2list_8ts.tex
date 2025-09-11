@@ -1,0 +1,78 @@
+\chapter{list.\+ts }
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts}{}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts}\index{list.ts@{list.ts}}
+\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md242}%
+\Hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md242}%
+
+
+MCP 服务器列表命令，用于显示所有配置的 MCP 服务器及其连接状态。\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md243}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md243}
+
+\begin{DoxyEnumerate}
+\item 列出所有配置的 MCP 服务器
+\item 测试服务器连接状态
+\item 显示服务器详细信息
+\item 支持颜色化状态指示
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md244}{}\doxysection{\texorpdfstring{主要函数}{主要函数}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md244}
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md245}{}\doxysubsection{\texorpdfstring{get\+Mcp\+Servers\+From\+Config()}{get\+Mcp\+Servers\+From\+Config()}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md245}
+从配置中获取所有 MCP 服务器：
+\begin{DoxyItemize}
+\item 加载用户设置
+\item 加载扩展配置
+\item 合并服务器配置
+\item 处理扩展名称
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md246}{}\doxysubsection{\texorpdfstring{test\+MCPConnection(server\+Name\+: string, config\+: MCPServer\+Config)\+: Promise$<$\+MCPServer\+Status$>$}{test\+MCPConnection(server\+Name\+: string, config\+: MCPServer\+Config)\+: Promise$<$\+MCPServer\+Status$>$}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md246}
+测试 MCP 服务器连接：
+\begin{DoxyItemize}
+\item 创建传输连接
+\item 尝试连接服务器
+\item 发送 ping 测试
+\item 返回连接状态
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md247}{}\doxysubsection{\texorpdfstring{get\+Server\+Status(server\+Name\+: string, server\+: MCPServer\+Config)\+: Promise$<$\+MCPServer\+Status$>$}{get\+Server\+Status(server\+Name\+: string, server\+: MCPServer\+Config)\+: Promise$<$\+MCPServer\+Status$>$}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md247}
+获取服务器状态：
+\begin{DoxyItemize}
+\item 调用连接测试函数
+\item 返回服务器状态
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md248}{}\doxysubsection{\texorpdfstring{list\+Mcp\+Servers()\+: Promise$<$void$>$}{list\+Mcp\+Servers()\+: Promise$<$void$>$}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md248}
+列出 MCP 服务器：
+\begin{DoxyItemize}
+\item 获取所有配置的服务器
+\item 测试每个服务器的连接状态
+\item 显示服务器名称、类型和状态
+\item 使用颜色化输出状态指示
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md249}{}\doxysubsection{\texorpdfstring{list\+Command\+: Command\+Module}{list\+Command\+: Command\+Module}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md249}
+Yargs 命令模块，定义 list 子命令：
+\begin{DoxyItemize}
+\item command\+: \textquotesingle{}list\textquotesingle{}
+\item describe\+: \textquotesingle{}List all configured MCP servers\textquotesingle{}
+\item handler\+: 调用 list\+Mcp\+Servers 函数
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md250}{}\doxysection{\texorpdfstring{状态指示}{状态指示}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md250}
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md251}{}\doxysubsection{\texorpdfstring{颜色编码}{颜色编码}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md251}
+
+\begin{DoxyItemize}
+\item 绿色 (✓)\+: 已连接
+\item 黄色 (…)\+: 连接中
+\item 红色 (✗)\+: 已断开
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md252}{}\doxysubsection{\texorpdfstring{服务器信息显示}{服务器信息显示}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md252}
+
+\begin{DoxyItemize}
+\item 服务器名称
+\item 传输类型 (stdio/sse/http)
+\item 连接状态
+\item 服务器地址/命令
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md253}{}\doxysection{\texorpdfstring{使用示例}{使用示例}}\label{md_packages_2cli_2src_2commands_2mcp_2list_8ts_autotoc_md253}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ 列出所有\ MCP\ 服务器}
+\DoxyCodeLine{gemini\ mcp\ list}
+
+\end{DoxyCode}
+
+
+输出示例： 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Configured\ MCP\ servers:}
+\DoxyCodeLine{}
+\DoxyCodeLine{✓\ python-\/server:\ python\ /path/to/server.py\ (stdio)\ -\/\ Connected}
+\DoxyCodeLine{✗\ http-\/server:\ http://localhost:8080\ (http)\ -\/\ Disconnected}
+
+\end{DoxyCode}
+ 

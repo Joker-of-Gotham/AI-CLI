@@ -1,0 +1,92 @@
+\chapter{Shell 执行服务 (Shell\+Execution\+Service) }
+\hypertarget{md_packages_2core_2src_2services_2shell_execution_service}{}\label{md_packages_2core_2src_2services_2shell_execution_service}\index{Shell 执行服务 (ShellExecutionService)@{Shell 执行服务 (ShellExecutionService)}}
+\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md742}%
+\Hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md742}%
+
+
+Shell 执行服务提供跨平台的 shell 命令执行功能，支持 robust 进程管理、流式输出和实时交互。\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md743}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md743}
+
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}跨平台执行\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：支持 Windows 和 POSIX 系统
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}流式输出\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：实时流式输出命令结果
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}进程管理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：完善的进程生命周期管理
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}信号处理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：正确处理用户中断和进程终止
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}编码处理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：自动检测和处理不同文本编码
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md744}{}\doxysection{\texorpdfstring{核心数据结构}{核心数据结构}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md744}
+\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md745}{}\doxysubsection{\texorpdfstring{Shell\+Execution\+Result}{Shell\+Execution\+Result}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md745}
+命令执行结果：
+\begin{DoxyItemize}
+\item {\ttfamily raw\+Output} -\/ 原始输出缓冲区
+\item {\ttfamily output} -\/ 解码后的输出字符串
+\item {\ttfamily exit\+Code} -\/ 退出码
+\item {\ttfamily signal} -\/ 终止信号
+\item {\ttfamily error} -\/ 错误对象
+\item {\ttfamily aborted} -\/ 是否被用户中止
+\item {\ttfamily pid} -\/ 进程\+ID
+\item {\ttfamily execution\+Method} -\/ 执行方法
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md746}{}\doxysubsection{\texorpdfstring{Shell\+Output\+Event}{Shell\+Output\+Event}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md746}
+执行过程中的事件：
+\begin{DoxyItemize}
+\item {\ttfamily data} -\/ 数据事件，包含输出块
+\item {\ttfamily binary\+\_\+detected} -\/ 检测到二进制输出
+\item {\ttfamily binary\+\_\+progress} -\/ 二进制输出进度
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md747}{}\doxysection{\texorpdfstring{核心方法}{核心方法}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md747}
+\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md748}{}\doxysubsection{\texorpdfstring{execute()}{execute()}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md748}
+执行 shell 命令的主要入口：
+\begin{DoxyItemize}
+\item 支持 node-\/pty 和 child\+\_\+process 两种执行方式
+\item 提供流式事件回调
+\item 支持中断信号处理
+\item 自动选择最佳执行方法
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md749}{}\doxysubsection{\texorpdfstring{execute\+With\+Pty()}{execute\+With\+Pty()}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md749}
+使用 node-\/pty 执行命令：
+\begin{DoxyItemize}
+\item 提供更好的终端仿真
+\item 支持复杂交互式命令
+\item 更好的输出格式处理
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md750}{}\doxysubsection{\texorpdfstring{child\+Process\+Fallback()}{child\+Process\+Fallback()}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md750}
+使用 child\+\_\+process 执行命令：
+\begin{DoxyItemize}
+\item 作为备用执行方法
+\item 更好的兼容性
+\item 简化的进程管理
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md751}{}\doxysection{\texorpdfstring{特殊功能}{特殊功能}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md751}
+\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md752}{}\doxysubsection{\texorpdfstring{编码处理}{编码处理}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md752}
+自动检测和处理不同文本编码：
+\begin{DoxyItemize}
+\item 使用 get\+Cached\+Encoding\+For\+Buffer 检测编码
+\item 支持 UTF-\/8、\+GBK 等常见编码
+\item 优雅处理编码错误
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md753}{}\doxysubsection{\texorpdfstring{ANSI 转义序列处理}{ANSI 转义序列处理}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md753}
+清理输出中的 ANSI 转义序列：
+\begin{DoxyItemize}
+\item 使用 strip\+Ansi 清理颜色代码
+\item 保持输出的可读性
+\item 支持终端特性检测
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md754}{}\doxysubsection{\texorpdfstring{二进制输出检测}{二进制输出检测}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md754}
+智能检测和处理二进制输出：
+\begin{DoxyItemize}
+\item 嗅探输出数据判断是否为二进制
+\item 提供二进制进度信息
+\item 避免二进制数据污染文本输出
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md755}{}\doxysubsection{\texorpdfstring{进程终止处理}{进程终止处理}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md755}
+完善的进程终止机制：
+\begin{DoxyItemize}
+\item 支持 SIGTERM 和 SIGKILL 信号
+\item Windows 平台使用 taskkill
+\item POSIX 平台使用进程组管理
+\item 优雅处理超时情况
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md756}{}\doxysection{\texorpdfstring{跨平台支持}{跨平台支持}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md756}
+\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md757}{}\doxysubsection{\texorpdfstring{Windows 支持}{Windows 支持}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md757}
+
+\begin{DoxyItemize}
+\item 使用 cmd.\+exe 作为默认 shell
+\item 使用 taskkill 终止进程
+\item 处理 Windows 特定的路径和参数
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md758}{}\doxysubsection{\texorpdfstring{POSIX 支持}{POSIX 支持}}\label{md_packages_2core_2src_2services_2shell_execution_service_autotoc_md758}
+
+\begin{DoxyItemize}
+\item 使用 bash 作为默认 shell
+\item 使用进程组管理
+\item 支持标准 Unix 信号处理 
+\end{DoxyItemize}

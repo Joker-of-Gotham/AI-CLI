@@ -1,0 +1,24 @@
+\chapter{test-\/setup.\+ts }
+\hypertarget{md_packages_2cli_2test-setup_8ts}{}\label{md_packages_2cli_2test-setup_8ts}\index{test-\/setup.ts@{test-\/setup.ts}}
+\label{md_packages_2cli_2test-setup_8ts_autotoc_md470}%
+\Hypertarget{md_packages_2cli_2test-setup_8ts_autotoc_md470}%
+\hypertarget{md_packages_2cli_2test-setup_8ts_autotoc_md471}{}\doxysection{\texorpdfstring{概述}{概述}}\label{md_packages_2cli_2test-setup_8ts_autotoc_md471}
+{\ttfamily test-\/setup.\+ts} 是 cli 包的测试设置文件，在 Vitest 测试运行之前执行。该文件主要用于配置测试环境，确保测试的一致性和可靠性。\hypertarget{md_packages_2cli_2test-setup_8ts_autotoc_md472}{}\doxysection{\texorpdfstring{功能详情}{功能详情}}\label{md_packages_2cli_2test-setup_8ts_autotoc_md472}
+\hypertarget{md_packages_2cli_2test-setup_8ts_autotoc_md473}{}\doxysubsection{\texorpdfstring{环境变量配置}{环境变量配置}}\label{md_packages_2cli_2test-setup_8ts_autotoc_md473}
+
+\begin{DoxyItemize}
+\item 检查并删除 {\ttfamily NO\+\_\+\+COLOR} 环境变量，确保在本地和 CI 测试运行之间主题行为的一致性
+\item 通过删除该环境变量，确保测试不会受到颜色输出设置的影响
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2test-setup_8ts_autotoc_md474}{}\doxysubsection{\texorpdfstring{自定义匹配器导入}{自定义匹配器导入}}\label{md_packages_2cli_2test-setup_8ts_autotoc_md474}
+
+\begin{DoxyItemize}
+\item 导入 {\ttfamily ./src/test-\/utils/custom\+Matchers.js} 文件，该文件包含自定义的 Jest 匹配器
+\item 这些自定义匹配器扩展了 Vitest 的断言功能，提供更丰富的测试断言选项
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2test-setup_8ts_autotoc_md475}{}\doxysection{\texorpdfstring{设计考虑}{设计考虑}}\label{md_packages_2cli_2test-setup_8ts_autotoc_md475}
+该文件的设计确保了测试环境的一致性：
+\begin{DoxyEnumerate}
+\item 通过清除可能影响测试输出的环境变量
+\item 通过导入自定义匹配器来增强测试能力
+\item 作为 Vitest 配置中指定的 setup\+Files，在测试运行前自动执行
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2test-setup_8ts_autotoc_md476}{}\doxysection{\texorpdfstring{使用方式}{使用方式}}\label{md_packages_2cli_2test-setup_8ts_autotoc_md476}
+该文件通过 {\ttfamily vitest.\+config.\+ts} 中的 {\ttfamily setup\+Files} 配置项自动加载，在每次测试运行之前执行其中的代码。 

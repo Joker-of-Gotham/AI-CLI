@@ -1,0 +1,70 @@
+\chapter{read\+Stdin.\+ts }
+\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts}{}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts}\index{readStdin.ts@{readStdin.ts}}
+\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md458}%
+\Hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md458}%
+
+
+标准输入读取模块，用于从 stdin 读取数据。\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md459}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md459}
+
+\begin{DoxyEnumerate}
+\item 从标准输入读取数据
+\item 处理管道输入
+\item 限制输入大小
+\item 处理超时情况
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md460}{}\doxysection{\texorpdfstring{主要函数}{主要函数}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md460}
+\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md461}{}\doxysubsection{\texorpdfstring{read\+Stdin()\+: Promise$<$string$>$}{read\+Stdin()\+: Promise$<$string$>$}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md461}
+异步读取标准输入数据：
+\begin{DoxyEnumerate}
+\item 设置最大输入大小限制（8\+MB）
+\item 处理可读事件
+\item 累积输入数据
+\item 处理超时情况
+\item 返回读取的数据
+\end{DoxyEnumerate}
+
+返回值：
+\begin{DoxyItemize}
+\item Promise$<$string$>$\+: 读取到的输入数据
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md462}{}\doxysection{\texorpdfstring{实现细节}{实现细节}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md462}
+\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md463}{}\doxysubsection{\texorpdfstring{数据大小限制}{数据大小限制}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md463}
+
+\begin{DoxyItemize}
+\item MAX\+\_\+\+STDIN\+\_\+\+SIZE\+: 8MB（8 \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024 字节）
+\item 超过限制时会截断数据并发出警告
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md464}{}\doxysubsection{\texorpdfstring{超时处理}{超时处理}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md464}
+
+\begin{DoxyItemize}
+\item piped\+Input\+Should\+Be\+Available\+In\+Ms\+: 500ms
+\item 如果在 500ms 内没有可用的管道输入，停止读取
+\item 这解决了在某些终端中 stdin 永远不是 TTY 且没有管道输入时程序卡住的问题
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md465}{}\doxysubsection{\texorpdfstring{事件处理}{事件处理}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md465}
+
+\begin{DoxyItemize}
+\item readable\+: 当有数据可读时触发
+\item end\+: 当输入结束时触发
+\item error\+: 当发生错误时触发
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md466}{}\doxysubsection{\texorpdfstring{数据累积}{数据累积}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md466}
+
+\begin{DoxyItemize}
+\item 持续读取数据块直到没有更多数据
+\item 跟踪总大小以确保不超过限制
+\item 在接近限制时截断数据
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md467}{}\doxysection{\texorpdfstring{错误处理}{错误处理}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md467}
+
+\begin{DoxyItemize}
+\item 捕获并传递读取错误
+\item 在发生错误时清理事件监听器
+\item 在正常结束时清理事件监听器
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md468}{}\doxysection{\texorpdfstring{使用场景}{使用场景}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md468}
+
+\begin{DoxyItemize}
+\item 处理管道输入（echo "{}data"{} \texorpdfstring{$\vert$}{|} gemini）
+\item 读取重定向文件内容（gemini \texorpdfstring{$<$}{<} input.\+txt）
+\item 在非交互模式下获取用户输入
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md469}{}\doxysection{\texorpdfstring{注意事项}{注意事项}}\label{md_packages_2cli_2src_2utils_2read_stdin_8ts_autotoc_md469}
+
+\begin{DoxyItemize}
+\item 函数会修改 process.\+stdin 的编码为 \textquotesingle{}utf8\textquotesingle{}
+\item 函数会设置原始模式以正确处理输入
+\item 在完成读取后会清理所有事件监听器 
+\end{DoxyItemize}

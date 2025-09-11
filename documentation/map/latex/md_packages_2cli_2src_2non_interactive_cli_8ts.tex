@@ -1,0 +1,132 @@
+\chapter{non\+Interactive\+Cli.\+ts }
+\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts}{}\label{md_packages_2cli_2src_2non_interactive_cli_8ts}\index{nonInteractiveCli.ts@{nonInteractiveCli.ts}}
+\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md392}%
+\Hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md392}%
+
+
+非交互式 CLI 模块，用于处理非交互模式下的命令执行。\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md393}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md393}
+
+\begin{DoxyEnumerate}
+\item 处理非交互式命令执行
+\item 管理工具调用
+\item 处理流式响应
+\item 处理错误和异常
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md394}{}\doxysection{\texorpdfstring{主要函数}{主要函数}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md394}
+\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md395}{}\doxysubsection{\texorpdfstring{run\+Non\+Interactive(config\+: Config, input\+: string, prompt\+\_\+id\+: string)\+: Promise$<$void$>$}{run\+Non\+Interactive(config\+: Config, input\+: string, prompt\+\_\+id\+: string)\+: Promise$<$void$>$}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md395}
+运行非交互式 CLI：
+\begin{DoxyEnumerate}
+\item 补丁控制台输出
+\item 处理 EPIPE 错误
+\item 处理 @ 命令
+\item 发送消息并处理流式响应
+\item 执行工具调用
+\item 处理错误和清理
+\end{DoxyEnumerate}
+
+参数：
+\begin{DoxyItemize}
+\item config\+: 应用程序配置
+\item input\+: 用户输入
+\item prompt\+\_\+id\+: 提示 ID
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md396}{}\doxysection{\texorpdfstring{执行流程}{执行流程}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md396}
+\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md397}{}\doxysubsection{\texorpdfstring{1. 初始化}{1. 初始化}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md397}
+
+\begin{DoxyItemize}
+\item 创建 Console\+Patcher 实例
+\item 设置 stdout EPIPE 错误处理
+\item 创建 Abort\+Controller 用于取消操作
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md398}{}\doxysubsection{\texorpdfstring{2. 输入处理}{2. 输入处理}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md398}
+
+\begin{DoxyItemize}
+\item 调用 handle\+At\+Command 处理 @ 命令
+\item 验证处理结果
+\item 准备消息内容
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md399}{}\doxysubsection{\texorpdfstring{3. 消息循环}{3. 消息循环}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md399}
+
+\begin{DoxyItemize}
+\item 创建消息数组
+\item 初始化轮次计数器
+\item 进入消息处理循环
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md400}{}\doxysubsection{\texorpdfstring{4. 消息发送}{4. 消息发送}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md400}
+
+\begin{DoxyItemize}
+\item 调用 gemini\+Client.\+send\+Message\+Stream 发送消息
+\item 处理流式响应事件
+\item 收集工具调用请求
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md401}{}\doxysubsection{\texorpdfstring{5. 工具执行}{5. 工具执行}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md401}
+
+\begin{DoxyItemize}
+\item 遍历工具调用请求
+\item 执行工具调用
+\item 处理工具响应
+\item 准备下一轮消息
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md402}{}\doxysubsection{\texorpdfstring{6. 输出处理}{6. 输出处理}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md402}
+
+\begin{DoxyItemize}
+\item 将内容写入 stdout
+\item 确保最终换行
+\item 处理流结束
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md403}{}\doxysection{\texorpdfstring{错误处理}{错误处理}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md403}
+\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md404}{}\doxysubsection{\texorpdfstring{Fatal\+Input\+Error}{Fatal\+Input\+Error}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md404}
+处理 @ 命令处理错误：
+\begin{DoxyItemize}
+\item 文件未找到等输入错误
+\item 终止执行并显示错误信息
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md405}{}\doxysubsection{\texorpdfstring{Fatal\+Turn\+Limited\+Error}{Fatal\+Turn\+Limited\+Error}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md405}
+处理轮次限制错误：
+\begin{DoxyItemize}
+\item 超过最大会话轮次
+\item 提供增加轮次的解决方案
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md406}{}\doxysubsection{\texorpdfstring{一般错误处理}{一般错误处理}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md406}
+
+\begin{DoxyItemize}
+\item 捕获并格式化 API 错误
+\item 使用 parse\+And\+Format\+Api\+Error 格式化错误信息
+\item 显示友好的错误信息
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md407}{}\doxysection{\texorpdfstring{工具调用处理}{工具调用处理}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md407}
+\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md408}{}\doxysubsection{\texorpdfstring{工具调用执行}{工具调用执行}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md408}
+
+\begin{DoxyItemize}
+\item 调用 execute\+Tool\+Call 执行工具
+\item 处理工具执行错误
+\item 收集工具响应部分
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md409}{}\doxysubsection{\texorpdfstring{工具响应处理}{工具响应处理}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md409}
+
+\begin{DoxyItemize}
+\item 将工具响应添加到消息中
+\item 为下一轮对话准备消息
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md410}{}\doxysection{\texorpdfstring{清理和资源管理}{清理和资源管理}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md410}
+\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md411}{}\doxysubsection{\texorpdfstring{Console\+Patcher}{Console\+Patcher}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md411}
+
+\begin{DoxyItemize}
+\item 补丁控制台输出
+\item 在 finally 块中清理
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md412}{}\doxysubsection{\texorpdfstring{遥测关闭}{遥测关闭}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md412}
+
+\begin{DoxyItemize}
+\item 检查遥测 SDK 是否初始化
+\item 在 finally 块中关闭遥测
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md413}{}\doxysubsection{\texorpdfstring{Abort\+Controller}{Abort\+Controller}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md413}
+
+\begin{DoxyItemize}
+\item 用于取消操作
+\item 处理信号中止情况
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md414}{}\doxysection{\texorpdfstring{特殊处理}{特殊处理}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md414}
+\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md415}{}\doxysubsection{\texorpdfstring{EPIPE 错误}{EPIPE 错误}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md415}
+
+\begin{DoxyItemize}
+\item 处理管道关闭情况
+\item 优雅退出
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md416}{}\doxysubsection{\texorpdfstring{流式响应}{流式响应}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md416}
+
+\begin{DoxyItemize}
+\item 处理 Gemini\+Event\+Type.\+Content 事件
+\item 处理 Gemini\+Event\+Type.\+Tool\+Call\+Request 事件
+\item 支持流式输出
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md417}{}\doxysection{\texorpdfstring{使用场景}{使用场景}}\label{md_packages_2cli_2src_2non_interactive_cli_8ts_autotoc_md417}
+
+\begin{DoxyItemize}
+\item 管道输入处理 (echo "{}prompt"{} \texorpdfstring{$\vert$}{|} gemini)
+\item 脚本中调用 (gemini "{}prompt"{} \texorpdfstring{$>$}{>} output.\+txt)
+\item 自动化工作流集成 
+\end{DoxyItemize}

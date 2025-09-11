@@ -1,0 +1,84 @@
+\chapter{Config 类 }
+\hypertarget{md_packages_2core_2src_2config_2config}{}\label{md_packages_2core_2src_2config_2config}\index{Config 类@{Config 类}}
+\label{md_packages_2core_2src_2config_2config_autotoc_md514}%
+\Hypertarget{md_packages_2core_2src_2config_2config_autotoc_md514}%
+
+
+Config 类是 i\+Flow CLI 的核心配置管理器，负责管理所有配置选项和系统组件。\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md515}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2core_2src_2config_2config_autotoc_md515}
+
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}配置管理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：管理会话\+ID、模型设置、工具配置等
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}组件初始化\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：初始化工具注册表、提示词注册表、\+Gemini客户端等
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}服务管理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：管理文件发现服务、\+Git服务等
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}认证管理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：处理不同的认证方式和刷新令牌
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md516}{}\doxysection{\texorpdfstring{核心属性}{核心属性}}\label{md_packages_2core_2src_2config_2config_autotoc_md516}
+\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md517}{}\doxysubsection{\texorpdfstring{基本配置}{基本配置}}\label{md_packages_2core_2src_2config_2config_autotoc_md517}
+
+\begin{DoxyItemize}
+\item {\ttfamily session\+Id} -\/ 会话\+ID
+\item {\ttfamily model} -\/ 使用的\+AI模型
+\item {\ttfamily embedding\+Model} -\/ 嵌入模型
+\item {\ttfamily target\+Dir} -\/ 目标目录
+\item {\ttfamily debug\+Mode} -\/ 调试模式
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md518}{}\doxysubsection{\texorpdfstring{工具配置}{工具配置}}\label{md_packages_2core_2src_2config_2config_autotoc_md518}
+
+\begin{DoxyItemize}
+\item {\ttfamily core\+Tools} -\/ 核心工具列表
+\item {\ttfamily allowed\+Tools} -\/ 允许的工具列表
+\item {\ttfamily exclude\+Tools} -\/ 排除的工具列表
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md519}{}\doxysubsection{\texorpdfstring{文件过滤配置}{文件过滤配置}}\label{md_packages_2core_2src_2config_2config_autotoc_md519}
+
+\begin{DoxyItemize}
+\item {\ttfamily respect\+Git\+Ignore} -\/ 是否遵守.\+gitignore
+\item {\ttfamily respect\+Gemini\+Ignore} -\/ 是否遵守.\+geminiignore
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md520}{}\doxysubsection{\texorpdfstring{其他配置}{其他配置}}\label{md_packages_2core_2src_2config_2config_autotoc_md520}
+
+\begin{DoxyItemize}
+\item {\ttfamily approval\+Mode} -\/ 审批模式
+\item {\ttfamily telemetry\+Settings} -\/ 遥测设置
+\item {\ttfamily checkpointing} -\/ 检查点功能
+\item {\ttfamily proxy} -\/ 代理设置
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md521}{}\doxysection{\texorpdfstring{核心方法}{核心方法}}\label{md_packages_2core_2src_2config_2config_autotoc_md521}
+\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md522}{}\doxysubsection{\texorpdfstring{初始化}{初始化}}\label{md_packages_2core_2src_2config_2config_autotoc_md522}
+
+\begin{DoxyItemize}
+\item {\ttfamily initialize()} -\/ 初始化配置和所有相关组件
+\item {\ttfamily create\+Tool\+Registry()} -\/ 创建工具注册表
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md523}{}\doxysubsection{\texorpdfstring{访问器方法}{访问器方法}}\label{md_packages_2core_2src_2config_2config_autotoc_md523}
+
+\begin{DoxyItemize}
+\item {\ttfamily get\+Model()} -\/ 获取当前模型
+\item {\ttfamily get\+Session\+Id()} -\/ 获取会话\+ID
+\item {\ttfamily get\+Tool\+Registry()} -\/ 获取工具注册表
+\item {\ttfamily get\+Prompt\+Registry()} -\/ 获取提示词注册表
+\item {\ttfamily get\+File\+Service()} -\/ 获取文件服务
+\item {\ttfamily get\+Git\+Service()} -\/ 获取\+Git服务
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md524}{}\doxysubsection{\texorpdfstring{设置方法}{设置方法}}\label{md_packages_2core_2src_2config_2config_autotoc_md524}
+
+\begin{DoxyItemize}
+\item {\ttfamily set\+Model()} -\/ 设置模型
+\item {\ttfamily set\+User\+Memory()} -\/ 设置用户记忆
+\item {\ttfamily set\+Approval\+Mode()} -\/ 设置审批模式
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md525}{}\doxysection{\texorpdfstring{嵌套类型}{嵌套类型}}\label{md_packages_2core_2src_2config_2config_autotoc_md525}
+\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md526}{}\doxysubsection{\texorpdfstring{Approval\+Mode 枚举}{Approval\+Mode 枚举}}\label{md_packages_2core_2src_2config_2config_autotoc_md526}
+
+\begin{DoxyItemize}
+\item {\ttfamily DEFAULT} -\/ 默认模式
+\item {\ttfamily AUTO\+\_\+\+EDIT} -\/ 自动编辑模式
+\item {\ttfamily YOLO} -\/ 无需确认模式
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md527}{}\doxysubsection{\texorpdfstring{Telemetry\+Settings 接口}{Telemetry\+Settings 接口}}\label{md_packages_2core_2src_2config_2config_autotoc_md527}
+遥测设置配置，包含启用状态、目标、端点等。\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md528}{}\doxysubsection{\texorpdfstring{MCPServer\+Config 类}{MCPServer\+Config 类}}\label{md_packages_2core_2src_2config_2config_autotoc_md528}
+MCP服务器配置，包含命令、参数、环境变量等。\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md529}{}\doxysection{\texorpdfstring{认证相关}{认证相关}}\label{md_packages_2core_2src_2config_2config_autotoc_md529}
+\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md530}{}\doxysubsection{\texorpdfstring{Auth\+Provider\+Type 枚举}{Auth\+Provider\+Type 枚举}}\label{md_packages_2core_2src_2config_2config_autotoc_md530}
+
+\begin{DoxyItemize}
+\item {\ttfamily DYNAMIC\+\_\+\+DISCOVERY} -\/ 动态发现
+\item {\ttfamily GOOGLE\+\_\+\+CREDENTIALS} -\/ Google凭证
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md531}{}\doxysubsection{\texorpdfstring{Flash\+Fallback\+Handler 类型}{Flash\+Fallback\+Handler 类型}}\label{md_packages_2core_2src_2config_2config_autotoc_md531}
+处理模型降级的回调函数类型。\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md532}{}\doxysection{\texorpdfstring{文件过滤选项}{文件过滤选项}}\label{md_packages_2core_2src_2config_2config_autotoc_md532}
+\hypertarget{md_packages_2core_2src_2config_2config_autotoc_md533}{}\doxysubsection{\texorpdfstring{File\+Filtering\+Options 接口}{File\+Filtering\+Options 接口}}\label{md_packages_2core_2src_2config_2config_autotoc_md533}
+
+\begin{DoxyItemize}
+\item {\ttfamily respect\+Git\+Ignore} -\/ 是否遵守.\+gitignore
+\item {\ttfamily respect\+Gemini\+Ignore} -\/ 是否遵守.\+geminiignore 
+\end{DoxyItemize}

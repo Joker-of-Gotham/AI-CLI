@@ -1,0 +1,442 @@
+\chapter{RFC\+: Gemini CLI A2A Development-\/\+Tool Extension }
+\hypertarget{md_packages_2a2a-server_2development-extension-rfc}{}\label{md_packages_2a2a-server_2development-extension-rfc}\index{RFC: Gemini CLI A2A Development-\/Tool Extension@{RFC: Gemini CLI A2A Development-\/Tool Extension}}
+\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md0}%
+\Hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md0}%
+\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md1}{}\doxysection{\texorpdfstring{1. Introduction}{1. Introduction}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md1}
+\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md2}{}\doxysubsection{\texorpdfstring{1.\+1 Overview}{1.\+1 Overview}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md2}
+To standardize client integrations with the Gemini CLI agent, this document proposes the {\ttfamily development-\/tool} extension for the A2A protocol.
+
+Rather than creating a new protocol, this specification builds upon the existing A2A protocol. As an open-\/source standard recently adopted by the Linux Foundation, A2A provides a robust foundation for core concepts like tasks, messages, and streaming events. This extension-\/based approach allows us to leverage A2A\textquotesingle{}s proven architecture while defining the specific capabilities required for rich, interactive workflows with the Gemini CLI agent.\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md3}{}\doxysubsection{\texorpdfstring{1.\+2 Motivation}{1.\+2 Motivation}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md3}
+Recent work integrating Gemini CLI with clients like Zed and Gemini Code Assist’s agent mode has highlighted the need for a robust, standard communication protocol. Standardizing on A2A provides several key advantages\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Solid Foundation}}\+: Provides a robust, open standard that ensures a stable, predictable, and consistent integration experience across different IDEs and client surfaces.
+\item {\bfseries{Extensibility}}\+: Creates a flexible foundation to support new tools and workflows as they emerge.
+\item {\bfseries{Ecosystem Alignment}}\+: Aligns Gemini CLI with a growing industry standard, fostering broader interoperability.
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md4}{}\doxysection{\texorpdfstring{2. Communication Flow}{2. Communication Flow}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md4}
+The interaction follows A2\+A’s task-\/based, streaming pattern. The client sends a {\ttfamily message/stream} request and the agent responds with a {\ttfamily context\+Id} / {\ttfamily task\+Id} and a stream of events. {\ttfamily Task\+Status\+Update\+Event} events are used to convey the overall state of the task. The task is complete when the agent sends a final {\ttfamily Task\+Status\+Update\+Event} with {\ttfamily final\+: true} and a terminal status like {\ttfamily completed} or {\ttfamily failed}.\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md5}{}\doxysubsection{\texorpdfstring{2.\+1 Asynchronous Responses and Notifications}{2.\+1 Asynchronous Responses and Notifications}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md5}
+Clients that may disconnect from the agent should supply a {\ttfamily Push\+Notification\+Config} to the agent with the initial {\ttfamily message/stream} method or subsequently with the {\ttfamily tasks/push\+Notification\+Config/set} method so that the agent can call back when updates are ready.\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md6}{}\doxysection{\texorpdfstring{3. The {\ttfamily development-\/tool} extension}{3. The {\ttfamily development-\/tool} extension}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md6}
+\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md7}{}\doxysubsection{\texorpdfstring{3.\+1 Overview}{3.\+1 Overview}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md7}
+The {\ttfamily development-\/tool} extension establishes a communication contract for workflows between a client and the Gemini CLI agent. It consists of a specialized set of schemas, embedded within core A2A data structures, that enable the agent to stream real-\/time updates on its state and thought process. These schemas also provide the mechanism for the agent to request user permission before executing tools.
+
+{\bfseries{Sample Agent Card}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ "{}name"{}:\ "{}Gemini\ CLI\ Agent"{},}
+\DoxyCodeLine{\ \ "{}description"{}:\ "{}An\ agent\ that\ generates\ code\ based\ on\ natural\ language\ instructions."{},}
+\DoxyCodeLine{\ \ "{}capabilities"{}:\ \{}
+\DoxyCodeLine{\ \ \ \ "{}streaming"{}:\ true,}
+\DoxyCodeLine{\ \ \ \ "{}extensions"{}:\ [}
+\DoxyCodeLine{\ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ "{}uri"{}:\ "{}https://github.com/google-\/gemini/gemini-\/cli/blob/main/docs/a2a/developer-\/profile/v0/spec.md"{},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ "{}description"{}:\ "{}An\ extension\ for\ interactive\ development\ tasks,\ enabling\ features\ like\ code\ generation,\ tool\ usage,\ and\ real-\/time\ status\ updates."{},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ "{}required"{}:\ true}
+\DoxyCodeLine{\ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ ]}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Versioning}}
+
+The agent card {\ttfamily uri} field contains an embedded semantic version. The client must extract this version to determine compatibility with the agent extension using the compatibility logic defined in Semantic Versioning 2.\+0.\+0 spec.\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md8}{}\doxysubsection{\texorpdfstring{3.\+2 Schema Definitions}{3.\+2 Schema Definitions}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md8}
+This section defines the schemas for the {\ttfamily development-\/tool} A2A extension, organized by their function within the communication flow. Note that all custom objects included in the {\ttfamily metadata} field (e.\+g. {\ttfamily Message.\+metadata}) must be keyed by the unique URI that points to that extension’s spec to prevent naming collisions with other extensions.
+
+{\bfseries{Initialization \& Configuration}}
+
+The first message in a session must contain an {\ttfamily Agent\+Settings} object in its metadata. This object provides the agent with the necessary configuration information for proper initialization. Additional configuration settings (ex. MCP servers, allowed tools, etc.) can be added to this message.
+
+{\bfseries{Schema}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{syntax\ =\ "{}proto3"{};}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Configuration\ settings\ for\ the\ Gemini\ CLI\ agent.}
+\DoxyCodeLine{message\ AgentSettings\ \{}
+\DoxyCodeLine{\ \ //\ The\ absolute\ path\ to\ the\ workspace\ directory\ where\ the\ agent\ will\ execute.}
+\DoxyCodeLine{\ \ string\ workspace\_path\ =\ 1;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Agent-\/to-\/\+Client Messages}}
+
+All real-\/time updates from the agent (including its thoughts, tool calls, and simple text replies) are streamed to the client as {\ttfamily Task\+Status\+Update\+Events}.
+
+Each Event contains a {\ttfamily Message} object, which holds the content in one of two formats\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Text\+Part}}\+: Used for standard text messages. This part requires no custom schema.
+\item {\bfseries{Data\+Part}}\+: Used for complex, structured objects. Tool Calls and Thoughts are sent this way, each using their respective schemas defined below.
+\end{DoxyItemize}
+
+{\bfseries{Tool Calls}}
+
+The {\ttfamily Tool\+Call} schema is designed to provide a structured representation of a tool’s execution lifecycle. This protocol defines a clear state machine and provides detailed schemas for common development tasks (file edits, shell commands, MCP Tool), ensuring clients can build reliable UIs without being tied to a specific agent implementation.
+
+The core principle is that the agent sends a {\ttfamily Tool\+Call} object on every update. This makes client-\/side logic stateless and simple.
+
+{\bfseries{Tool Call Lifecycle}}
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Creation}}\+: The agent sends a {\ttfamily Tool\+Call} object with {\ttfamily status\+: PENDING}. If user permission is required, the {\ttfamily confirmation\+\_\+request} field will be populated.
+\item {\bfseries{Confirmation}}\+: If the client needs to confirm the message, the client will send a {\ttfamily Tool\+Call\+Confirmation}. If the client responds with a cancellation, execution will be skipped.
+\item {\bfseries{Execution}}\+: Once approved (or if no approval is required), the agent sends an update with {\ttfamily status\+: EXECUTING}. It can stream real-\/time progress by updating the {\ttfamily live\+\_\+content} field.
+\item {\bfseries{Completion}}\+: The agent sends a final update with the status set to {\ttfamily SUCCEEDED}, {\ttfamily FAILED}, or {\ttfamily CANCELLED} and populates the appropriate result field.
+\end{DoxyEnumerate}
+
+{\bfseries{Schema}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{syntax\ =\ "{}proto3"{};}
+\DoxyCodeLine{}
+\DoxyCodeLine{import\ "{}google/protobuf/struct.proto"{};}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ ToolCall\ is\ the\ central\ message\ represeting\ a\ tool's\ execution\ lifecycle.}
+\DoxyCodeLine{//\ The\ entire\ object\ is\ sent\ from\ the\ agent\ to\ client\ on\ every\ update.}
+\DoxyCodeLine{message\ ToolCall\ \{}
+\DoxyCodeLine{\ \ //\ A\ unique\ identifier,\ assigned\ by\ the\ agent}
+\DoxyCodeLine{\ \ string\ tool\_call\_id\ =\ 1;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ The\ current\ state\ of\ the\ tool\ call\ in\ its\ lifecycle}
+\DoxyCodeLine{\ \ ToolCallStatus\ status\ =\ 2;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ Name\ of\ the\ tool\ being\ called\ (e.g.\ 'Edit',\ 'ShellTool')}
+\DoxyCodeLine{\ \ string\ tool\_name\ =\ 3;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ An\ optional\ description\ of\ the\ tool\ call's\ purpose\ to\ show\ the\ user}
+\DoxyCodeLine{\ \ optional\ string\ description\ =\ 4;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ The\ structured\ input\ params\ provided\ by\ the\ LLM\ for\ tool\ invocation.}
+\DoxyCodeLine{\ \ google.protobuf.Struct\ input\_parameters\ =\ 5;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ String\ containing\ the\ real-\/time\ output\ from\ the\ tool\ as\ it\ executes\ (primarily\ designed\ for\ shell\ output).}
+\DoxyCodeLine{\ \ //\ During\ streaming\ the\ entire\ string\ is\ replaced\ on\ each\ update}
+\DoxyCodeLine{\ \ optional\ string\ live\_content\ =\ 6;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ The\ final\ result\ of\ the\ tool\ (used\ to\ replace\ live\_content\ when\ applicable)}
+\DoxyCodeLine{\ \ oneof\ result\ \{}
+\DoxyCodeLine{\ \ \ \ //\ The\ output\ on\ tool\ success}
+\DoxyCodeLine{\ \ \ \ ToolOutput\ output\ =\ 7;}
+\DoxyCodeLine{\ \ \ \ //\ The\ error\ details\ if\ the\ tool\ failed}
+\DoxyCodeLine{\ \ \ \ ErrorDetails\ error\ =\ 8;}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ If\ the\ tool\ requires\ user\ confirmation,\ this\ field\ will\ be\ populated\ while\ status\ is\ PENDING}
+\DoxyCodeLine{\ \ optional\ ConfirmationRequest\ confirmation\_request\ =\ 9;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Possible\ execution\ status\ of\ a\ ToolCall}
+\DoxyCodeLine{enum\ ToolCallStatus\ \{}
+\DoxyCodeLine{\ \ STATUS\_UNSPECIFIED\ =\ 0;}
+\DoxyCodeLine{\ \ PENDING\ =\ 1;}
+\DoxyCodeLine{\ \ EXECUTING\ =\ 2;}
+\DoxyCodeLine{\ \ SUCCEEDED\ =\ 3;}
+\DoxyCodeLine{\ \ FAILED\ =\ 4;}
+\DoxyCodeLine{\ \ CANCELLED\ =\ 5;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ ToolOuput\ represents\ the\ final,\ successful,\ output\ of\ a\ tool}
+\DoxyCodeLine{message\ ToolOutput\ \{}
+\DoxyCodeLine{\ \ oneof\ result\ \{}
+\DoxyCodeLine{\ \ \ \ string\ text\ =\ 1;}
+\DoxyCodeLine{\ \ \ \ //\ For\ ToolCalls\ which\ resulted\ in\ a\ file\ modification}
+\DoxyCodeLine{\ \ \ \ FileDiff\ diff\ =\ 2;}
+\DoxyCodeLine{\ \ \ \ //\ A\ generic\ fallback\ for\ any\ other\ structured\ JSON\ data}
+\DoxyCodeLine{\ \ \ \ google.protobuf.Struct\ structured\_data\ =\ 3;}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ A\ structured\ representation\ of\ an\ error}
+\DoxyCodeLine{message\ ErrorDetails\ \{}
+\DoxyCodeLine{\ \ //\ User\ facing\ error\ message}
+\DoxyCodeLine{\ \ string\ message\ =\ 1;}
+\DoxyCodeLine{\ \ //\ Optional\ agent-\/specific\ error\ type\ or\ category\ (e.g.\ read\_content\_failure,\ grep\_execution\_error,\ mcp\_tool\_error)}
+\DoxyCodeLine{\ \ optional\ string\ type\ =\ 2;}
+\DoxyCodeLine{\ \ //\ Optional\ status\ code}
+\DoxyCodeLine{\ \ optional\ int32\ status\_code\ =\ 3;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ ConfirmationRequest\ is\ sent\ from\ the\ agent\ to\ client\ to\ request\ user\ permission\ for\ a\ ToolCall}
+\DoxyCodeLine{message\ ConfirmationRequest\ \{}
+\DoxyCodeLine{\ \ //\ A\ list\ of\ choices\ for\ the\ user\ to\ select\ from}
+\DoxyCodeLine{\ \ repeated\ ConfirmationOption\ options\ =\ 1;}
+\DoxyCodeLine{\ \ //\ Specific\ details\ of\ the\ action\ requiring\ user\ confirmation}
+\DoxyCodeLine{\ \ oneof\ details\ \{}
+\DoxyCodeLine{\ \ \ \ ExecuteDetails\ execute\_details\ =\ 2;}
+\DoxyCodeLine{\ \ \ \ FileDiff\ file\_edit\_details\ =\ 3;}
+\DoxyCodeLine{\ \ \ \ McpDetails\ mcp\_details\ =\ 4;}
+\DoxyCodeLine{\ \ \ \ GenericDetails\ generic\_details\ =\ 5;}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ A\ single\ choice\ presented\ to\ the\ user\ during\ a\ confirmation\ request}
+\DoxyCodeLine{message\ ConfirmationOption\ \{}
+\DoxyCodeLine{\ \ //\ Unique\ ID\ for\ the\ choice\ (e.g.\ proceed\_once,\ cancel)}
+\DoxyCodeLine{\ \ string\ id\ =\ 1;}
+\DoxyCodeLine{\ \ //\ Human-\/readable\ choice\ (e.g.\ Allow\ Once,\ Reject).}
+\DoxyCodeLine{\ \ string\ name\ =\ 2;}
+\DoxyCodeLine{\ \ //\ An\ optional\ longer\ description\ for\ a\ tooltip}
+\DoxyCodeLine{\ \ optional\ string\ description\ =\ 3;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Details\ for\ a\ request\ to\ execute\ a\ shell\ command}
+\DoxyCodeLine{message\ ExecuteDetails\ \{}
+\DoxyCodeLine{\ \ //\ The\ shell\ command\ to\ be\ executed}
+\DoxyCodeLine{\ \ string\ command\ =\ 1;}
+\DoxyCodeLine{\ \ //\ An\ optional\ directory\ in\ which\ the\ command\ will\ be\ run}
+\DoxyCodeLine{\ \ optional\ string\ working\_directory\ =\ 2;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{message\ FileDiff\ \{}
+\DoxyCodeLine{\ \ string\ file\_name\ =\ 1;}
+\DoxyCodeLine{\ \ //\ The\ absolute\ path\ to\ the\ file\ to\ modify}
+\DoxyCodeLine{\ \ string\ file\_path\ =\ 2;}
+\DoxyCodeLine{\ \ //\ The\ original\ content,\ if\ the\ file\ exists}
+\DoxyCodeLine{\ \ optional\ string\ old\_content\ =\ 3;}
+\DoxyCodeLine{\ \ string\ new\_content\ =\ 4;}
+\DoxyCodeLine{\ \ //\ Pre-\/formatted\ diff\ string\ for\ display}
+\DoxyCodeLine{\ \ optional\ string\ formatted\_diff\ =\ 5;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Details\ for\ an\ MCP\ (Model\ Context\ Protocol)\ tool\ confirmation}
+\DoxyCodeLine{message\ McpDetails\ \{}
+\DoxyCodeLine{\ \ //\ The\ name\ of\ the\ MCP\ server\ that\ provides\ the\ tool}
+\DoxyCodeLine{\ \ string\ server\_name\ =\ 1;}
+\DoxyCodeLine{\ \ //\ THe\ name\ of\ the\ tool\ being\ called\ from\ the\ MCP\ Server}
+\DoxyCodeLine{\ \ string\ tool\_name\ =\ 2;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Generic\ catch-\/all\ for\ ToolCall\ requests\ that\ don't\ fit\ other\ types}
+\DoxyCodeLine{message\ GenericDetails\ \{}
+\DoxyCodeLine{\ \ //\ Description\ of\ the\ action\ requiring\ confirmation}
+\DoxyCodeLine{\ \ string\ description\ =\ 1;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Agent Thoughts}}
+
+{\bfseries{Schema}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{syntax\ =\ "{}proto3"{};}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Represents\ a\ thought\ with\ a\ subject\ and\ a\ detailed\ description.}
+\DoxyCodeLine{message\ AgentThought\ \{}
+\DoxyCodeLine{\ \ //\ A\ concise\ subject\ line\ or\ title\ for\ the\ thought.}
+\DoxyCodeLine{\ \ string\ subject\ =\ 1;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ The\ description\ or\ elaboration\ of\ the\ thought\ itself.}
+\DoxyCodeLine{\ \ string\ description\ =\ 2;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Event Metadata}}
+
+The {\ttfamily metadata} object in {\ttfamily Task\+Status\+Update\+Event} is used by the A2A client to deserialize the {\ttfamily Task\+Status\+Update\+Events} into their appropriate objects.
+
+{\bfseries{Schema}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{syntax\ =\ "{}proto3"{};}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ A\ DevelopmentToolEvent\ event.}
+\DoxyCodeLine{message\ DevelopmentToolEvent\ \{}
+\DoxyCodeLine{\ \ //\ Enum\ representing\ the\ specific\ type\ of\ development\ tool\ event.}
+\DoxyCodeLine{\ \ enum\ DevelopmentToolEventKind\ \{}
+\DoxyCodeLine{\ \ \ \ //\ The\ default,\ unspecified\ value.}
+\DoxyCodeLine{\ \ \ \ DEVELOPMENT\_TOOL\_EVENT\_KIND\_UNSPECIFIED\ =\ 0;}
+\DoxyCodeLine{\ \ \ \ TOOL\_CALL\_CONFIRMATION\ =\ 1;}
+\DoxyCodeLine{\ \ \ \ TOOL\_CALL\_UPDATE\ =\ 2;}
+\DoxyCodeLine{\ \ \ \ TEXT\_CONTENT\ =\ 3;}
+\DoxyCodeLine{\ \ \ \ STATE\_CHANGE\ =\ 4;}
+\DoxyCodeLine{\ \ \ \ THOUGHT\ =\ 5;}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ The\ specific\ kind\ of\ event\ that\ occurred.}
+\DoxyCodeLine{\ \ DevelopmentToolEventKind\ kind\ =\ 1;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ The\ model\ used\ for\ this\ event.}
+\DoxyCodeLine{\ \ string\ model\ =\ 2;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ The\ tier\ of\ the\ user\ (optional).}
+\DoxyCodeLine{\ \ string\ user\_tier\ =\ 3;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ //\ An\ unexpected\ error\ occured\ in\ the\ agent\ execution\ (optional).}
+\DoxyCodeLine{\ \ string\ error\ =\ 4;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Client-\/to-\/\+Agent Messages}}
+
+When the agent sends a {\ttfamily Task\+Status\+Update\+Event} with {\ttfamily status.\+state} set to {\ttfamily input-\/required} and its message contains a {\ttfamily Confirmation\+Request}, the client must respond by sending a new {\ttfamily message/stream} request.
+
+This new request must include the {\ttfamily context\+Id} and the {\ttfamily task\+Id} from the ongoing task and contain a {\ttfamily Tool\+Call\+Confirmation} object. This object conveys the user\textquotesingle{}s decision regarding the tool call that was awaiting approval.
+
+{\bfseries{Schema}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{syntax\ =\ "{}proto3"{};}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ The\ client's\ response\ to\ a\ ConfirmationRequest.}
+\DoxyCodeLine{message\ ToolCallConfirmation\ \{}
+\DoxyCodeLine{\ \ //\ A\ unique\ identifier,\ assigned\ by\ the\ agent}
+\DoxyCodeLine{\ \ string\ tool\_call\_id\ =\ 1;}
+\DoxyCodeLine{\ \ //\ The\ 'id'\ of\ the\ ConfirmationOption\ chosen\ by\ the\ user.}
+\DoxyCodeLine{\ \ string\ selected\_option\_id\ =\ 2;}
+\DoxyCodeLine{\ \ //\ Included\ if\ the\ user\ modifies\ the\ proposed\ change.}
+\DoxyCodeLine{\ \ //\ The\ type\ should\ correspond\ to\ the\ original\ ConfirmationRequest\ details.}
+\DoxyCodeLine{\ \ oneof\ modified\_details\ \{}
+\DoxyCodeLine{\ \ \ \ //\ Corresponds\ to\ a\ FileDiff\ confirmation}
+\DoxyCodeLine{\ \ \ \ ModifiedFileDetails\ file\_details\ =\ 3;}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{message\ ModifiedFileDetails\ \{}
+\DoxyCodeLine{\ \ //\ The\ new\ content\ after\ user\ edits.}
+\DoxyCodeLine{\ \ string\ new\_content\ =\ 1;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md9}{}\doxysubsection{\texorpdfstring{3.\+3 Method Definitions}{3.\+3 Method Definitions}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md9}
+This section defines the new methods introduced by the {\ttfamily development-\/tool} extension.
+
+{\bfseries{Method\+: {\ttfamily commands/get}}}
+
+This method allows the client to discover slash commands supported by Gemini CLI. The client should call this method during startup to dynamically populate its command list.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{//\ Response\ message\ containing\ the\ list\ of\ all\ top-\/level\ slash\ commands.}
+\DoxyCodeLine{message\ GetAllSlashCommandsResponse\ \{}
+\DoxyCodeLine{\ \ //\ A\ list\ of\ the\ top-\/level\ slash\ commands.}
+\DoxyCodeLine{\ \ repeated\ SlashCommand\ commands\ =\ 1;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Represents\ a\ single\ slash\ command,\ which\ can\ contain\ subcommands.}
+\DoxyCodeLine{message\ SlashCommand\ \{}
+\DoxyCodeLine{\ \ //\ The\ primary\ name\ of\ the\ command.}
+\DoxyCodeLine{\ \ string\ name\ =\ 1;}
+\DoxyCodeLine{\ \ //\ A\ detailed\ description\ of\ what\ the\ command\ does.}
+\DoxyCodeLine{\ \ string\ description\ =\ 2;}
+\DoxyCodeLine{\ \ //\ A\ list\ of\ arguments\ that\ the\ command\ accepts.}
+\DoxyCodeLine{\ \ repeated\ SlashCommandArgument\ arguments\ =\ 3;}
+\DoxyCodeLine{\ \ //\ A\ list\ of\ nested\ subcommands.}
+\DoxyCodeLine{\ \ repeated\ SlashCommand\ sub\_commands\ =\ 4;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Defines\ the\ structure\ for\ a\ single\ slash\ command\ argument.}
+\DoxyCodeLine{message\ SlashCommandArgument\ \{}
+\DoxyCodeLine{\ \ //\ The\ name\ of\ the\ argument.}
+\DoxyCodeLine{\ \ string\ name\ =\ 1;}
+\DoxyCodeLine{\ \ //\ A\ brief\ description\ of\ what\ the\ argument\ is\ for.}
+\DoxyCodeLine{\ \ string\ description\ =\ 2;}
+\DoxyCodeLine{\ \ //\ Whether\ the\ argument\ is\ required\ or\ optional.}
+\DoxyCodeLine{\ \ bool\ is\_required\ =\ 3;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Method\+: {\ttfamily command/execute}}}
+
+This method allows the client to execute a slash command. Following the initial {\ttfamily Execute\+Slash\+Command\+Response}, the agent will use the standard streaming mechanism to communicate the command\textquotesingle{}s progress and output. All subsequent updates, including textual output, agent thoughts, and any required user confirmations for tool calls (like executing a shell command), will be sent as {\ttfamily Task\+Status\+Update\+Event} messages, re-\/using the schemas defined above.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{//\ Request\ to\ execute\ a\ specific\ slash\ command.}
+\DoxyCodeLine{message\ ExecuteSlashCommandRequest\ \{}
+\DoxyCodeLine{\ \ //\ The\ path\ to\ the\ command,\ e.g.,\ ["{}memory"{},\ "{}add"{}]\ for\ /memory\ add}
+\DoxyCodeLine{\ \ repeated\ string\ command\_path\ =\ 1;}
+\DoxyCodeLine{\ \ //\ The\ arguments\ for\ the\ command\ as\ a\ single\ string.}
+\DoxyCodeLine{\ \ string\ args\ =\ 2;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ Enum\ for\ the\ initial\ status\ of\ a\ command\ execution\ request.}
+\DoxyCodeLine{enum\ CommandExecutionStatus\ \{}
+\DoxyCodeLine{\ \ //\ Default\ unspecified\ status.}
+\DoxyCodeLine{\ \ COMMAND\_EXECUTION\_STATUS\_UNSPECIFIED\ =\ 0;}
+\DoxyCodeLine{\ \ //\ The\ command\ was\ successfully\ received\ and\ its\ execution\ has\ started.}
+\DoxyCodeLine{\ \ STARTED\ =\ 1;}
+\DoxyCodeLine{\ \ //\ The\ command\ failed\ to\ start\ (e.g.,\ command\ not\ found,\ invalid\ format).}
+\DoxyCodeLine{\ \ FAILED\_TO\_START\ =\ 2;}
+\DoxyCodeLine{\ \ //\ The\ command\ has\ been\ paused\ and\ is\ waiting\ for\ the\ user\ to\ confirm}
+\DoxyCodeLine{\ \ //\ a\ set\ of\ shell\ commands.}
+\DoxyCodeLine{\ \ AWAITING\_SHELL\_CONFIRMATION\ =\ 3;}
+\DoxyCodeLine{\ \ //\ The\ command\ has\ been\ paused\ and\ is\ waiting\ for\ the\ user\ to\ confirm}
+\DoxyCodeLine{\ \ //\ a\ specific\ action.}
+\DoxyCodeLine{\ \ AWAITING\_ACTION\_CONFIRMATION\ =\ 4;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{//\ The\ immediate,\ async\ response\ after\ requesting\ a\ command\ execution.}
+\DoxyCodeLine{message\ ExecuteSlashCommandResponse\ \{}
+\DoxyCodeLine{\ \ //\ A\ unique\ taskID\ for\ this\ specific\ command\ execution.}
+\DoxyCodeLine{\ \ string\ execution\_id\ =\ 1;}
+\DoxyCodeLine{\ \ //\ The\ initial\ status\ of\ the\ command\ execution.}
+\DoxyCodeLine{\ \ CommandExecutionStatus\ status\ =\ 2;}
+\DoxyCodeLine{\ \ //\ An\ optional\ message,\ particularly\ useful\ for\ explaining\ why\ a\ command}
+\DoxyCodeLine{\ \ //\ failed\ to\ start.}
+\DoxyCodeLine{\ \ string\ message\ =\ 3;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md10}{}\doxysection{\texorpdfstring{4. Separation of Concerns}{4. Separation of Concerns}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md10}
+We believe that all client-\/side context (ex., workspace state) and client-\/side tool execution (ex. read active buffers) should be routed through MCP.
+
+This approach enforces a strict separation of concerns\+: the A2A {\ttfamily development-\/tool} extension standardizes communication to the agent, while MCP serves as the single, authoritative interface for client-\/side capabilities.\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md11}{}\doxysection{\texorpdfstring{Appendix}{Appendix}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md11}
+\hypertarget{md_packages_2a2a-server_2development-extension-rfc_autotoc_md12}{}\doxysubsection{\texorpdfstring{A. Example Interaction Flow}{A. Example Interaction Flow}}\label{md_packages_2a2a-server_2development-extension-rfc_autotoc_md12}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Client -\/\texorpdfstring{$>$}{>} Server}}\+: The client sends a {\ttfamily message/stream} request containing the initial prompt and configuration in an {\ttfamily Agent\+Settings} object.
+\item {\bfseries{Server -\/\texorpdfstring{$>$}{>} Client}}\+: SSE stream begins.
+\begin{DoxyItemize}
+\item {\bfseries{Event 1}}\+: The server sends a {\ttfamily Task} object with `status.\+state\+: \textquotesingle{}submitted'{\ttfamily  and the new }task\+Id{\ttfamily .}
+\item {\ttfamily \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Event 2\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The server sends a }Task\+Status\+Update\+Event{\ttfamily  with the metadata }kind{\ttfamily  set to }\textquotesingle{}STATE\+\_\+\+CHANGE\textquotesingle{}{\ttfamily  and }status.\+state{\ttfamily  set to }\textquotesingle{}working\textquotesingle{}{\ttfamily .}
+\end{DoxyItemize}
+\item {\ttfamily  \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Agent Logic\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The agent processes the prompt and decides to call the }write\+\_\+file{\ttfamily  tool, which requires user confirmation.}
+\item {\ttfamily  \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Server -\/\texorpdfstring{$>$}{>} Client\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+:
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Event 3\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The server sends a 
+\end{DoxyItemize}}Task\+Status\+Update\+Event{\ttfamily . The metadata }kind{\ttfamily  is }\textquotesingle{}TOOL\+\_\+\+CALL\+\_\+\+UPDATE\textquotesingle{}{\ttfamily , and the }Data\+Part{\ttfamily  contains a }Tool\+Call{\ttfamily  object with its }status{\ttfamily  as }\textquotesingle{}PENDING\textquotesingle{}{\ttfamily  and a populated }confirmation\+\_\+request{\ttfamily .
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Event 4\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The server sends a final 
+\end{DoxyItemize}}Task\+Status\+Update\+Event{\ttfamily  for this exchange. The metadata }kind{\ttfamily  is }\textquotesingle{}STATE\+\_\+\+CHANGE\textquotesingle{}{\ttfamily , the }status.\+state{\ttfamily  is }\textquotesingle{}input-\/required\textquotesingle{}{\ttfamily , and }final{\ttfamily  is }true{\ttfamily . The stream for this request ends.}
+\item {\ttfamily  \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Client\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The client UI renders the confirmation prompt based on the }Tool\+Call{\ttfamily  object from Event 3. The user clicks "{}\+Approve."{}}
+\item {\ttfamily  \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Client -\/\texorpdfstring{$>$}{>} Server\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The client sends a new }message/stream{\ttfamily  request. It includes the }task\+Id{\ttfamily  from the ongoing task and a }Data\+Part{\ttfamily  containing a }Tool\+Call\+Confirmation{\ttfamily  object (e.\+g., }\{"{}tool\+\_\+call\+\_\+id"{}\+: "{}..."{}, "{}selected\+\_\+option\+\_\+id"{}\+: "{}proceed\+\_\+once"{}\}{\ttfamily ).}
+\item {\ttfamily  \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Server -\/\texorpdfstring{$>$}{>} Client\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: A new SSE stream begins for the second request.
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Event 1\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The server sends a 
+\end{DoxyItemize}}Task\+Status\+Update\+Event{\ttfamily  with }kind\+: \textquotesingle{}TOOL\+\_\+\+CALL\+\_\+\+UPDATE\textquotesingle{}{\ttfamily , containing the }Tool\+Call{\ttfamily  object with its }status{\ttfamily  now set to }\textquotesingle{}EXECUTING\textquotesingle{}{\ttfamily .
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Event 2\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: After the tool runs, the server sends another 
+\end{DoxyItemize}}Task\+Status\+Update\+Event{\ttfamily  with }kind\+: \textquotesingle{}TOOL\+\_\+\+CALL\+\_\+\+UPDATE\textquotesingle{}{\ttfamily , containing the }Tool\+Call{\ttfamily  with its }status{\ttfamily  as }\textquotesingle{}SUCCEEDED\textquotesingle{}{\ttfamily .}
+\item {\ttfamily  \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Agent Logic\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The agent receives the successful tool result and generates a final textual response.}
+\item {\ttfamily  \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Server -\/\texorpdfstring{$>$}{>} Client\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+:
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Event 3\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The server sends a 
+\end{DoxyItemize}}Task\+Status\+Update\+Event{\ttfamily  with }kind\+: \textquotesingle{}TEXT\+\_\+\+CONTENT\textquotesingle{}{\ttfamily  and a }Text\+Part{\ttfamily  containing the agent\textquotesingle{}s final answer.
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Event 4\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The server sends the final 
+\end{DoxyItemize}}Task\+Status\+Update\+Event{\ttfamily . The }kind{\ttfamily  is }\textquotesingle{}STATE\+\_\+\+CHANGE\textquotesingle{}{\ttfamily , the }status.\+state{\ttfamily  is }\textquotesingle{}completed\textquotesingle{}{\ttfamily , and }final{\ttfamily  is }true{\ttfamily . The stream ends.}
+\item {\ttfamily \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+Client\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: The client displays the final answer. The task is now complete but can be continued by sending another message with the same }task\+Id\`{}. 
+\end{DoxyEnumerate}

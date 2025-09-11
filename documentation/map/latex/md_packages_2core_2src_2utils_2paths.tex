@@ -1,0 +1,59 @@
+\chapter{路径处理工具 }
+\hypertarget{md_packages_2core_2src_2utils_2paths}{}\label{md_packages_2core_2src_2utils_2paths}\index{路径处理工具@{路径处理工具}}
+\label{md_packages_2core_2src_2utils_2paths_autotoc_md1042}%
+\Hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1042}%
+
+
+路径处理工具提供了一系列处理文件路径的实用函数。\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1043}{}\doxysection{\texorpdfstring{核心函数}{核心函数}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1043}
+\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1044}{}\doxysubsection{\texorpdfstring{路径转换}{路径转换}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1044}
+
+\begin{DoxyItemize}
+\item {\ttfamily tildeify\+Path()} -\/ 将主目录路径替换为波浪号(\texorpdfstring{$\sim$}{\string~})
+\item {\ttfamily make\+Relative()} -\/ 计算相对于根目录的相对路径
+\item {\ttfamily get\+Project\+Hash()} -\/ 基于项目根路径生成唯一哈希
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1045}{}\doxysubsection{\texorpdfstring{路径显示}{路径显示}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1045}
+
+\begin{DoxyItemize}
+\item {\ttfamily shorten\+Path()} -\/ 缩短过长的路径显示
+\item {\ttfamily escape\+Path()} -\/ 转义路径中的特殊字符
+\item {\ttfamily unescape\+Path()} -\/ 取消转义路径中的特殊字符
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1046}{}\doxysubsection{\texorpdfstring{路径验证}{路径验证}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1046}
+
+\begin{DoxyItemize}
+\item {\ttfamily is\+Subpath()} -\/ 检查路径是否为另一个路径的子路径
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1047}{}\doxysection{\texorpdfstring{常量}{常量}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1047}
+\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1048}{}\doxysubsection{\texorpdfstring{GEMINI\+\_\+\+DIR}{GEMINI\+\_\+\+DIR}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1048}
+Gemini 配置目录名称：\textquotesingle{}.gemini\textquotesingle{}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1049}{}\doxysubsection{\texorpdfstring{GOOGLE\+\_\+\+ACCOUNTS\+\_\+\+FILENAME}{GOOGLE\+\_\+\+ACCOUNTS\+\_\+\+FILENAME}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1049}
+Google 账户信息文件名：\textquotesingle{}google\+\_\+accounts.\+json\textquotesingle{}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1050}{}\doxysubsection{\texorpdfstring{SHELL\+\_\+\+SPECIAL\+\_\+\+CHARS}{SHELL\+\_\+\+SPECIAL\+\_\+\+CHARS}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1050}
+需要转义的 shell 特殊字符正则表达式\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1051}{}\doxysection{\texorpdfstring{功能详解}{功能详解}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1051}
+\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1052}{}\doxysubsection{\texorpdfstring{路径缩短 (shorten\+Path)}{路径缩短 (shorten\+Path)}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1052}
+当路径超过指定长度时，优先保留开始和结束部分：
+\begin{DoxyItemize}
+\item 保持根目录和第一个目录
+\item 优先保留文件名和最后几个目录
+\item 在中间添加省略号(...)
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1053}{}\doxysubsection{\texorpdfstring{相对路径计算 (make\+Relative)}{相对路径计算 (make\+Relative)}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1053}
+计算目标路径相对于根目录的相对路径：
+\begin{DoxyItemize}
+\item 确保两个路径都已解析
+\item 处理相同路径的情况（返回\textquotesingle{}.\textquotesingle{}）
+\item 返回标准相对路径格式
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1054}{}\doxysubsection{\texorpdfstring{特殊字符转义 (escape\+Path)}{特殊字符转义 (escape\+Path)}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1054}
+转义 shell 中的特殊字符：
+\begin{DoxyItemize}
+\item 空格、括号、分号等
+\item 处理已转义字符避免重复转义
+\item 支持多种 shell 元字符
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1055}{}\doxysubsection{\texorpdfstring{项目哈希 (get\+Project\+Hash)}{项目哈希 (get\+Project\+Hash)}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1055}
+基于项目根路径生成 SHA256 哈希：
+\begin{DoxyItemize}
+\item 用于唯一标识项目
+\item 在遥测和缓存中使用
+\item 确保路径隐私安全
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2paths_autotoc_md1056}{}\doxysubsection{\texorpdfstring{子路径检查 (is\+Subpath)}{子路径检查 (is\+Subpath)}}\label{md_packages_2core_2src_2utils_2paths_autotoc_md1056}
+检查子路径是否在父路径内：
+\begin{DoxyItemize}
+\item 跨平台兼容（\+Windows 和 POSIX）
+\item 处理相对路径和绝对路径
+\item 支持路径规范化 
+\end{DoxyItemize}

@@ -1,0 +1,114 @@
+\chapter{key\+Bindings.\+ts }
+\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts}{}\label{md_packages_2cli_2src_2config_2key_bindings_8ts}\index{keyBindings.ts@{keyBindings.ts}}
+\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md317}%
+\Hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md317}%
+\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md318}{}\doxysection{\texorpdfstring{概述}{概述}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md318}
+{\ttfamily \doxylink{key_bindings_8ts}{key\+Bindings.\+ts}} 是 cli 包中定义键盘绑定和命令的模块。该文件提供了数据驱动的键盘绑定配置，支持多种键盘快捷方式和命令。\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md319}{}\doxysection{\texorpdfstring{导出的枚举}{导出的枚举}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md319}
+\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md320}{}\doxysubsection{\texorpdfstring{Command}{Command}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md320}
+定义所有可用的键盘快捷命令：
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{基本绑定}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily RETURN}\+: 回车键
+\item {\ttfamily ESCAPE}\+: 退出键
+\end{DoxyItemize}
+\item {\bfseries{光标移动}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily HOME}\+: 行首
+\item {\ttfamily END}\+: 行尾
+\end{DoxyItemize}
+\item {\bfseries{文本删除}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily KILL\+\_\+\+LINE\+\_\+\+RIGHT}\+: 删除光标右侧内容
+\item {\ttfamily KILL\+\_\+\+LINE\+\_\+\+LEFT}\+: 删除光标左侧内容
+\item {\ttfamily CLEAR\+\_\+\+INPUT}\+: 清除输入
+\item {\ttfamily DELETE\+\_\+\+WORD\+\_\+\+BACKWARD}\+: 向后删除单词
+\end{DoxyItemize}
+\item {\bfseries{屏幕控制}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily CLEAR\+\_\+\+SCREEN}\+: 清屏
+\end{DoxyItemize}
+\item {\bfseries{历史导航}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily HISTORY\+\_\+\+UP}\+: 历史记录向上
+\item {\ttfamily HISTORY\+\_\+\+DOWN}\+: 历史记录向下
+\item {\ttfamily NAVIGATION\+\_\+\+UP}\+: 导航向上
+\item {\ttfamily NAVIGATION\+\_\+\+DOWN}\+: 导航向下
+\end{DoxyItemize}
+\item {\bfseries{自动补全}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily ACCEPT\+\_\+\+SUGGESTION}\+: 接受建议
+\item {\ttfamily COMPLETION\+\_\+\+UP}\+: 补全向上
+\item {\ttfamily COMPLETION\+\_\+\+DOWN}\+: 补全向下
+\end{DoxyItemize}
+\item {\bfseries{文本输入}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily SUBMIT}\+: 提交
+\item {\ttfamily NEWLINE}\+: 新行
+\end{DoxyItemize}
+\item {\bfseries{外部工具}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily OPEN\+\_\+\+EXTERNAL\+\_\+\+EDITOR}\+: 打开外部编辑器
+\item {\ttfamily PASTE\+\_\+\+CLIPBOARD\+\_\+\+IMAGE}\+: 粘贴剪贴板图片
+\end{DoxyItemize}
+\item {\bfseries{应用级绑定}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily SHOW\+\_\+\+ERROR\+\_\+\+DETAILS}\+: 显示错误详情
+\item {\ttfamily TOGGLE\+\_\+\+TOOL\+\_\+\+DESCRIPTIONS}\+: 切换工具描述
+\item {\ttfamily TOGGLE\+\_\+\+IDE\+\_\+\+CONTEXT\+\_\+\+DETAIL}\+: 切换 IDE 上下文详情
+\item {\ttfamily QUIT}\+: 退出
+\item {\ttfamily EXIT}\+: 退出
+\item {\ttfamily SHOW\+\_\+\+MORE\+\_\+\+LINES}\+: 显示更多行
+\end{DoxyItemize}
+\item {\bfseries{Shell 命令}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily REVERSE\+\_\+\+SEARCH}\+: 反向搜索
+\item {\ttfamily SUBMIT\+\_\+\+REVERSE\+\_\+\+SEARCH}\+: 提交反向搜索
+\item {\ttfamily ACCEPT\+\_\+\+SUGGESTION\+\_\+\+REVERSE\+\_\+\+SEARCH}\+: 接受反向搜索建议
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md321}{}\doxysection{\texorpdfstring{导出的接口}{导出的接口}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md321}
+\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md322}{}\doxysubsection{\texorpdfstring{Key\+Binding}{Key\+Binding}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md322}
+数据驱动的键绑定结构：
+
+
+\begin{DoxyItemize}
+\item {\ttfamily key}\+: 键名（如 \textquotesingle{}a\textquotesingle{}, \textquotesingle{}return\textquotesingle{}, \textquotesingle{}tab\textquotesingle{}, \textquotesingle{}escape\textquotesingle{}）
+\item {\ttfamily sequence}\+: 键序列（如 \textquotesingle{}\textbackslash{}x18\textquotesingle{} 表示 Ctrl+\+X）
+\item {\ttfamily ctrl}\+: Control 键要求
+\item {\ttfamily shift}\+: Shift 键要求
+\item {\ttfamily command}\+: Command/\+Meta 键要求
+\item {\ttfamily paste}\+: 粘贴操作要求
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md323}{}\doxysection{\texorpdfstring{导出的类型}{导出的类型}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md323}
+\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md324}{}\doxysubsection{\texorpdfstring{Key\+Binding\+Config}{Key\+Binding\+Config}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md324}
+配置类型，将命令映射到其键绑定：
+
+
+\begin{DoxyItemize}
+\item 类型为 {\ttfamily \{ readonly \mbox{[}C in Command\mbox{]}\+: readonly Key\+Binding\mbox{[}\mbox{]}; \}}
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md325}{}\doxysection{\texorpdfstring{导出的常量}{导出的常量}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md325}
+\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md326}{}\doxysubsection{\texorpdfstring{default\+Key\+Bindings}{default\+Key\+Bindings}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md326}
+默认键绑定配置，完全匹配原始硬编码逻辑：
+
+
+\begin{DoxyItemize}
+\item 为每个命令提供相应的键绑定数组
+\item 支持多种平台和键盘布局
+\item 包含详细的键绑定规则
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md327}{}\doxysection{\texorpdfstring{使用场景}{使用场景}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md327}
+该模块主要用于：
+\begin{DoxyEnumerate}
+\item 定义应用程序的键盘快捷方式
+\item 提供可配置的键绑定系统
+\item 支持跨平台的键盘操作
+\item 实现数据驱动的键绑定处理
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md328}{}\doxysection{\texorpdfstring{设计考虑}{设计考虑}}\label{md_packages_2cli_2src_2config_2key_bindings_8ts_autotoc_md328}
+该模块的设计考虑了：
+\begin{DoxyEnumerate}
+\item 数据驱动的配置方式，便于维护和扩展
+\item 跨平台兼容性（mac\+OS、\+Windows、\+Linux）
+\item 多种键组合支持（\+Ctrl、\+Shift、\+Command/\+Meta）
+\item 粘贴操作的特殊处理
+\item 与原始硬编码逻辑的完全兼容 
+\end{DoxyEnumerate}

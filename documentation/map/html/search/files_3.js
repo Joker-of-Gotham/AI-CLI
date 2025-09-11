@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['deepmerge_2etest_2ets_0',['deepMerge.test.ts',['../deep_merge_8test_8ts.html',1,'']]],
+  ['deepmerge_2ets_1',['deepMerge.ts',['../deep_merge_8ts.html',1,'']]],
+  ['default_2dlight_2ets_2',['default-light.ts',['../default-light_8ts.html',1,'']]],
+  ['default_2ets_3',['default.ts',['../default_8ts.html',1,'']]],
+  ['detect_2dide_2etest_2ets_4',['detect-ide.test.ts',['../detect-ide_8test_8ts.html',1,'']]],
+  ['detect_2dide_2ets_5',['detect-ide.ts',['../detect-ide_8ts.html',1,'']]],
+  ['development_2dextension_2drfc_2emd_6',['development-extension-rfc.md',['../development-extension-rfc_8md.html',1,'']]],
+  ['development_2emd_7',['development.md',['../development_8md.html',1,'']]],
+  ['dialogscopeutils_2ets_8',['dialogScopeUtils.ts',['../dialog_scope_utils_8ts.html',1,'']]],
+  ['diff_2dmanager_2ets_9',['diff-manager.ts',['../diff-manager_8ts.html',1,'']]],
+  ['diffoptions_2etest_2ets_10',['diffOptions.test.ts',['../diff_options_8test_8ts.html',1,'']]],
+  ['diffoptions_2ets_11',['diffOptions.ts',['../diff_options_8ts.html',1,'']]],
+  ['diffoptions_2ets_2emd_12',['diffOptions.ts.md',['../diff_options_8ts_8md.html',1,'']]],
+  ['disable_2ets_13',['disable.ts',['../disable_8ts.html',1,'']]],
+  ['displayutils_2etest_2ets_14',['displayUtils.test.ts',['../display_utils_8test_8ts.html',1,'']]],
+  ['displayutils_2ets_15',['displayUtils.ts',['../display_utils_8ts.html',1,'']]],
+  ['docscommand_2etest_2ets_16',['docsCommand.test.ts',['../docs_command_8test_8ts.html',1,'']]],
+  ['docscommand_2ets_17',['docsCommand.ts',['../docs_command_8ts.html',1,'']]],
+  ['dracula_2ets_18',['dracula.ts',['../dracula_8ts.html',1,'']]]
+];

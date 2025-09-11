@@ -1,0 +1,57 @@
+\chapter{提示词系统 }
+\hypertarget{md_packages_2core_2src_2core_2prompts}{}\label{md_packages_2core_2src_2core_2prompts}\index{提示词系统@{提示词系统}}
+\label{md_packages_2core_2src_2core_2prompts_autotoc_md609}%
+\Hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md609}%
+
+
+提示词系统负责生成和管理 AI 模型使用的系统提示。\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md610}{}\doxysection{\texorpdfstring{核心函数}{核心函数}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md610}
+\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md611}{}\doxysubsection{\texorpdfstring{get\+Core\+System\+Prompt()}{get\+Core\+System\+Prompt()}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md611}
+生成核心系统提示，包含 AI 助手的行为准则和工作流程。
+
+主要包含以下内容：
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}核心指令\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：代码约定、库使用、风格结构等规范
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}主要工作流程\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：软件工程任务和新应用开发流程
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}操作指南\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：语调风格、安全规则、工具使用等
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}示例\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：展示正确的交互模式
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}最终提醒\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：强调高效安全协助的重要性
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md612}{}\doxysubsection{\texorpdfstring{get\+Compression\+Prompt()}{get\+Compression\+Prompt()}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md612}
+生成聊天历史压缩的系统提示，指导模型将整个历史压缩为结构化 XML 快照。
+
+压缩快照包含以下结构：
+\begin{DoxyItemize}
+\item {\ttfamily overall\+\_\+goal} -\/ 用户的高级目标
+\item {\ttfamily key\+\_\+knowledge} -\/ 关键事实、约定和约束
+\item {\ttfamily file\+\_\+system\+\_\+state} -\/ 文件系统状态
+\item {\ttfamily recent\+\_\+actions} -\/ 最近操作摘要
+\item {\ttfamily current\+\_\+plan} -\/ 当前计划
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md613}{}\doxysubsection{\texorpdfstring{resolve\+Path\+From\+Env()}{resolve\+Path\+From\+Env()}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md613}
+解析环境变量中的路径，处理开关值和文件路径。\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md614}{}\doxysection{\texorpdfstring{系统提示内容}{系统提示内容}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md614}
+核心系统提示包含以下关键部分：\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md615}{}\doxysubsection{\texorpdfstring{核心指令}{核心指令}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md615}
+
+\begin{DoxyItemize}
+\item 严格遵守项目约定
+\item 验证库/框架的使用
+\item 模仿现有代码的风格和结构
+\item 添加有价值的注释
+\item 主动完成用户请求
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md616}{}\doxysubsection{\texorpdfstring{主要工作流程}{主要工作流程}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md616}
+
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}软件工程任务\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：理解、计划、实现、验证
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}新应用开发\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：理解需求、提出计划、用户批准、实现、验证、征求反馈
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md617}{}\doxysubsection{\texorpdfstring{操作指南}{操作指南}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md617}
+
+\begin{DoxyItemize}
+\item 简洁直接的语调
+\item 最小化输出
+\item 安全第一原则
+\item 正确使用工具
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2core_2prompts_autotoc_md618}{}\doxysubsection{\texorpdfstring{工具使用}{工具使用}}\label{md_packages_2core_2src_2core_2prompts_autotoc_md618}
+
+\begin{DoxyItemize}
+\item 始终使用绝对路径
+\item 并行执行独立工具调用
+\item 解释修改命令的目的和影响
+\item 正确使用记忆工具 
+\end{DoxyItemize}

@@ -1,0 +1,41 @@
+\chapter{vitest.\+config.\+ts }
+\hypertarget{md_packages_2cli_2vitest_8config_8ts}{}\label{md_packages_2cli_2vitest_8config_8ts}\index{vitest.config.ts@{vitest.config.ts}}
+\label{md_packages_2cli_2vitest_8config_8ts_autotoc_md477}%
+\Hypertarget{md_packages_2cli_2vitest_8config_8ts_autotoc_md477}%
+\hypertarget{md_packages_2cli_2vitest_8config_8ts_autotoc_md478}{}\doxysection{\texorpdfstring{概述}{概述}}\label{md_packages_2cli_2vitest_8config_8ts_autotoc_md478}
+{\ttfamily vitest.\+config.\+ts} 是 cli 包的 Vitest 测试配置文件。\+Vitest 是一个基于 Vite 的单元测试框架，这个配置文件定义了测试运行的参数和行为。\hypertarget{md_packages_2cli_2vitest_8config_8ts_autotoc_md479}{}\doxysection{\texorpdfstring{配置详情}{配置详情}}\label{md_packages_2cli_2vitest_8config_8ts_autotoc_md479}
+该配置文件导出一个 Vitest 配置对象，包含以下设置：\hypertarget{md_packages_2cli_2vitest_8config_8ts_autotoc_md480}{}\doxysubsection{\texorpdfstring{测试文件匹配}{测试文件匹配}}\label{md_packages_2cli_2vitest_8config_8ts_autotoc_md480}
+
+\begin{DoxyItemize}
+\item {\ttfamily include}\+: 包含匹配模式为 {\ttfamily \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}/\texorpdfstring{$\ast$}{*}.\{test,spec\}.?(c\texorpdfstring{$\vert$}{|}m)\mbox{[}jt\mbox{]}s?(x)} 和 {\ttfamily config.\+test.\+ts} 的文件
+\item {\ttfamily exclude}\+: 排除 {\ttfamily node\+\_\+modules}、{\ttfamily dist} 和 {\ttfamily cypress} 目录中的文件
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2vitest_8config_8ts_autotoc_md481}{}\doxysubsection{\texorpdfstring{测试环境}{测试环境}}\label{md_packages_2cli_2vitest_8config_8ts_autotoc_md481}
+
+\begin{DoxyItemize}
+\item {\ttfamily environment}\+: 使用 {\ttfamily jsdom} 作为测试环境
+\item {\ttfamily globals}\+: 启用全局 API
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2vitest_8config_8ts_autotoc_md482}{}\doxysubsection{\texorpdfstring{测试报告器}{测试报告器}}\label{md_packages_2cli_2vitest_8config_8ts_autotoc_md482}
+
+\begin{DoxyItemize}
+\item {\ttfamily reporters}\+: 配置测试报告器为默认报告器和 JUnit 报告器
+\item {\ttfamily silent}\+: 静默模式运行测试
+\item {\ttfamily output\+File}\+: JUnit 报告输出到 {\ttfamily junit.\+xml} 文件
+\item {\ttfamily setup\+Files}\+: 测试设置文件为 {\ttfamily ./test-\/setup.ts}
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2vitest_8config_8ts_autotoc_md483}{}\doxysubsection{\texorpdfstring{代码覆盖率}{代码覆盖率}}\label{md_packages_2cli_2vitest_8config_8ts_autotoc_md483}
+
+\begin{DoxyItemize}
+\item {\ttfamily enabled}\+: 启用代码覆盖率
+\item {\ttfamily provider}\+: 使用 V8 作为覆盖率提供者
+\item {\ttfamily reports\+Directory}\+: 覆盖率报告输出到 {\ttfamily ./coverage} 目录
+\item {\ttfamily include}\+: 包含 {\ttfamily src/\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}/\texorpdfstring{$\ast$}{*}} 目录中的文件进行覆盖率分析
+\item {\ttfamily reporter}\+: 配置多种覆盖率报告格式：
+\begin{DoxyItemize}
+\item {\ttfamily text}\+: 文本摘要报告，输出到 {\ttfamily full-\/text-\/summary.\+txt}
+\item {\ttfamily html}\+: HTML 格式的详细报告
+\item {\ttfamily json}\+: JSON 格式的报告
+\item {\ttfamily lcov}\+: LCOV 格式的报告
+\item {\ttfamily cobertura}\+: Cobertura XML 格式的报告
+\item {\ttfamily json-\/summary}\+: JSON 摘要报告，输出到 {\ttfamily coverage-\/summary.\+json}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2vitest_8config_8ts_autotoc_md484}{}\doxysection{\texorpdfstring{使用方式}{使用方式}}\label{md_packages_2cli_2vitest_8config_8ts_autotoc_md484}
+该配置文件会被 Vitest 自动加载，用于配置测试运行环境。当运行 {\ttfamily npm test} 或 {\ttfamily vitest} 命令时，会使用此配置来执行测试和生成报告。 

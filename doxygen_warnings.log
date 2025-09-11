@@ -1,0 +1,20 @@
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/ui/utils/commandUtils.ts:155: warning: Reached end of file while still inside a (nested) comment. Nesting level 3 (possible line reference(s): 40, 39, 22)
+D:/大学文件/大学学习/技术/AI-CLI/packages/core/src/tools/read-many-files.ts:616: warning: Reached end of file while still inside a (nested) comment. Nesting level 2 (possible line reference(s): 43, 40)
+D:/大学文件/大学学习/技术/AI-CLI/packages/core/src/utils/gitIgnoreParser.test.ts:281: warning: Reached end of file while still inside a (nested) comment. Nesting level 1 (possible line reference(s): 106)
+D:/大学文件/大学学习/技术/AI-CLI/packages/core/src/utils/ignorePatterns.ts:277: warning: Reached end of file while still inside a (nested) comment. Nesting level 1 (possible line reference(s): 217)
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/commands/extensions.tsx.md:15: warning: Unsupported xml/html tag <command> found
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/commands/extensions/examples/context/GEMINI.md:8: warning: Unsupported xml/html tag <Box> found
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/commands/extensions/examples/context/GEMINI.md:8: warning: Unsupported xml/html tag <Text> found
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/commands/mcp/add.ts.md:23: warning: Unsupported xml/html tag <name> found
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/commands/mcp/add.ts.md:23: warning: Unsupported xml/html tag <commandOrUrl> found
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/commands/mcp/remove.ts.md:27: warning: Unsupported xml/html tag <name> found
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/config/extension.ts.md:131: warning: found </tt> tag without matching <tt>
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/config/extension.ts.md:137: warning: found </tt> tag without matching <tt>
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/config/keyBindings.ts.md:67: warning: Found unknown command '\x18'
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/core/auth.ts.md:52: warning: Found unknown command '@google'
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/core/auth.ts.md:53: warning: Found unknown command '@google'
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/src/core/initializer.ts.md:62: warning: Found unknown command '@google'
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/README.md:3: warning: Found unknown command '\AI'
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/README.md:3: warning: Found unknown command '\packages'
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/README.md:3: warning: Found unknown command '\cli'
+D:/大学文件/大学学习/技术/AI-CLI/packages/cli/README.md:69: warning: unable to resolve reference to 'src/commands/extensions/extensions.tsx.md' for \ref command

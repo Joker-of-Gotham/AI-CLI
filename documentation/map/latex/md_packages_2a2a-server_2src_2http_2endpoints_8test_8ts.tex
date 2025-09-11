@@ -1,0 +1,56 @@
+\chapter{endpoints.\+test.\+ts }
+\hypertarget{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts}{}\label{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts}\index{endpoints.test.ts@{endpoints.test.ts}}
+\label{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md93}%
+\Hypertarget{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md93}%
+\hypertarget{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md94}{}\doxysection{\texorpdfstring{概述}{概述}}\label{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md94}
+{\ttfamily \doxylink{endpoints_8test_8ts}{endpoints.\+test.\+ts}} 是 a2a-\/server 包中 HTTP 端点的测试文件。该文件使用 Vitest 测试框架和 Supertest 库来测试 Express 应用的各个 HTTP 端点，验证其功能和行为。\hypertarget{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md95}{}\doxysection{\texorpdfstring{测试内容}{测试内容}}\label{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md95}
+\hypertarget{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md96}{}\doxysubsection{\texorpdfstring{代理服务器端点测试套件}{代理服务器端点测试套件}}\label{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md96}
+该测试套件专注于验证代理服务器的 HTTP 端点：
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{任务创建端点}} ({\ttfamily POST /tasks})\+:
+\begin{DoxyItemize}
+\item 验证通过 POST 请求创建新任务的功能
+\item 检查返回的任务 ID 是否为字符串类型
+\end{DoxyItemize}
+\item {\bfseries{特定任务元数据获取端点}} ({\ttfamily GET /tasks/\+:task\+Id/metadata})\+:
+\begin{DoxyItemize}
+\item 验证通过任务 ID 获取特定任务元数据的功能
+\item 检查返回的元数据是否包含正确的任务 ID
+\end{DoxyItemize}
+\item {\bfseries{所有任务元数据获取端点}} ({\ttfamily GET /tasks/metadata})\+:
+\begin{DoxyItemize}
+\item 验证获取所有任务元数据的功能
+\item 检查返回的元数据数组是否包含刚创建的任务
+\end{DoxyItemize}
+\item {\bfseries{不存在任务的处理}}\+:
+\begin{DoxyItemize}
+\item 验证对不存在任务 ID 的正确错误响应（404 状态码）
+\end{DoxyItemize}
+\item {\bfseries{代理卡元数据端点}} ({\ttfamily GET /.well-\/known/agent-\/card.\+json})\+:
+\begin{DoxyItemize}
+\item 验证代理元数据的获取功能
+\item 检查返回的代理名称和 URL 是否正确
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md97}{}\doxysection{\texorpdfstring{使用的技术}{使用的技术}}\label{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md97}
+
+\begin{DoxyItemize}
+\item {\bfseries{Vitest}}\+: 测试框架，提供测试结构和断言
+\item {\bfseries{Supertest}}\+: HTTP 测试库，用于测试 Express 应用
+\item {\bfseries{Mocking}}\+: 使用 {\ttfamily vi.\+mock()} 模拟依赖模块，如日志记录器和任务创建
+\item {\bfseries{临时目录}}\+: 使用 Node.\+js 的 {\ttfamily os} 和 {\ttfamily fs} 模块创建临时工作目录进行测试
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md98}{}\doxysection{\texorpdfstring{依赖模块}{依赖模块}}\label{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md98}
+
+\begin{DoxyItemize}
+\item {\ttfamily vitest}\+: 测试框架
+\item {\ttfamily supertest}\+: HTTP 测试库
+\item {\ttfamily express}\+: Express 应用类型
+\item {\ttfamily node\+:fs}, {\ttfamily node\+:path}, {\ttfamily node\+:os}\+: Node.\+js 文件系统和路径处理模块
+\item {\ttfamily node\+:http}\+: Node.\+js HTTP 服务器类型
+\item {\ttfamily node\+:net}\+: Node.\+js 网络相关类型
+\item {\ttfamily ../types.js}\+: 任务元数据类型定义
+\item {\ttfamily ../agent/task.js}\+: 任务类（被模拟）
+\item {\ttfamily ../utils/logger.js}\+: 日志记录器（被模拟）
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md99}{}\doxysection{\texorpdfstring{测试策略}{测试策略}}\label{md_packages_2a2a-server_2src_2http_2endpoints_8test_8ts_autotoc_md99}
+该测试文件采用集成测试策略，启动真实的 HTTP 服务器并发送实际的 HTTP 请求来验证端点行为。通过模拟核心业务逻辑（如任务创建），专注于测试 HTTP 层的功能和响应。 

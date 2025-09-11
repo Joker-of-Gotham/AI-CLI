@@ -1,0 +1,173 @@
+\doxysection{packages/cli Directory Reference}
+\hypertarget{dir_f68aa157f8a8ea4fc823aa7bbfd6030b}{}\label{dir_f68aa157f8a8ea4fc823aa7bbfd6030b}\index{packages/cli Directory Reference@{packages/cli Directory Reference}}
+Directory dependency graph for cli\+:
+% FIG 0
+\doxysubsubsection*{Directories}
+\begin{DoxyCompactItemize}
+\item 
+directory \mbox{\hyperlink{dir_36354808f9070cb5ca9261c2f01f9d34}{src}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \mbox{\hyperlink{cli_2index_8ts}{index.\+ts}}
+\item 
+file \mbox{\hyperlink{cli_2test-setup_8ts}{test-\/setup.\+ts}}
+\item 
+file \mbox{\hyperlink{cli_2vitest_8config_8ts}{vitest.\+config.\+ts}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\hypertarget{README.md_autotoc_md175}{}\doxysubsection{\texorpdfstring{Gemini CLI 代码说明文档索引}{Gemini CLI 代码说明文档索引}}\label{README.md_autotoc_md175}
+本文档提供了 E\+:\textbackslash{}技术提升\textbackslash{}\+AI-\/CLI\textbackslash{}packages\textbackslash{}cli 目录中所有代码文件的详细说明。\hypertarget{README.md_autotoc_md176}{}\doxysubsection{\texorpdfstring{目录结构}{目录结构}}\label{README.md_autotoc_md176}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{packages/cli/}
+\DoxyCodeLine{├──\ index.ts}
+\DoxyCodeLine{├──\ src/}
+\DoxyCodeLine{│\ \ \ ├──\ gemini.tsx}
+\DoxyCodeLine{│\ \ \ ├──\ nonInteractiveCli.ts}
+\DoxyCodeLine{│\ \ \ ├──\ config/}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ config.ts}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ settings.ts}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ extension.ts}
+\DoxyCodeLine{│\ \ \ ├──\ core/}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ initializer.ts}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ auth.ts}
+\DoxyCodeLine{│\ \ \ ├──\ utils/}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ readStdin.ts}
+\DoxyCodeLine{│\ \ \ ├──\ ui/}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ AppContainer.tsx}
+\DoxyCodeLine{│\ \ \ ├──\ commands/}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ mcp/}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ ├──\ mcp.ts}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ ├──\ add.ts}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ ├──\ list.ts}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ └──\ remove.ts}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ extensions/}
+\DoxyCodeLine{│\ \ \ │\ \ \ \ \ \ \ ├──\ extensions.tsx}
+\DoxyCodeLine{│\ \ \ │\ \ \ \ \ \ \ ├──\ install.ts}
+\DoxyCodeLine{│\ \ \ │\ \ \ \ \ \ \ └──\ list.ts}
+
+\end{DoxyCode}
+\hypertarget{README.md_autotoc_md177}{}\doxysubsection{\texorpdfstring{核心模块说明}{核心模块说明}}\label{README.md_autotoc_md177}
+\hypertarget{README.md_autotoc_md178}{}\doxysubsubsection{\texorpdfstring{入口文件}{入口文件}}\label{README.md_autotoc_md178}
+
+\begin{DoxyItemize}
+\item \doxysectlink{md_packages_2cli_2index_8ts}{index.ts}{0} -\/ CLI 入口文件，处理全局错误和应用启动
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md179}{}\doxysubsubsection{\texorpdfstring{主应用}{主应用}}\label{README.md_autotoc_md179}
+
+\begin{DoxyItemize}
+\item \doxysectlink{md_packages_2cli_2src_2gemini_8tsx}{gemini.tsx}{0} -\/ 主应用程序文件，包含核心逻辑和 UI 初始化
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md180}{}\doxysubsubsection{\texorpdfstring{配置管理}{配置管理}}\label{README.md_autotoc_md180}
+
+\begin{DoxyItemize}
+\item \doxysectlink{md_packages_2cli_2src_2config_2config_8ts}{config.ts}{0} -\/ 命令行参数解析和配置加载
+\item \doxysectlink{md_packages_2cli_2src_2config_2settings_8ts}{settings.ts}{0} -\/ 多级设置管理和迁移
+\item \doxysectlink{md_packages_2cli_2src_2config_2extension_8ts}{extension.ts}{0} -\/ 扩展安装、加载和管理
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md181}{}\doxysubsubsection{\texorpdfstring{核心功能}{核心功能}}\label{README.md_autotoc_md181}
+
+\begin{DoxyItemize}
+\item \doxysectlink{md_packages_2cli_2src_2core_2initializer_8ts}{initializer.ts}{0} -\/ 应用程序初始化
+\item \doxysectlink{md_packages_2cli_2src_2core_2auth_8ts}{auth.ts}{0} -\/ 认证处理
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md182}{}\doxysubsubsection{\texorpdfstring{工具函数}{工具函数}}\label{README.md_autotoc_md182}
+
+\begin{DoxyItemize}
+\item \doxysectlink{md_packages_2cli_2src_2utils_2read_stdin_8ts}{read\+Stdin.ts}{0} -\/ 标准输入读取
+\item \doxysectlink{md_packages_2cli_2src_2non_interactive_cli_8ts}{non\+Interactive\+Cli.ts}{0} -\/ 非交互模式处理
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md183}{}\doxysubsubsection{\texorpdfstring{UI 组件}{UI 组件}}\label{README.md_autotoc_md183}
+
+\begin{DoxyItemize}
+\item \doxysectlink{md_packages_2cli_2src_2ui_2_app_container_8tsx}{App\+Container.tsx}{0} -\/ 应用程序容器组件
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md184}{}\doxysubsubsection{\texorpdfstring{命令系统}{命令系统}}\label{README.md_autotoc_md184}
+\hypertarget{README.md_autotoc_md185}{}\doxysubsubsubsection{\texorpdfstring{MCP 命令}{MCP 命令}}\label{README.md_autotoc_md185}
+
+\begin{DoxyItemize}
+\item \doxysectlink{md_packages_2cli_2src_2commands_2mcp_2mcp_8ts}{mcp.ts}{0} -\/ MCP 命令注册和管理
+\item \doxysectlink{md_packages_2cli_2src_2commands_2mcp_2add_8ts}{add.ts}{0} -\/ 添加 MCP 服务器
+\item \doxysectlink{md_packages_2cli_2src_2commands_2mcp_2list_8ts}{list.ts}{0} -\/ 列出 MCP 服务器
+\item \doxysectlink{md_packages_2cli_2src_2commands_2mcp_2remove_8ts}{remove.ts}{0} -\/ 移除 MCP 服务器
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md186}{}\doxysubsubsubsection{\texorpdfstring{扩展命令}{扩展命令}}\label{README.md_autotoc_md186}
+
+\begin{DoxyItemize}
+\item extensions.tsx -\/ 扩展命令注册和管理
+\item \doxysectlink{md_packages_2cli_2src_2commands_2extensions_2install_8ts}{install.ts}{0} -\/ 安装扩展
+\item \doxysectlink{md_packages_2cli_2src_2commands_2extensions_2list_8ts}{list.ts}{0} -\/ 列出扩展
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md187}{}\doxysubsection{\texorpdfstring{功能概述}{功能概述}}\label{README.md_autotoc_md187}
+\hypertarget{README.md_autotoc_md188}{}\doxysubsubsection{\texorpdfstring{应用程序架构}{应用程序架构}}\label{README.md_autotoc_md188}
+Gemini CLI 采用模块化设计，主要包含以下几个核心部分：
+\begin{DoxyEnumerate}
+\item 命令行参数解析和配置管理
+\item 扩展系统支持
+\item MCP（\+Model Context Protocol）服务器集成
+\item 终端用户界面（\+TUI）
+\item 认证和安全机制
+\item 内存管理和上下文处理
+\end{DoxyEnumerate}\hypertarget{README.md_autotoc_md189}{}\doxysubsubsection{\texorpdfstring{主要特性}{主要特性}}\label{README.md_autotoc_md189}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{交互式和非交互式模式}} -\/ 支持终端交互和脚本调用
+\item {\bfseries{扩展系统}} -\/ 可通过扩展增加功能
+\item {\bfseries{MCP 集成}} -\/ 支持 Model Context Protocol 服务器
+\item {\bfseries{主题定制}} -\/ 支持多种终端主题
+\item {\bfseries{工具调用}} -\/ 支持执行各种工具命令
+\item {\bfseries{认证管理}} -\/ 支持多种认证方式
+\item {\bfseries{设置系统}} -\/ 多级设置（系统、用户、工作区）
+\end{DoxyEnumerate}\hypertarget{README.md_autotoc_md190}{}\doxysubsubsection{\texorpdfstring{扩展系统}{扩展系统}}\label{README.md_autotoc_md190}
+CLI 支持通过扩展来增加功能，包括：
+\begin{DoxyEnumerate}
+\item MCP 服务器配置
+\item 自定义上下文文件
+\item 工具排除列表
+\item Git 仓库安装
+\item 本地路径安装
+\end{DoxyEnumerate}\hypertarget{README.md_autotoc_md191}{}\doxysubsubsection{\texorpdfstring{MCP 支持}{MCP 支持}}\label{README.md_autotoc_md191}
+Model Context Protocol 支持：
+\begin{DoxyEnumerate}
+\item stdio 传输类型
+\item SSE 传输类型
+\item HTTP 传输类型
+\item 服务器状态检查
+\item 工具包含/排除配置
+\end{DoxyEnumerate}\hypertarget{README.md_autotoc_md192}{}\doxysubsection{\texorpdfstring{使用说明}{使用说明}}\label{README.md_autotoc_md192}
+\hypertarget{README.md_autotoc_md193}{}\doxysubsubsection{\texorpdfstring{启动应用}{启动应用}}\label{README.md_autotoc_md193}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ 交互式模式}
+\DoxyCodeLine{gemini}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 非交互式模式}
+\DoxyCodeLine{gemini\ "{}你的问题"{}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 管道输入}
+\DoxyCodeLine{echo\ "{}你的问题"{}\ |\ gemini}
+
+\end{DoxyCode}
+\hypertarget{README.md_autotoc_md194}{}\doxysubsubsection{\texorpdfstring{MCP 管理}{MCP 管理}}\label{README.md_autotoc_md194}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ 添加\ MCP\ 服务器}
+\DoxyCodeLine{gemini\ mcp\ add\ my-\/server\ python\ /path/to/server.py}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 列出\ MCP\ 服务器}
+\DoxyCodeLine{gemini\ mcp\ list}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 移除\ MCP\ 服务器}
+\DoxyCodeLine{gemini\ mcp\ remove\ my-\/server}
+
+\end{DoxyCode}
+\hypertarget{README.md_autotoc_md195}{}\doxysubsubsection{\texorpdfstring{扩展管理}{扩展管理}}\label{README.md_autotoc_md195}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ 安装扩展}
+\DoxyCodeLine{gemini\ extensions\ install\ user/repo}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 列出扩展}
+\DoxyCodeLine{gemini\ extensions\ list}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 卸载扩展}
+\DoxyCodeLine{gemini\ extensions\ uninstall\ my-\/extension}
+
+\end{DoxyCode}
+ 

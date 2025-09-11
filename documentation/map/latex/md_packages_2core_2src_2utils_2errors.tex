@@ -1,0 +1,64 @@
+\chapter{错误处理工具 }
+\hypertarget{md_packages_2core_2src_2utils_2errors}{}\label{md_packages_2core_2src_2utils_2errors}\index{错误处理工具@{错误处理工具}}
+\label{md_packages_2core_2src_2utils_2errors_autotoc_md1028}%
+\Hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1028}%
+
+
+错误处理工具提供了一系列处理和转换错误的实用函数。\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1029}{}\doxysection{\texorpdfstring{核心函数}{核心函数}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1029}
+\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1030}{}\doxysubsection{\texorpdfstring{类型检查}{类型检查}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1030}
+
+\begin{DoxyItemize}
+\item {\ttfamily is\+Node\+Error()} -\/ 检查错误是否为 Node.\+js 错误类型
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1031}{}\doxysubsection{\texorpdfstring{错误信息提取}{错误信息提取}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1031}
+
+\begin{DoxyItemize}
+\item {\ttfamily get\+Error\+Message()} -\/ 安全地获取错误消息字符串
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1032}{}\doxysubsection{\texorpdfstring{错误转换}{错误转换}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1032}
+
+\begin{DoxyItemize}
+\item {\ttfamily to\+Friendly\+Error()} -\/ 将原始错误转换为用户友好的错误类型
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1033}{}\doxysection{\texorpdfstring{自定义错误类}{自定义错误类}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1033}
+\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1034}{}\doxysubsection{\texorpdfstring{Fatal\+Error}{Fatal\+Error}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1034}
+致命错误基类，包含退出码：
+\begin{DoxyItemize}
+\item {\ttfamily exit\+Code} -\/ 进程退出码
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1035}{}\doxysubsection{\texorpdfstring{特定致命错误}{特定致命错误}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1035}
+
+\begin{DoxyItemize}
+\item {\ttfamily Fatal\+Authentication\+Error} -\/ 认证错误（退出码41）
+\item {\ttfamily Fatal\+Input\+Error} -\/ 输入错误（退出码42）
+\item {\ttfamily Fatal\+Sandbox\+Error} -\/ 沙箱错误（退出码44）
+\item {\ttfamily Fatal\+Config\+Error} -\/ 配置错误（退出码52）
+\item {\ttfamily Fatal\+Turn\+Limited\+Error} -\/ 轮次限制错误（退出码53）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1036}{}\doxysubsection{\texorpdfstring{业务逻辑错误}{业务逻辑错误}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1036}
+
+\begin{DoxyItemize}
+\item {\ttfamily Forbidden\+Error} -\/ 禁止访问错误
+\item {\ttfamily Unauthorized\+Error} -\/ 未授权错误
+\item {\ttfamily Bad\+Request\+Error} -\/ 错误请求错误
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1037}{}\doxysection{\texorpdfstring{功能详解}{功能详解}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1037}
+\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1038}{}\doxysubsection{\texorpdfstring{错误类型检查 (is\+Node\+Error)}{错误类型检查 (is\+Node\+Error)}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1038}
+检查未知错误是否为 Node.\+js 系统错误：
+\begin{DoxyItemize}
+\item 验证错误对象具有 \textquotesingle{}code\textquotesingle{} 属性
+\item 用于安全地访问 Node.\+js 特定错误属性
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1039}{}\doxysubsection{\texorpdfstring{错误消息提取 (get\+Error\+Message)}{错误消息提取 (get\+Error\+Message)}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1039}
+安全地从任意错误对象中提取消息：
+\begin{DoxyItemize}
+\item 处理 Error 实例
+\item 处理字符串和其他类型
+\item 提供失败时的默认消息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1040}{}\doxysubsection{\texorpdfstring{友好错误转换 (to\+Friendly\+Error)}{友好错误转换 (to\+Friendly\+Error)}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1040}
+将 Gaxios 等 HTTP 客户端错误转换为特定错误类型：
+\begin{DoxyItemize}
+\item 400 错误转换为 Bad\+Request\+Error
+\item 401 错误转换为 Unauthorized\+Error
+\item 403 错误转换为 Forbidden\+Error
+\item 保持原始错误消息以提供详细信息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2utils_2errors_autotoc_md1041}{}\doxysubsection{\texorpdfstring{响应数据解析 (parse\+Response\+Data)}{响应数据解析 (parse\+Response\+Data)}}\label{md_packages_2core_2src_2utils_2errors_autotoc_md1041}
+解析 HTTP 响应数据：
+\begin{DoxyItemize}
+\item 处理字符串格式的 JSON 响应
+\item 兼容不同格式的响应数据
+\item 提取错误代码和消息 
+\end{DoxyItemize}

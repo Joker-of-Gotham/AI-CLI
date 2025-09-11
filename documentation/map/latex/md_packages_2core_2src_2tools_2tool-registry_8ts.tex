@@ -1,0 +1,89 @@
+\chapter{Tool Registry }
+\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts}{}\label{md_packages_2core_2src_2tools_2tool-registry_8ts}\index{Tool Registry@{Tool Registry}}
+\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md972}%
+\Hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md972}%
+
+
+This module manages the registration, discovery, and execution of tools in the Gemini CLI application, supporting both built-\/in tools and dynamically discovered tools from external sources.\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md973}{}\doxysection{\texorpdfstring{Core Classes}{Core Classes}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md973}
+\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md974}{}\doxysubsection{\texorpdfstring{Discovered\+Tool\+Invocation}{Discovered\+Tool\+Invocation}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md974}
+Implements Tool\+Invocation for tools discovered via command execution\+:
+\begin{DoxyItemize}
+\item Executes tools by spawning subprocesses with the configured tool call command
+\item Passes parameters via stdin as JSON
+\item Captures stdout, stderr, exit codes, and signals
+\item Returns comprehensive error information when tool execution fails
+\item Handles process lifecycle management and cleanup
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md975}{}\doxysubsection{\texorpdfstring{Discovered\+Tool}{Discovered\+Tool}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md975}
+Extends Base\+Declarative\+Tool for tools discovered via command execution\+:
+\begin{DoxyItemize}
+\item Automatically generates detailed descriptions including discovery and execution commands
+\item Registers discovered tools with the Kind.\+Other category
+\item Creates Discovered\+Tool\+Invocation instances for execution
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md976}{}\doxysubsection{\texorpdfstring{Tool\+Registry}{Tool\+Registry}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md976}
+Main class for managing all tools in the application\+:\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md977}{}\doxysubsubsection{\texorpdfstring{Tool Management}{Tool Management}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md977}
+
+\begin{DoxyItemize}
+\item {\ttfamily register\+Tool()}\+: Registers a tool definition, handling duplicates and overwrites
+\item {\ttfamily get\+Tool()}\+: Retrieves a specific tool by name
+\item {\ttfamily get\+All\+Tools()}\+: Returns all registered tools
+\item {\ttfamily get\+All\+Tool\+Names()}\+: Returns names of all registered tools
+\item {\ttfamily get\+Tools\+By\+Server()}\+: Returns tools registered from a specific MCP server
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md978}{}\doxysubsubsection{\texorpdfstring{Tool Discovery}{Tool Discovery}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md978}
+
+\begin{DoxyItemize}
+\item {\ttfamily discover\+All\+Tools()}\+: Discovers tools from both command line and MCP servers
+\item {\ttfamily discover\+Mcp\+Tools()}\+: Discovers tools only from MCP servers
+\item {\ttfamily discover\+Tools\+For\+Server()}\+: Discovers tools for a single MCP server
+\item {\ttfamily discover\+And\+Register\+Tools\+From\+Command()}\+: Internal method for command-\/based tool discovery
+\item {\ttfamily remove\+Discovered\+Tools()}\+: Removes previously discovered tools
+\item {\ttfamily remove\+Mcp\+Tools\+By\+Server()}\+: Removes all tools from a specific MCP server
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md979}{}\doxysubsubsection{\texorpdfstring{Schema Management}{Schema Management}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md979}
+
+\begin{DoxyItemize}
+\item {\ttfamily get\+Function\+Declarations()}\+: Retrieves all tool schemas as Function\+Declaration array
+\item {\ttfamily get\+Function\+Declarations\+Filtered()}\+: Retrieves filtered tool schemas by name
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md980}{}\doxysubsubsection{\texorpdfstring{MCP Integration}{MCP Integration}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md980}
+
+\begin{DoxyItemize}
+\item Integrates with Mcp\+Client\+Manager for MCP server communication
+\item Supports dynamic tool discovery from Model Calling Protocol servers
+\item Manages tool lifecycle for MCP servers including restarts
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md981}{}\doxysection{\texorpdfstring{Key Features}{Key Features}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md981}
+\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md982}{}\doxysubsection{\texorpdfstring{Dynamic Tool Discovery}{Dynamic Tool Discovery}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md982}
+
+\begin{DoxyItemize}
+\item Supports discovery of tools via external commands
+\item Parses JSON output from discovery commands
+\item Handles multiple tool declaration formats
+\item Enforces size limits on discovery command output
+\item Provides detailed error reporting for failed discoveries
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md983}{}\doxysubsection{\texorpdfstring{MCP Server Integration}{MCP Server Integration}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md983}
+
+\begin{DoxyItemize}
+\item Manages connections to multiple MCP servers
+\item Supports dynamic tool registration from MCP servers
+\item Handles server restarts and re-\/discovery
+\item Provides server-\/specific tool filtering
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md984}{}\doxysubsection{\texorpdfstring{Process Management}{Process Management}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md984}
+
+\begin{DoxyItemize}
+\item Safely executes external tool commands as subprocesses
+\item Implements proper resource cleanup and signal handling
+\item Captures comprehensive execution metadata
+\item Handles process errors, exit codes, and signals
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md985}{}\doxysubsection{\texorpdfstring{Error Handling}{Error Handling}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md985}
+
+\begin{DoxyItemize}
+\item Comprehensive error reporting for tool execution failures
+\item Size limit enforcement for tool output
+\item Graceful handling of malformed discovery output
+\item Detailed error information in tool results
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md986}{}\doxysection{\texorpdfstring{Dependencies}{Dependencies}}\label{md_packages_2core_2src_2tools_2tool-registry_8ts_autotoc_md986}
+
+\begin{DoxyItemize}
+\item Node.\+js child\+\_\+process for subprocess execution
+\item shell-\/quote for command parsing
+\item MCP client modules for server communication
+\item Safe JSON stringification utilities
+\item Configuration management 
+\end{DoxyItemize}

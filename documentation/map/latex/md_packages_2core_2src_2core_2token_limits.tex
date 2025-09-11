@@ -1,0 +1,20 @@
+\chapter{Token 限制管理 }
+\hypertarget{md_packages_2core_2src_2core_2token_limits}{}\label{md_packages_2core_2src_2core_2token_limits}\index{Token 限制管理@{Token 限制管理}}
+\label{md_packages_2core_2src_2core_2token_limits_autotoc_md619}%
+\Hypertarget{md_packages_2core_2src_2core_2token_limits_autotoc_md619}%
+
+
+Token 限制管理模块负责定义和管理不同 Gemini 模型的 token 限制。\hypertarget{md_packages_2core_2src_2core_2token_limits_autotoc_md620}{}\doxysection{\texorpdfstring{核心函数}{核心函数}}\label{md_packages_2core_2src_2core_2token_limits_autotoc_md620}
+\hypertarget{md_packages_2core_2src_2core_2token_limits_autotoc_md621}{}\doxysubsection{\texorpdfstring{token\+Limit()}{token\+Limit()}}\label{md_packages_2core_2src_2core_2token_limits_autotoc_md621}
+根据模型名称返回相应的 token 限制数量。
+
+支持的模型和对应的 token 限制：
+\begin{DoxyItemize}
+\item {\ttfamily gemini-\/1.\+5-\/pro}\+: 2,097,152 tokens
+\item {\ttfamily gemini-\/1.\+5-\/flash} 及相关变体\+: 1,048,576 tokens
+\item {\ttfamily gemini-\/2.\+0-\/flash-\/preview-\/image-\/generation}\+: 32,000 tokens
+\item 默认值\+: 1,048,576 tokens
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2core_2token_limits_autotoc_md622}{}\doxysection{\texorpdfstring{常量}{常量}}\label{md_packages_2core_2src_2core_2token_limits_autotoc_md622}
+\hypertarget{md_packages_2core_2src_2core_2token_limits_autotoc_md623}{}\doxysubsection{\texorpdfstring{DEFAULT\+\_\+\+TOKEN\+\_\+\+LIMIT}{DEFAULT\+\_\+\+TOKEN\+\_\+\+LIMIT}}\label{md_packages_2core_2src_2core_2token_limits_autotoc_md623}
+默认 token 限制值：1,048,576 tokens\hypertarget{md_packages_2core_2src_2core_2token_limits_autotoc_md624}{}\doxysection{\texorpdfstring{使用说明}{使用说明}}\label{md_packages_2core_2src_2core_2token_limits_autotoc_md624}
+该模块通过 {\ttfamily token\+Limit()} 函数为聊天压缩和其他需要了解模型容量的功能提供准确的 token 限制信息。这对于确保聊天历史不会超过模型处理能力至关重要。 

@@ -1,0 +1,54 @@
+\chapter{remove.\+ts }
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2remove_8ts}{}\label{md_packages_2cli_2src_2commands_2mcp_2remove_8ts}\index{remove.ts@{remove.ts}}
+\label{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md263}%
+\Hypertarget{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md263}%
+
+
+MCP 服务器移除命令，用于从配置中删除 MCP 服务器。\hypertarget{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md264}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md264}
+
+\begin{DoxyEnumerate}
+\item 从配置中移除指定的 MCP 服务器
+\item 支持用户和工作区作用域
+\item 提供确认反馈
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md265}{}\doxysection{\texorpdfstring{主要函数}{主要函数}}\label{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md265}
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md266}{}\doxysubsection{\texorpdfstring{remove\+Mcp\+Server(name\+: string, options\+: \{ scope\+: string \})}{remove\+Mcp\+Server(name\+: string, options\+: \{ scope\+: string \})}}\label{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md266}
+移除 MCP 服务器：
+\begin{DoxyItemize}
+\item 根据作用域加载相应设置
+\item 检查服务器是否存在
+\item 从配置中删除服务器
+\item 保存更新后的配置
+\item 提供操作反馈
+\end{DoxyItemize}
+
+参数：
+\begin{DoxyItemize}
+\item name\+: 要移除的服务器名称
+\item options.\+scope\+: 配置作用域（\textquotesingle{}user\textquotesingle{} 或 \textquotesingle{}project\textquotesingle{}）
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md267}{}\doxysubsection{\texorpdfstring{remove\+Command\+: Command\+Module}{remove\+Command\+: Command\+Module}}\label{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md267}
+Yargs 命令模块，定义 remove 子命令：
+\begin{DoxyItemize}
+\item command\+: \textquotesingle{}remove $<$name$>$\textquotesingle{}
+\item describe\+: \textquotesingle{}Remove a server\textquotesingle{}
+\item builder\+: 参数构建器
+\begin{DoxyItemize}
+\item name\+: 服务器名称（必需）
+\item scope\+: 配置作用域（默认为 \textquotesingle{}project\textquotesingle{}）
+\end{DoxyItemize}
+\item handler\+: 命令处理器，调用 remove\+Mcp\+Server 函数
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md268}{}\doxysection{\texorpdfstring{使用示例}{使用示例}}\label{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md268}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ 从项目设置中移除服务器}
+\DoxyCodeLine{gemini\ mcp\ remove\ my-\/server}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 从用户设置中移除服务器}
+\DoxyCodeLine{gemini\ mcp\ remove\ my-\/server\ -\/-\/scope\ user}
+
+\end{DoxyCode}
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md269}{}\doxysection{\texorpdfstring{错误处理}{错误处理}}\label{md_packages_2cli_2src_2commands_2mcp_2remove_8ts_autotoc_md269}
+
+\begin{DoxyItemize}
+\item 如果指定的服务器不存在，会显示相应提示信息
+\item 操作成功后会显示确认信息 
+\end{DoxyItemize}

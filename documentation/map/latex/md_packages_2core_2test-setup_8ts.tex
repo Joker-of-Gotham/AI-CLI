@@ -1,0 +1,24 @@
+\chapter{Core Test Setup }
+\hypertarget{md_packages_2core_2test-setup_8ts}{}\label{md_packages_2core_2test-setup_8ts}\index{Core Test Setup@{Core Test Setup}}
+\label{md_packages_2core_2test-setup_8ts_autotoc_md1057}%
+\Hypertarget{md_packages_2core_2test-setup_8ts_autotoc_md1057}%
+
+
+This module handles global test setup configurations for the core package. It ensures consistent test execution environment across different platforms and CI/\+CD systems.\hypertarget{md_packages_2core_2test-setup_8ts_autotoc_md1058}{}\doxysection{\texorpdfstring{Environment Configuration}{Environment Configuration}}\label{md_packages_2core_2test-setup_8ts_autotoc_md1058}
+The setup removes the {\ttfamily NO\+\_\+\+COLOR} environment variable to ensure consistent theme behavior between local and CI test runs\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{if\ (process.env.NO\_COLOR\ !==\ undefined)\ \{}
+\DoxyCodeLine{\ \ delete\ process.env.NO\_COLOR;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md_packages_2core_2test-setup_8ts_autotoc_md1059}{}\doxysection{\texorpdfstring{429 Simulation}{429 Simulation}}\label{md_packages_2core_2test-setup_8ts_autotoc_md1059}
+The setup disables 429 (rate limit) simulation globally for all tests\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{import\ \{\ setSimulate429\ \}\ from\ './src/utils/testUtils.js';}
+\DoxyCodeLine{setSimulate429(false);}
+
+\end{DoxyCode}
+
+
+This ensures that tests are not affected by artificial rate limiting during execution, providing more reliable and consistent test results. 

@@ -1,0 +1,33 @@
+\chapter{vitest.\+config.\+ts }
+\hypertarget{md_packages_2a2a-server_2vitest_8config_8ts}{}\label{md_packages_2a2a-server_2vitest_8config_8ts}\index{vitest.config.ts@{vitest.config.ts}}
+\label{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md163}%
+\Hypertarget{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md163}%
+\hypertarget{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md164}{}\doxysection{\texorpdfstring{概述}{概述}}\label{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md164}
+{\ttfamily vitest.\+config.\+ts} 是 a2a-\/server 包的 Vitest 测试配置文件。\+Vitest 是一个基于 Vite 的单元测试框架，这个配置文件定义了测试运行的参数和行为。\hypertarget{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md165}{}\doxysection{\texorpdfstring{配置详情}{配置详情}}\label{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md165}
+该配置文件导出一个 Vitest 配置对象，包含以下设置：\hypertarget{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md166}{}\doxysubsection{\texorpdfstring{测试报告器}{测试报告器}}\label{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md166}
+
+\begin{DoxyItemize}
+\item {\ttfamily reporters}\+: 配置测试报告器为默认报告器和 JUnit 报告器
+\begin{DoxyItemize}
+\item JUnit 报告器将测试结果输出到 {\ttfamily junit.\+xml} 文件
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md167}{}\doxysubsection{\texorpdfstring{测试行为}{测试行为}}\label{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md167}
+
+\begin{DoxyItemize}
+\item {\ttfamily pass\+With\+No\+Tests}\+: 允许在没有测试文件的情况下通过测试
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md168}{}\doxysubsection{\texorpdfstring{代码覆盖率}{代码覆盖率}}\label{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md168}
+
+\begin{DoxyItemize}
+\item {\ttfamily provider}\+: 使用 V8 作为覆盖率提供者
+\item {\ttfamily reports\+Directory}\+: 覆盖率报告输出到 {\ttfamily ./coverage} 目录
+\item {\ttfamily reporter}\+: 配置多种覆盖率报告格式：
+\begin{DoxyItemize}
+\item {\ttfamily text}\+: 文本摘要报告，输出到 {\ttfamily full-\/text-\/summary.\+txt}
+\item {\ttfamily html}\+: HTML 格式的详细报告
+\item {\ttfamily json}\+: JSON 格式的报告
+\item {\ttfamily lcov}\+: LCOV 格式的报告
+\item {\ttfamily cobertura}\+: Cobertura XML 格式的报告
+\item {\ttfamily json-\/summary}\+: JSON 摘要报告，输出到 {\ttfamily coverage-\/summary.\+json}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md169}{}\doxysection{\texorpdfstring{使用方式}{使用方式}}\label{md_packages_2a2a-server_2vitest_8config_8ts_autotoc_md169}
+该配置文件会被 Vitest 自动加载，用于配置测试运行环境。当运行 {\ttfamily npm test} 或 {\ttfamily vitest} 命令时，会使用此配置来执行测试和生成报告。 

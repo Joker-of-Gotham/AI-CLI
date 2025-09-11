@@ -1,0 +1,67 @@
+\chapter{config.\+ts }
+\hypertarget{md_packages_2cli_2src_2config_2config_8ts}{}\label{md_packages_2cli_2src_2config_2config_8ts}\index{config.ts@{config.ts}}
+\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md277}%
+\Hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md277}%
+
+
+配置管理模块，负责处理 CLI 的配置和命令行参数解析。\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md278}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md278}
+
+\begin{DoxyEnumerate}
+\item 命令行参数解析
+\item 配置加载和合并
+\item 内存管理配置
+\item MCP 服务器配置
+\item 工具排除和包含设置
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md279}{}\doxysection{\texorpdfstring{主要接口}{主要接口}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md279}
+\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md280}{}\doxysubsection{\texorpdfstring{Cli\+Args}{Cli\+Args}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md280}
+定义所有支持的命令行参数：
+\begin{DoxyItemize}
+\item model\+: 指定使用的模型
+\item sandbox\+: 沙箱模式开关
+\item debug\+: 调试模式开关
+\item prompt\+: 提示文本
+\item all\+Files\+: 包含所有文件
+\item approval\+Mode\+: 审批模式设置
+\item telemetry\+: 遥测功能开关
+\item extensions\+: 扩展列表
+\item list\+Extensions\+: 列出所有扩展
+\item screen\+Reader\+: 屏幕阅读器模式
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md281}{}\doxysection{\texorpdfstring{主要函数}{主要函数}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md281}
+\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md282}{}\doxysubsection{\texorpdfstring{parse\+Arguments(settings\+: Settings)\+: Promise$<$\+Cli\+Args$>$}{parse\+Arguments(settings\+: Settings)\+: Promise$<$\+Cli\+Args$>$}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md282}
+解析命令行参数并返回配置对象：
+\begin{DoxyItemize}
+\item 使用 yargs 库处理命令行参数
+\item 定义命令和选项
+\item 注册 MCP 和扩展子命令
+\item 处理参数验证和冲突检查
+\item 支持版本和帮助信息显示
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md283}{}\doxysubsection{\texorpdfstring{load\+Hierarchical\+Gemini\+Memory()}{load\+Hierarchical\+Gemini\+Memory()}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md283}
+加载分层的 Gemini 内存内容：
+\begin{DoxyItemize}
+\item 处理当前工作目录
+\item 支持包含目录
+\item 调试模式支持
+\item 文件服务集成
+\item 扩展上下文文件处理
+\item 文件过滤选项
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md284}{}\doxysubsection{\texorpdfstring{load\+Cli\+Config(settings, extensions, session\+Id, argv, cwd)}{load\+Cli\+Config(settings, extensions, session\+Id, argv, cwd)}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md284}
+加载 CLI 配置：
+\begin{DoxyItemize}
+\item 合并设置、扩展和命令行参数
+\item 处理认证和安全设置
+\item 配置 MCP 服务器
+\item 设置工具排除列表
+\item 配置遥测和代理设置
+\item 初始化 Config 对象
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md285}{}\doxysection{\texorpdfstring{辅助函数}{辅助函数}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md285}
+\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md286}{}\doxysubsection{\texorpdfstring{allowed\+Mcp\+Servers()}{allowed\+Mcp\+Servers()}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md286}
+过滤允许的 MCP 服务器。\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md287}{}\doxysubsection{\texorpdfstring{merge\+Mcp\+Servers()}{merge\+Mcp\+Servers()}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md287}
+合并 MCP 服务器配置。\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md288}{}\doxysubsection{\texorpdfstring{merge\+Exclude\+Tools()}{merge\+Exclude\+Tools()}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md288}
+合并排除工具列表。\hypertarget{md_packages_2cli_2src_2config_2config_8ts_autotoc_md289}{}\doxysection{\texorpdfstring{常量}{常量}}\label{md_packages_2cli_2src_2config_2config_8ts_autotoc_md289}
+
+\begin{DoxyItemize}
+\item 支持的命令行选项和别名
+\item 参数验证规则
+\item 默认值设置
+\item 弃用选项警告 
+\end{DoxyItemize}

@@ -1,0 +1,136 @@
+\chapter{App\+Container.\+tsx }
+\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx}{}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx}\index{AppContainer.tsx@{AppContainer.tsx}}
+\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md418}%
+\Hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md418}%
+
+
+应用程序容器组件，是 Gemini CLI UI 的根组件，负责管理应用程序状态和上下文。\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md419}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md419}
+
+\begin{DoxyEnumerate}
+\item 应用程序状态管理
+\item UI 上下文提供
+\item 命令处理
+\item 键盘事件处理
+\item 组件协调
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md420}{}\doxysection{\texorpdfstring{主要功能模块}{主要功能模块}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md420}
+\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md421}{}\doxysubsection{\texorpdfstring{状态管理}{状态管理}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md421}
+
+\begin{DoxyItemize}
+\item 使用 React Context API 提供应用状态
+\item 管理历史记录、认证状态、主题等
+\item 处理用户输入和缓冲区
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md422}{}\doxysubsection{\texorpdfstring{UI 上下文}{UI 上下文}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md422}
+
+\begin{DoxyItemize}
+\item UIState\+Context\+: 提供 UI 状态
+\item UIActions\+Context\+: 提供 UI 操作
+\item Config\+Context\+: 提供配置信息
+\item App\+Context\+: 提供应用基本信息
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md423}{}\doxysubsection{\texorpdfstring{命令处理}{命令处理}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md423}
+
+\begin{DoxyItemize}
+\item 使用 use\+Slash\+Command\+Processor 处理斜杠命令
+\item 集成历史记录管理
+\item 处理工具调用确认
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md424}{}\doxysubsection{\texorpdfstring{键盘事件处理}{键盘事件处理}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md424}
+
+\begin{DoxyItemize}
+\item 全局键盘事件监听
+\item 快捷键处理
+\item Vim 模式支持
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md425}{}\doxysection{\texorpdfstring{主要 Hook}{主要 Hook}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md425}
+\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md426}{}\doxysubsection{\texorpdfstring{状态 Hooks}{状态 Hooks}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md426}
+
+\begin{DoxyItemize}
+\item use\+History\+: 管理对话历史
+\item use\+Theme\+Command\+: 处理主题命令
+\item use\+Auth\+Command\+: 处理认证命令
+\item use\+Editor\+Settings\+: 处理编辑器设置
+\item use\+Settings\+Command\+: 处理设置命令
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md427}{}\doxysubsection{\texorpdfstring{工具 Hooks}{工具 Hooks}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md427}
+
+\begin{DoxyItemize}
+\item use\+Console\+Messages\+: 管理控制台消息
+\item use\+Terminal\+Size\+: 获取终端尺寸
+\item use\+Gemini\+Stream\+: 处理 Gemini 流响应
+\item use\+Message\+Queue\+: 管理消息队列
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md428}{}\doxysubsection{\texorpdfstring{特殊功能 Hooks}{特殊功能 Hooks}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md428}
+
+\begin{DoxyItemize}
+\item use\+Folder\+Trust\+: 处理文件夹信任
+\item use\+Auto\+Accept\+Indicator\+: 显示自动接受指示器
+\item use\+Workspace\+Migration\+: 处理工作区迁移
+\item use\+Session\+Stats\+: 管理会话统计
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md429}{}\doxysection{\texorpdfstring{主要状态变量}{主要状态变量}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md429}
+\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md430}{}\doxysubsection{\texorpdfstring{应用状态}{应用状态}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md430}
+
+\begin{DoxyItemize}
+\item corgi\+Mode\+: Corgi 模式开关
+\item debug\+Message\+: 调试消息
+\item quitting\+Messages\+: 退出消息
+\item show\+Privacy\+Notice\+: 显示隐私声明
+\item is\+Processing\+: 处理状态
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md431}{}\doxysubsection{\texorpdfstring{认证相关}{认证相关}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md431}
+
+\begin{DoxyItemize}
+\item auth\+State\+: 认证状态
+\item auth\+Error\+: 认证错误
+\item is\+Trusted\+Folder\+: 文件夹信任状态
+\item user\+Tier\+: 用户层级
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md432}{}\doxysubsection{\texorpdfstring{UI 状态}{UI 状态}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md432}
+
+\begin{DoxyItemize}
+\item theme\+Error\+: 主题错误
+\item is\+Theme\+Dialog\+Open\+: 主题对话框开启状态
+\item is\+Auth\+Dialog\+Open\+: 认证对话框开启状态
+\item is\+Editor\+Dialog\+Open\+: 编辑器对话框开启状态
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md433}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md433}
+\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md434}{}\doxysubsection{\texorpdfstring{初始化处理}{初始化处理}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md434}
+
+\begin{DoxyItemize}
+\item 执行应用程序初始化
+\item 处理初始提示
+\item 设置认证状态
+\item 加载用户消息历史
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md435}{}\doxysubsection{\texorpdfstring{输入处理}{输入处理}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md435}
+
+\begin{DoxyItemize}
+\item 文本缓冲区管理
+\item 提交处理
+\item 取消处理
+\item 清屏处理
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md436}{}\doxysubsection{\texorpdfstring{命令处理}{命令处理}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md436}
+
+\begin{DoxyItemize}
+\item 斜杠命令处理
+\item 工具调用确认
+\item 内存刷新
+\item 模型切换
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md437}{}\doxysubsection{\texorpdfstring{键盘快捷键}{键盘快捷键}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md437}
+
+\begin{DoxyItemize}
+\item 显示错误详情 (Ctrl+E)
+\item 切换工具描述 (Ctrl+T)
+\item 退出应用 (Ctrl+\+C/\+Ctrl+D)
+\item 显示更多行 (Ctrl+L)
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md438}{}\doxysection{\texorpdfstring{组件结构}{组件结构}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md438}
+\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md439}{}\doxysubsection{\texorpdfstring{上下文提供者}{上下文提供者}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md439}
+
+\begin{DoxyItemize}
+\item UIState\+Context.\+Provider
+\item UIActions\+Context.\+Provider
+\item Config\+Context.\+Provider
+\item App\+Context.\+Provider
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md440}{}\doxysubsection{\texorpdfstring{子组件}{子组件}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md440}
+
+\begin{DoxyItemize}
+\item App\+: 主应用程序组件
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md441}{}\doxysection{\texorpdfstring{生命周期}{生命周期}}\label{md_packages_2cli_2src_2ui_2_app_container_8tsx_autotoc_md441}
+
+\begin{DoxyEnumerate}
+\item 组件挂载时注册清理函数
+\item 监听配置变化
+\item 处理初始提示提交
+\item 管理状态更新
+\item 组件卸载时执行清理 
+\end{DoxyEnumerate}

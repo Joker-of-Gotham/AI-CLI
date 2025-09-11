@@ -1,0 +1,167 @@
+\chapter{遥测事件类型 (types.\+ts) }
+\hypertarget{md_packages_2core_2src_2telemetry_2types}{}\label{md_packages_2core_2src_2telemetry_2types}\index{遥测事件类型 (types.ts)@{遥测事件类型 (types.ts)}}
+\label{md_packages_2core_2src_2telemetry_2types_autotoc_md879}%
+\Hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md879}%
+
+
+遥测事件类型定义了系统中所有可能的遥测事件结构。\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md880}{}\doxysection{\texorpdfstring{基础类型}{基础类型}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md880}
+\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md881}{}\doxysubsection{\texorpdfstring{Base\+Telemetry\+Event}{Base\+Telemetry\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md881}
+所有遥测事件的基础接口：
+\begin{DoxyItemize}
+\item {\ttfamily event.\+name} -\/ 事件名称
+\item {\ttfamily event.\+timestamp} -\/ 事件时间戳
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md882}{}\doxysection{\texorpdfstring{核心事件类型}{核心事件类型}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md882}
+\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md883}{}\doxysubsection{\texorpdfstring{Start\+Session\+Event}{Start\+Session\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md883}
+会话开始事件，记录 CLI 配置信息：
+\begin{DoxyItemize}
+\item 模型设置
+\item 嵌入模型
+\item 沙箱配置
+\item 核心工具状态
+\item 审批模式
+\item 认证设置
+\item 调试模式
+\item MCP 服务器和工具信息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md884}{}\doxysubsection{\texorpdfstring{End\+Session\+Event}{End\+Session\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md884}
+会话结束事件：
+\begin{DoxyItemize}
+\item 会话\+ID
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md885}{}\doxysubsection{\texorpdfstring{User\+Prompt\+Event}{User\+Prompt\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md885}
+用户提示事件：
+\begin{DoxyItemize}
+\item 提示长度
+\item 提示\+ID
+\item 认证类型
+\item 提示内容（可选）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md886}{}\doxysubsection{\texorpdfstring{Tool\+Call\+Event}{Tool\+Call\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md886}
+工具调用事件：
+\begin{DoxyItemize}
+\item 工具名称
+\item 调用参数
+\item 执行时间
+\item 成功状态
+\item 调用决策
+\item 错误信息
+\item 工具类型
+\item 元数据（如文件差异统计）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md887}{}\doxysubsection{\texorpdfstring{Api\+Request\+Event}{Api\+Request\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md887}
+API 请求事件：
+\begin{DoxyItemize}
+\item 模型名称
+\item 提示\+ID
+\item 请求文本
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md888}{}\doxysubsection{\texorpdfstring{Api\+Error\+Event}{Api\+Error\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md888}
+API 错误事件：
+\begin{DoxyItemize}
+\item 模型名称
+\item 错误信息
+\item 错误类型
+\item 状态码
+\item 执行时间
+\item 提示\+ID
+\item 认证类型
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md889}{}\doxysubsection{\texorpdfstring{Api\+Response\+Event}{Api\+Response\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md889}
+API 响应事件：
+\begin{DoxyItemize}
+\item 模型名称
+\item 状态码
+\item 执行时间
+\item 错误信息
+\item Token 使用统计
+\item 响应文本
+\item 提示\+ID
+\item 认证类型
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md890}{}\doxysubsection{\texorpdfstring{Flash\+Fallback\+Event}{Flash\+Fallback\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md890}
+Flash 降级事件：
+\begin{DoxyItemize}
+\item 认证类型
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md891}{}\doxysection{\texorpdfstring{特殊事件类型}{特殊事件类型}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md891}
+\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md892}{}\doxysubsection{\texorpdfstring{Loop\+Detected\+Event}{Loop\+Detected\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md892}
+循环检测事件：
+\begin{DoxyItemize}
+\item 循环类型（连续相同工具调用、重复句子、\+LLM检测到的循环）
+\item 提示\+ID
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md893}{}\doxysubsection{\texorpdfstring{Next\+Speaker\+Check\+Event}{Next\+Speaker\+Check\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md893}
+下一位发言者检查事件：
+\begin{DoxyItemize}
+\item 提示\+ID
+\item 结束原因
+\item 检查结果
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md894}{}\doxysubsection{\texorpdfstring{Slash\+Command\+Event}{Slash\+Command\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md894}
+斜杠命令事件：
+\begin{DoxyItemize}
+\item 命令名称
+\item 子命令
+\item 执行状态
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md895}{}\doxysubsection{\texorpdfstring{Chat\+Compression\+Event}{Chat\+Compression\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md895}
+聊天压缩事件：
+\begin{DoxyItemize}
+\item 压缩前 Token 数量
+\item 压缩后 Token 数量
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md896}{}\doxysubsection{\texorpdfstring{File\+Operation\+Event}{File\+Operation\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md896}
+文件操作事件：
+\begin{DoxyItemize}
+\item 工具名称
+\item 操作类型
+\item 行数
+\item MIME 类型
+\item 文件扩展名
+\item 编程语言
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md897}{}\doxysection{\texorpdfstring{IDE 相关事件}{IDE 相关事件}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md897}
+\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md898}{}\doxysubsection{\texorpdfstring{Ide\+Connection\+Event}{Ide\+Connection\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md898}
+IDE 连接事件：
+\begin{DoxyItemize}
+\item 连接类型（启动、会话）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md899}{}\doxysection{\texorpdfstring{会话结束事件}{会话结束事件}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md899}
+\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md900}{}\doxysubsection{\texorpdfstring{Conversation\+Finished\+Event}{Conversation\+Finished\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md900}
+对话完成事件：
+\begin{DoxyItemize}
+\item 审批模式
+\item 对话轮次计数
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md901}{}\doxysection{\texorpdfstring{错误处理事件}{错误处理事件}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md901}
+\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md902}{}\doxysubsection{\texorpdfstring{Kitty\+Sequence\+Overflow\+Event}{Kitty\+Sequence\+Overflow\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md902}
+Kitty 序列溢出事件：
+\begin{DoxyItemize}
+\item 序列长度
+\item 截断序列（前20个字符）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md903}{}\doxysubsection{\texorpdfstring{Malformed\+Json\+Response\+Event}{Malformed\+Json\+Response\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md903}
+格式错误的 JSON 响应事件：
+\begin{DoxyItemize}
+\item 模型名称
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md904}{}\doxysubsection{\texorpdfstring{Invalid\+Chunk\+Event}{Invalid\+Chunk\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md904}
+无效数据块事件：
+\begin{DoxyItemize}
+\item 错误消息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md905}{}\doxysubsection{\texorpdfstring{Content\+Retry\+Event}{Content\+Retry\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md905}
+内容重试事件：
+\begin{DoxyItemize}
+\item 尝试次数
+\item 错误类型
+\item 重试延迟
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md906}{}\doxysubsection{\texorpdfstring{Content\+Retry\+Failure\+Event}{Content\+Retry\+Failure\+Event}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md906}
+内容重试失败事件：
+\begin{DoxyItemize}
+\item 总尝试次数
+\item 最终错误类型
+\item 总耗时
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md907}{}\doxysection{\texorpdfstring{枚举类型}{枚举类型}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md907}
+\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md908}{}\doxysubsection{\texorpdfstring{Loop\+Type}{Loop\+Type}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md908}
+循环类型枚举：
+\begin{DoxyItemize}
+\item {\ttfamily CONSECUTIVE\+\_\+\+IDENTICAL\+\_\+\+TOOL\+\_\+\+CALLS} -\/ 连续相同工具调用
+\item {\ttfamily CHANTING\+\_\+\+IDENTICAL\+\_\+\+SENTENCES} -\/ 重复相同句子
+\item {\ttfamily LLM\+\_\+\+DETECTED\+\_\+\+LOOP} -\/ LLM 检测到的循环
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md909}{}\doxysubsection{\texorpdfstring{Slash\+Command\+Status}{Slash\+Command\+Status}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md909}
+斜杠命令状态枚举：
+\begin{DoxyItemize}
+\item {\ttfamily SUCCESS} -\/ 成功
+\item {\ttfamily ERROR} -\/ 错误
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md910}{}\doxysubsection{\texorpdfstring{Ide\+Connection\+Type}{Ide\+Connection\+Type}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md910}
+IDE 连接类型枚举：
+\begin{DoxyItemize}
+\item {\ttfamily START} -\/ 启动连接
+\item {\ttfamily SESSION} -\/ 会话连接
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md911}{}\doxysection{\texorpdfstring{工具函数}{工具函数}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md911}
+\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md912}{}\doxysubsection{\texorpdfstring{make\+Slash\+Command\+Event()}{make\+Slash\+Command\+Event()}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md912}
+创建斜杠命令事件的工厂函数\hypertarget{md_packages_2core_2src_2telemetry_2types_autotoc_md913}{}\doxysubsection{\texorpdfstring{make\+Chat\+Compression\+Event()}{make\+Chat\+Compression\+Event()}}\label{md_packages_2core_2src_2telemetry_2types_autotoc_md913}
+创建聊天压缩事件的工厂函数 

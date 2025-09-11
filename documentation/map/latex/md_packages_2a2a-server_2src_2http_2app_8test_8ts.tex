@@ -1,0 +1,79 @@
+\chapter{app.\+test.\+ts }
+\hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts}{}\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts}\index{app.test.ts@{app.test.ts}}
+\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md79}%
+\Hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md79}%
+\hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md80}{}\doxysection{\texorpdfstring{概述}{概述}}\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md80}
+{\ttfamily \doxylink{app_8test_8ts}{app.\+test.\+ts}} 是 a2a-\/server 包中 HTTP 应用的端到端测试文件。该文件使用 Vitest 测试框架和 Supertest 库来测试 Express 应用的功能，包括任务创建、状态更新和工具调用处理。\hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md81}{}\doxysection{\texorpdfstring{测试内容}{测试内容}}\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md81}
+\hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md82}{}\doxysubsection{\texorpdfstring{E2E 测试套件}{E2E 测试套件}}\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md82}
+该文件包含多个端到端测试，验证应用的核心功能：
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{基本任务创建和状态流测试}}\+:
+\begin{DoxyItemize}
+\item 创建新任务并通过 SSE 流接收状态更新
+\item 验证文本内容事件和最终的输入请求状态
+\end{DoxyItemize}
+\item {\bfseries{工具调用和审批流程测试}}\+:
+\begin{DoxyItemize}
+\item 测试单个工具调用的调度和审批等待
+\item 验证工具调用更新事件的正确性
+\end{DoxyItemize}
+\item {\bfseries{多个工具调用测试}}\+:
+\begin{DoxyItemize}
+\item 测试单轮中多个工具调用的处理
+\item 验证每个工具调用的状态更新序列
+\end{DoxyItemize}
+\item {\bfseries{无需审批的工具调用测试}}\+:
+\begin{DoxyItemize}
+\item 测试自动执行的工具调用流程
+\item 验证从调度到执行完成的完整状态流
+\end{DoxyItemize}
+\item {\bfseries{YOLO 模式测试}}\+:
+\begin{DoxyItemize}
+\item 测试绕过工具审批的 YOLO 模式
+\item 验证工具调用的自动执行流程
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md83}{}\doxysubsection{\texorpdfstring{端点测试套件}{端点测试套件}}\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md83}
+另一个测试套件专注于验证 HTTP 端点：
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{任务创建端点}} ({\ttfamily POST /tasks})\+:
+\begin{DoxyItemize}
+\item 验证任务创建功能和返回的任务 ID
+\end{DoxyItemize}
+\item {\bfseries{任务元数据获取端点}} ({\ttfamily GET /tasks/\+:task\+Id/metadata})\+:
+\begin{DoxyItemize}
+\item 验证特定任务元数据的获取
+\end{DoxyItemize}
+\item {\bfseries{所有任务元数据获取端点}} ({\ttfamily GET /tasks/metadata})\+:
+\begin{DoxyItemize}
+\item 验证所有任务元数据的获取
+\end{DoxyItemize}
+\item {\bfseries{不存在任务的处理}}\+:
+\begin{DoxyItemize}
+\item 验证对不存在任务的正确错误响应
+\end{DoxyItemize}
+\item {\bfseries{代理卡元数据端点}} ({\ttfamily GET /.well-\/known/agent-\/card.\+json})\+:
+\begin{DoxyItemize}
+\item 验证代理元数据的正确返回
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md84}{}\doxysection{\texorpdfstring{使用的技术}{使用的技术}}\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md84}
+
+\begin{DoxyItemize}
+\item {\bfseries{Vitest}}\+: 测试框架，提供测试结构和断言
+\item {\bfseries{Supertest}}\+: HTTP 测试库，用于测试 Express 应用
+\item {\bfseries{Mocking}}\+: 大量使用 {\ttfamily vi.\+mock()} 和 {\ttfamily vi.\+fn()} 来模拟依赖模块
+\item {\bfseries{SSE (Server-\/\+Sent Events)}}\+: 测试实时状态更新流
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md85}{}\doxysection{\texorpdfstring{依赖模块}{依赖模块}}\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md85}
+
+\begin{DoxyItemize}
+\item {\ttfamily @google/gemini-\/cli-\/core}\+: 核心功能和类型
+\item {\ttfamily @a2a-\/js/sdk}\+: SDK 类型和功能
+\item {\ttfamily express}\+: Express 应用类型
+\item {\ttfamily supertest}\+: HTTP 测试库
+\item {\ttfamily ../utils/testing\+\_\+utils.js}\+: 测试工具函数
+\item {\ttfamily ../config/config.js}\+: 配置模块
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md86}{}\doxysection{\texorpdfstring{测试策略}{测试策略}}\label{md_packages_2a2a-server_2src_2http_2app_8test_8ts_autotoc_md86}
+该测试文件采用端到端测试策略，模拟真实的 API 调用场景，验证整个应用的数据流和状态转换。通过模拟外部依赖，专注于测试应用本身的逻辑和行为。 

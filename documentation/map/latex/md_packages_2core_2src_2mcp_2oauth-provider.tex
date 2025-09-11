@@ -1,0 +1,129 @@
+\chapter{MCP OAuth 提供者 (MCPOAuth\+Provider) }
+\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider}{}\label{md_packages_2core_2src_2mcp_2oauth-provider}\index{MCP OAuth 提供者 (MCPOAuthProvider)@{MCP OAuth 提供者 (MCPOAuthProvider)}}
+\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md668}%
+\Hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md668}%
+
+
+MCP OAuth 提供者负责处理与 MCP 服务器的 OAuth 认证流程。\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md669}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md669}
+
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+OAuth 认证\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：执行完整的 OAuth 授权码流程
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}令牌管理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：获取、刷新和存储访问令牌
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}动态注册\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：支持动态客户端注册
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+PKCE 支持\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：使用 PKCE 增强安全性
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md670}{}\doxysection{\texorpdfstring{核心组件}{核心组件}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md670}
+\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md671}{}\doxysubsection{\texorpdfstring{MCPOAuth\+Config}{MCPOAuth\+Config}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md671}
+OAuth 配置接口：
+\begin{DoxyItemize}
+\item {\ttfamily enabled} -\/ 是否启用 OAuth
+\item {\ttfamily client\+Id} -\/ 客户端 ID
+\item {\ttfamily client\+Secret} -\/ 客户端密钥
+\item {\ttfamily authorization\+Url} -\/ 授权 URL
+\item {\ttfamily token\+Url} -\/ 令牌 URL
+\item {\ttfamily scopes} -\/ 请求的作用域
+\item {\ttfamily audiences} -\/ 请求的受众
+\item {\ttfamily redirect\+Uri} -\/ 重定向 URI
+\item {\ttfamily token\+Param\+Name} -\/ SSE 连接的令牌参数名
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md672}{}\doxysection{\texorpdfstring{核心方法}{核心方法}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md672}
+\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md673}{}\doxysubsection{\texorpdfstring{authenticate()}{authenticate()}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md673}
+执行完整的 OAuth 认证流程：
+\begin{DoxyEnumerate}
+\item OAuth 发现（如果需要）
+\item 动态客户端注册（如果没有客户端 ID）
+\item 生成 PKCE 参数
+\item 构建授权 URL
+\item 启动回调服务器
+\item 打开浏览器进行认证
+\item 等待回调并交换令牌
+\item 保存令牌
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md674}{}\doxysubsection{\texorpdfstring{get\+Valid\+Token()}{get\+Valid\+Token()}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md674}
+获取有效的访问令牌：
+\begin{DoxyItemize}
+\item 检查存储的令牌是否有效
+\item 如果过期则刷新令牌
+\item 返回有效的访问令牌
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md675}{}\doxysubsection{\texorpdfstring{refresh\+Access\+Token()}{refresh\+Access\+Token()}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md675}
+刷新访问令牌：
+\begin{DoxyItemize}
+\item 使用刷新令牌获取新令牌
+\item 更新存储的令牌信息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md676}{}\doxysection{\texorpdfstring{认证流程}{认证流程}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md676}
+\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md677}{}\doxysubsection{\texorpdfstring{OAuth 发现}{OAuth 发现}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md677}
+支持多种 OAuth 发现方式：
+\begin{DoxyItemize}
+\item 标准 MCP OAuth 发现
+\item 从 WWW-\/\+Authenticate 头发现
+\item 手动配置
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md678}{}\doxysubsection{\texorpdfstring{动态客户端注册}{动态客户端注册}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md678}
+支持动态客户端注册：
+\begin{DoxyItemize}
+\item 向授权服务器注册客户端
+\item 获取客户端凭据
+\item 自动处理注册过程
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md679}{}\doxysubsection{\texorpdfstring{PKCE 流程}{PKCE 流程}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md679}
+使用 PKCE 增强安全性：
+\begin{DoxyItemize}
+\item 生成代码验证器和挑战
+\item 创建随机状态参数
+\item 防止 CSRF 攻击
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md680}{}\doxysection{\texorpdfstring{令牌管理}{令牌管理}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md680}
+\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md681}{}\doxysubsection{\texorpdfstring{令牌存储}{令牌存储}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md681}
+使用 MCPOAuth\+Token\+Storage 存储令牌：
+\begin{DoxyItemize}
+\item 持久化存储访问令牌
+\item 安全存储刷新令牌
+\item 管理令牌过期时间
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md682}{}\doxysubsection{\texorpdfstring{令牌刷新}{令牌刷新}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md682}
+自动刷新过期令牌：
+\begin{DoxyItemize}
+\item 检测令牌过期
+\item 使用刷新令牌获取新令牌
+\item 更新存储的令牌信息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md683}{}\doxysection{\texorpdfstring{用户交互}{用户交互}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md683}
+\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md684}{}\doxysubsection{\texorpdfstring{浏览器打开}{浏览器打开}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md684}
+安全地打开浏览器进行认证：
+\begin{DoxyItemize}
+\item 使用安全的浏览器启动器
+\item 提供手动复制 URL 的选项
+\item 显示友好的用户指导
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md685}{}\doxysubsection{\texorpdfstring{回调处理}{回调处理}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md685}
+处理 OAuth 回调：
+\begin{DoxyItemize}
+\item 启动本地 HTTP 服务器
+\item 验证状态参数
+\item 处理错误情况
+\item 超时处理
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md686}{}\doxysection{\texorpdfstring{错误处理}{错误处理}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md686}
+\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md687}{}\doxysubsection{\texorpdfstring{认证错误}{认证错误}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md687}
+处理各种认证错误：
+\begin{DoxyItemize}
+\item 授权错误
+\item 令牌交换错误
+\item 网络错误
+\item 配置错误
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md688}{}\doxysubsection{\texorpdfstring{用户友好错误}{用户友好错误}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md688}
+提供用户友好的错误信息：
+\begin{DoxyItemize}
+\item 清晰的错误描述
+\item 建议的解决方案
+\item 详细的调试信息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md689}{}\doxysection{\texorpdfstring{安全特性}{安全特性}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md689}
+\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md690}{}\doxysubsection{\texorpdfstring{CSRF 保护}{CSRF 保护}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md690}
+使用状态参数防止 CSRF 攻击：
+\begin{DoxyItemize}
+\item 生成随机状态值
+\item 验证回调中的状态
+\item 拒绝不匹配的状态
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md691}{}\doxysubsection{\texorpdfstring{PKCE 保护}{PKCE 保护}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md691}
+使用 PKCE 防止授权码拦截：
+\begin{DoxyItemize}
+\item 生成代码验证器
+\item 计算代码挑战
+\item 在令牌交换中使用验证器
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md692}{}\doxysubsection{\texorpdfstring{安全存储}{安全存储}}\label{md_packages_2core_2src_2mcp_2oauth-provider_autotoc_md692}
+安全存储敏感信息：
+\begin{DoxyItemize}
+\item 令牌加密存储
+\item 刷新令牌安全处理
+\item 避免内存中的敏感数据泄露 
+\end{DoxyItemize}

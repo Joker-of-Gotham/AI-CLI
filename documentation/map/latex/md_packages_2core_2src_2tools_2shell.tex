@@ -1,0 +1,66 @@
+\chapter{Shell\+Tool 类 }
+\hypertarget{md_packages_2core_2src_2tools_2shell}{}\label{md_packages_2core_2src_2tools_2shell}\index{ShellTool 类@{ShellTool 类}}
+\label{md_packages_2core_2src_2tools_2shell_autotoc_md960}%
+\Hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md960}%
+
+
+Shell\+Tool 是一个用于执行 shell 命令的工具实现。\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md961}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md961}
+
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}命令执行\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：执行 shell 命令
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}流式输出\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：实时流式输出命令结果
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}安全确认\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：对敏感命令进行确认
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}路径验证\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：验证执行目录
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}遥测记录\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：记录命令执行的遥测数据
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md962}{}\doxysection{\texorpdfstring{核心组件}{核心组件}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md962}
+\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md963}{}\doxysubsection{\texorpdfstring{Shell\+Tool\+Params 接口}{Shell\+Tool\+Params 接口}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md963}
+定义工具参数：
+\begin{DoxyItemize}
+\item {\ttfamily command} -\/ 要执行的命令（必需）
+\item {\ttfamily description} -\/ 命令描述（可选）
+\item {\ttfamily directory} -\/ 执行目录（可选）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md964}{}\doxysubsection{\texorpdfstring{Shell\+Tool 类}{Shell\+Tool 类}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md964}
+继承自 {\ttfamily Base\+Declarative\+Tool}，实现 shell 命令执行功能：
+\begin{DoxyItemize}
+\item {\ttfamily Name} -\/ 工具名称：\textquotesingle{}run\+\_\+shell\+\_\+command\textquotesingle{}
+\item {\ttfamily validate\+Tool\+Param\+Values()} -\/ 验证参数值
+\item {\ttfamily create\+Invocation()} -\/ 创建工具调用实例
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md965}{}\doxysubsection{\texorpdfstring{Shell\+Tool\+Invocation 类}{Shell\+Tool\+Invocation 类}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md965}
+实现具体的命令执行逻辑：
+\begin{DoxyItemize}
+\item {\ttfamily get\+Description()} -\/ 获取命令描述
+\item {\ttfamily should\+Confirm\+Execute()} -\/ 确定是否需要确认执行
+\item {\ttfamily execute()} -\/ 执行 shell 命令
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md966}{}\doxysection{\texorpdfstring{特殊功能}{特殊功能}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md966}
+\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md967}{}\doxysubsection{\texorpdfstring{流式输出处理}{流式输出处理}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md967}
+支持实时输出命令执行结果：
+\begin{DoxyItemize}
+\item 定期更新输出（默认每秒）
+\item 检测二进制输出并适当处理
+\item 支持 ANSI 转义序列清理
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md968}{}\doxysubsection{\texorpdfstring{跨平台支持}{跨平台支持}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md968}
+支持不同操作系统的命令执行：
+\begin{DoxyItemize}
+\item Windows：使用 {\ttfamily cmd.\+exe /c}
+\item 其他系统：使用 {\ttfamily bash -\/c}
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md969}{}\doxysubsection{\texorpdfstring{进程管理}{进程管理}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md969}
+完善的进程管理功能：
+\begin{DoxyItemize}
+\item 支持后台进程启动
+\item 正确处理进程组终止
+\item 优雅处理用户取消
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md970}{}\doxysubsection{\texorpdfstring{安全机制}{安全机制}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md970}
+多层安全保护：
+\begin{DoxyItemize}
+\item 命令白名单机制
+\item 敏感命令确认
+\item 目录限制
+\item 路径验证
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2shell_autotoc_md971}{}\doxysubsection{\texorpdfstring{遥测集成}{遥测集成}}\label{md_packages_2core_2src_2tools_2shell_autotoc_md971}
+记录命令执行的详细信息：
+\begin{DoxyItemize}
+\item 命令执行时间
+\item 退出码
+\item 输出大小
+\item 错误信息 
+\end{DoxyItemize}

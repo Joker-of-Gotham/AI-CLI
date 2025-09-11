@@ -1,0 +1,78 @@
+\chapter{add.\+ts }
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts}{}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts}\index{add.ts@{add.ts}}
+\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md232}%
+\Hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md232}%
+
+
+MCP 服务器添加命令，用于向配置中添加新的 MCP 服务器。\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md233}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md233}
+
+\begin{DoxyEnumerate}
+\item 添加新的 MCP 服务器配置
+\item 支持多种传输类型（stdio、sse、http）
+\item 配置服务器参数（环境变量、超时、信任等）
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md234}{}\doxysection{\texorpdfstring{主要函数}{主要函数}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md234}
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md235}{}\doxysubsection{\texorpdfstring{add\+Mcp\+Server()}{add\+Mcp\+Server()}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md235}
+添加或更新 MCP 服务器配置：
+\begin{DoxyItemize}
+\item 根据传输类型创建相应的服务器配置
+\item 处理环境变量和 HTTP 头设置
+\item 支持超时、信任、描述等选项
+\item 支持工具包含和排除列表
+\item 保存到指定作用域（用户或工作区）
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md236}{}\doxysubsection{\texorpdfstring{add\+Command\+: Command\+Module}{add\+Command\+: Command\+Module}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md236}
+Yargs 命令模块，定义 add 子命令：
+\begin{DoxyItemize}
+\item command\+: \textquotesingle{}add $<$name$>$ $<$command\+Or\+Url$>$ \mbox{[}args...\mbox{]}\textquotesingle{}
+\item describe\+: \textquotesingle{}Add a server\textquotesingle{}
+\item builder\+: 参数构建器
+\begin{DoxyItemize}
+\item name\+: 服务器名称（必需）
+\item command\+Or\+Url\+: 命令或 URL（必需）
+\item args\+: 服务器参数（可选）
+\item scope\+: 配置作用域（用户或项目）
+\item transport\+: 传输类型（stdio、sse、http）
+\item env\+: 环境变量设置
+\item header\+: HTTP 头设置
+\item timeout\+: 连接超时设置
+\item trust\+: 信任服务器设置
+\item description\+: 服务器描述
+\item include-\/tools\+: 包含的工具列表
+\item exclude-\/tools\+: 排除的工具列表
+\end{DoxyItemize}
+\item handler\+: 命令处理器
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md237}{}\doxysection{\texorpdfstring{传输类型支持}{传输类型支持}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md237}
+\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md238}{}\doxysubsection{\texorpdfstring{stdio（默认）}{stdio（默认）}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md238}
+
+\begin{DoxyItemize}
+\item command\+: 执行命令
+\item args\+: 命令参数
+\item env\+: 环境变量
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md239}{}\doxysubsection{\texorpdfstring{sse}{sse}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md239}
+
+\begin{DoxyItemize}
+\item url\+: SSE 服务器 URL
+\item headers\+: HTTP 头
+\item timeout\+: 超时设置
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md240}{}\doxysubsection{\texorpdfstring{http}{http}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md240}
+
+\begin{DoxyItemize}
+\item http\+Url\+: HTTP 服务器 URL
+\item headers\+: HTTP 头
+\item timeout\+: 超时设置
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md241}{}\doxysection{\texorpdfstring{使用示例}{使用示例}}\label{md_packages_2cli_2src_2commands_2mcp_2add_8ts_autotoc_md241}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ 添加\ stdio\ 类型的服务器}
+\DoxyCodeLine{gemini\ mcp\ add\ my-\/python-\/server\ python\ /path/to/server.py\ -\/-\/scope\ user}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 添加\ HTTP\ 类型的服务器}
+\DoxyCodeLine{gemini\ mcp\ add\ my-\/http-\/server\ http://localhost:8080\ -\/-\/transport\ http}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 添加带环境变量的服务器}
+\DoxyCodeLine{gemini\ mcp\ add\ my-\/server\ python\ /path/to/server.py\ -\/e\ API\_KEY=abc123\ -\/e\ DEBUG=true}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ 添加带\ HTTP\ 头的\ SSE\ 服务器}
+\DoxyCodeLine{gemini\ mcp\ add\ my-\/sse-\/server\ http://localhost:8080/stream\ -\/-\/transport\ sse\ -\/H\ "{}Authorization:\ Bearer\ token"{}}
+
+\end{DoxyCode}
+ 

@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['fatalerror_0',['FatalError',['../md_packages_2core_2src_2utils_2errors.html#autotoc_md1034',1,'']]],
+  ['fatalinputerror_1',['FatalInputError',['../md_packages_2cli_2src_2non_interactive_cli_8ts.html#autotoc_md404',1,'']]],
+  ['fatalturnlimitederror_2',['FatalTurnLimitedError',['../md_packages_2cli_2src_2non_interactive_cli_8ts.html#autotoc_md405',1,'']]],
+  ['features_3',['Features',['../D:/大学文件/大学学习/技术/AI-CLI/packages/vscode-ide-companion/README.md#autotoc_md1071',1,'Features'],['../md_packages_2core_2src_2tools_2tool-registry_8ts.html#autotoc_md981',1,'Key Features']]],
+  ['file_20filtering_20defaults_4',['File Filtering Defaults',['../md_packages_2core_2src_2config_2config_8ts.html#autotoc_md550',1,'']]],
+  ['file_20names_5',['Directory and File Names',['../md_packages_2core_2src_2config_2storage_8ts.html#autotoc_md566',1,'']]],
+  ['filediff_6',['FileDiff',['../md_packages_2core_2src_2tools_2tools_8ts.html#autotoc_md1013',1,'']]],
+  ['filefilteringoptions_7',['FileFilteringOptions',['../md_packages_2core_2src_2config_2config_8ts.html#autotoc_md545',1,'']]],
+  ['filefilteringoptions_20接口_8',['FileFilteringOptions 接口',['../md_packages_2core_2src_2config_2config.html#autotoc_md533',1,'']]],
+  ['fileoperationevent_9',['FileOperationEvent',['../md_packages_2core_2src_2telemetry_2types.html#autotoc_md896',1,'']]],
+  ['filesystemservice_10',['文件系统服务 (FileSystemService)',['../md_packages_2core_2src_2services_2file_system_service.html',1,'']]],
+  ['filesystemservice_20接口_11',['FileSystemService 接口',['../md_packages_2core_2src_2services_2file_system_service.html#autotoc_md729',1,'']]],
+  ['filtering_20defaults_12',['File Filtering Defaults',['../md_packages_2core_2src_2config_2config_8ts.html#autotoc_md550',1,'']]],
+  ['findenvfile_20函数_13',['findEnvFile 函数',['../md_packages_2a2a-server_2src_2config_2config_8ts.html#autotoc_md58',1,'']]],
+  ['findenvfile_20startdir_3a_20string_20_3a_20string_20null_14',['findEnvFile(startDir: string): string | null',['../md_packages_2cli_2src_2config_2settings_8ts.html#autotoc_md356',1,'']]],
+  ['flashfallbackevent_15',['FlashFallbackEvent',['../md_packages_2core_2src_2telemetry_2types.html#autotoc_md890',1,'']]],
+  ['flashfallbackhandler_16',['FlashFallbackHandler',['../md_packages_2core_2src_2config_2config_8ts.html#autotoc_md553',1,'']]],
+  ['flashfallbackhandler_20类型_17',['FlashFallbackHandler 类型',['../md_packages_2core_2src_2config_2config.html#autotoc_md531',1,'']]],
+  ['flatsettings_3a_20record_20_3a_20record_20null_18',['migrateSettingsToV2(flatSettings: Record&amp;lt;string, unknown&amp;gt;): Record&amp;lt;string, unknown&amp;gt; | null',['../md_packages_2cli_2src_2config_2settings_8ts.html#autotoc_md351',1,'']]],
+  ['flow_19',['Flow',['../md_packages_2a2a-server_2development-extension-rfc.html#autotoc_md4',1,'2. Communication Flow'],['../md_packages_2a2a-server_2development-extension-rfc.html#autotoc_md12',1,'A. Example Interaction Flow']]],
+  ['framework_20',['Tools Framework',['../md_packages_2core_2src_2tools_2tools_8ts.html',1,'']]],
+  ['functions_21',['Functions',['../md_packages_2core_2src_2telemetry_2index_8ts.html#autotoc_md796',1,'Event Creation Functions'],['../md_packages_2core_2src_2telemetry_2loggers_8ts.html#autotoc_md828',1,'Event Logging Functions'],['../md_packages_2core_2src_2telemetry_2sdk_8ts.html#autotoc_md872',1,'Functions'],['../md_packages_2core_2src_2tools_2diff_options_8ts.html#autotoc_md937',1,'Functions'],['../md_packages_2core_2src_2telemetry_2loggers_8ts.html#autotoc_md825',1,'Helper Functions'],['../md_packages_2core_2src_2telemetry_2index_8ts.html#autotoc_md794',1,'Logging Functions'],['../md_packages_2core_2src_2telemetry_2index_8ts.html#autotoc_md793',1,'SDK Functions'],['../md_packages_2core_2src_2tools_2tools_8ts.html#autotoc_md1021',1,'Utility Functions']]]
+];

@@ -1,0 +1,98 @@
+\chapter{src/config/extension.\+ts }
+\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts}{}\label{md_packages_2a2a-server_2src_2config_2extension_8ts}\index{src/config/extension.ts@{src/config/extension.ts}}
+\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md59}%
+\Hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md59}%
+
+
+这个文件负责加载和管理扩展配置。\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md60}{}\doxysection{\texorpdfstring{主要类型和接口}{主要类型和接口}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md60}
+\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md61}{}\doxysubsection{\texorpdfstring{Extension 接口}{Extension 接口}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md61}
+表示扩展的接口，包含：
+\begin{DoxyItemize}
+\item {\ttfamily config}\+: 扩展配置
+\item {\ttfamily context\+Files}\+: 上下文文件路径数组
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md62}{}\doxysubsection{\texorpdfstring{Extension\+Config 接口}{Extension\+Config 接口}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md62}
+表示扩展配置的接口，包含：
+\begin{DoxyItemize}
+\item {\ttfamily name}\+: 扩展名称
+\item {\ttfamily version}\+: 扩展版本
+\item {\ttfamily mcp\+Servers}\+: MCP 服务器配置（可选）
+\item {\ttfamily context\+File\+Name}\+: 上下文文件名（可选）
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md63}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md63}
+\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md64}{}\doxysubsection{\texorpdfstring{load\+Extensions 函数}{load\+Extensions 函数}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md64}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ function\ loadExtensions(workspaceDir:\ string):\ Extension[]}
+
+\end{DoxyCode}
+
+
+加载扩展。
+
+参数：
+\begin{DoxyItemize}
+\item {\ttfamily workspace\+Dir}\+: 工作区目录
+\end{DoxyItemize}
+
+返回：
+\begin{DoxyItemize}
+\item Extension\mbox{[}\mbox{]}\+: 扩展数组
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md65}{}\doxysubsection{\texorpdfstring{load\+Extensions\+From\+Dir 函数}{load\+Extensions\+From\+Dir 函数}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md65}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{function\ loadExtensionsFromDir(dir:\ string):\ Extension[]}
+
+\end{DoxyCode}
+
+
+从目录加载扩展。
+
+参数：
+\begin{DoxyItemize}
+\item {\ttfamily dir}\+: 目录路径
+\end{DoxyItemize}
+
+返回：
+\begin{DoxyItemize}
+\item Extension\mbox{[}\mbox{]}\+: 扩展数组
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md66}{}\doxysubsection{\texorpdfstring{load\+Extension 函数}{load\+Extension 函数}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md66}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{function\ loadExtension(extensionDir:\ string):\ Extension\ |\ null}
+
+\end{DoxyCode}
+
+
+加载单个扩展。
+
+参数：
+\begin{DoxyItemize}
+\item {\ttfamily extension\+Dir}\+: 扩展目录路径
+\end{DoxyItemize}
+
+返回：
+\begin{DoxyItemize}
+\item Extension \texorpdfstring{$\vert$}{|} null\+: 扩展对象或 null
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md67}{}\doxysubsection{\texorpdfstring{get\+Context\+File\+Names 函数}{get\+Context\+File\+Names 函数}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md67}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{function\ getContextFileNames(config:\ ExtensionConfig):\ string[]}
+
+\end{DoxyCode}
+
+
+获取上下文文件名。
+
+参数：
+\begin{DoxyItemize}
+\item {\ttfamily config}\+: 扩展配置
+\end{DoxyItemize}
+
+返回：
+\begin{DoxyItemize}
+\item string\mbox{[}\mbox{]}\+: 上下文文件名数组
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md68}{}\doxysection{\texorpdfstring{常量}{常量}}\label{md_packages_2a2a-server_2src_2config_2extension_8ts_autotoc_md68}
+
+\begin{DoxyItemize}
+\item {\ttfamily EXTENSIONS\+\_\+\+DIRECTORY\+\_\+\+NAME}\+: 扩展目录名
+\item {\ttfamily EXTENSIONS\+\_\+\+CONFIG\+\_\+\+FILENAME}\+: 扩展配置文件名 
+\end{DoxyItemize}

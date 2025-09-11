@@ -1,0 +1,47 @@
+\chapter{Diff Options Utility }
+\hypertarget{md_packages_2core_2src_2tools_2diff_options_8ts}{}\label{md_packages_2core_2src_2tools_2diff_options_8ts}\index{Diff Options Utility@{Diff Options Utility}}
+\label{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md934}%
+\Hypertarget{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md934}%
+
+
+This module provides utilities for generating and analyzing code diffs using the {\ttfamily diff} library. It includes functionality for calculating diff statistics between different versions of code.\hypertarget{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md935}{}\doxysection{\texorpdfstring{Constants}{Constants}}\label{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md935}
+\hypertarget{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md936}{}\doxysubsection{\texorpdfstring{DEFAULT\+\_\+\+DIFF\+\_\+\+OPTIONS}{DEFAULT\+\_\+\+DIFF\+\_\+\+OPTIONS}}\label{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md936}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ const\ DEFAULT\_DIFF\_OPTIONS:\ Diff.PatchOptions\ =\ \{}
+\DoxyCodeLine{\ \ context:\ 3,}
+\DoxyCodeLine{\ \ ignoreWhitespace:\ true,}
+\DoxyCodeLine{\};}
+
+\end{DoxyCode}
+ Default options used for generating structured patches. Sets 3 lines of context and ignores whitespace changes.\hypertarget{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md937}{}\doxysection{\texorpdfstring{Functions}{Functions}}\label{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md937}
+\hypertarget{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md938}{}\doxysubsection{\texorpdfstring{get\+Diff\+Stat}{get\+Diff\+Stat}}\label{md_packages_2core_2src_2tools_2diff_options_8ts_autotoc_md938}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ function\ getDiffStat(}
+\DoxyCodeLine{\ \ fileName:\ string,}
+\DoxyCodeLine{\ \ oldStr:\ string,}
+\DoxyCodeLine{\ \ aiStr:\ string,}
+\DoxyCodeLine{\ \ userStr:\ string,}
+\DoxyCodeLine{):\ DiffStat}
+
+\end{DoxyCode}
+ Calculates diff statistics between three versions of a file\+:
+\begin{DoxyEnumerate}
+\item Between original ({\ttfamily old\+Str}) and AI-\/proposed ({\ttfamily ai\+Str}) versions
+\item Between AI-\/proposed ({\ttfamily ai\+Str}) and user-\/modified ({\ttfamily user\+Str}) versions
+\end{DoxyEnumerate}
+
+Returns a {\ttfamily Diff\+Stat} object containing\+:
+\begin{DoxyItemize}
+\item {\ttfamily model\+\_\+added\+\_\+lines}\+: Lines added in AI proposal
+\item {\ttfamily model\+\_\+removed\+\_\+lines}\+: Lines removed in AI proposal
+\item {\ttfamily model\+\_\+added\+\_\+chars}\+: Characters added in AI proposal
+\item {\ttfamily model\+\_\+removed\+\_\+chars}\+: Characters removed in AI proposal
+\item {\ttfamily user\+\_\+added\+\_\+lines}\+: Lines added by user
+\item {\ttfamily user\+\_\+removed\+\_\+lines}\+: Lines removed by user
+\item {\ttfamily user\+\_\+added\+\_\+chars}\+: Characters added by user
+\item {\ttfamily user\+\_\+removed\+\_\+chars}\+: Characters removed by user
+\end{DoxyItemize}
+
+The function uses {\ttfamily Diff.\+structured\+Patch} to generate detailed patch information and analyzes each hunk to count added/removed lines and characters. 

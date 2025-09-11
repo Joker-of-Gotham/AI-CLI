@@ -1,0 +1,95 @@
+\chapter{src/config/config.\+ts }
+\hypertarget{md_packages_2a2a-server_2src_2config_2config_8ts}{}\label{md_packages_2a2a-server_2src_2config_2config_8ts}\index{src/config/config.ts@{src/config/config.ts}}
+\label{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md52}%
+\Hypertarget{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md52}%
+
+
+这个文件负责加载和管理代理的配置信息。\hypertarget{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md53}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md53}
+\hypertarget{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md54}{}\doxysubsection{\texorpdfstring{load\+Config 函数}{load\+Config 函数}}\label{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md54}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ async\ function\ loadConfig(}
+\DoxyCodeLine{\ \ settings:\ Settings,}
+\DoxyCodeLine{\ \ extensions:\ Extension[],}
+\DoxyCodeLine{\ \ taskId:\ string,}
+\DoxyCodeLine{):\ Promise<Config>}
+
+\end{DoxyCode}
+
+
+加载配置信息。
+
+参数：
+\begin{DoxyItemize}
+\item {\ttfamily settings}\+: 设置对象
+\item {\ttfamily extensions}\+: 扩展数组
+\item {\ttfamily task\+Id}\+: 任务 ID
+\end{DoxyItemize}
+
+返回：
+\begin{DoxyItemize}
+\item Promise$<$\+Config$>$\+: 配置对象
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md55}{}\doxysubsection{\texorpdfstring{merge\+Mcp\+Servers 函数}{merge\+Mcp\+Servers 函数}}\label{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md55}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ function\ mergeMcpServers(settings:\ Settings,\ extensions:\ Extension[])}
+
+\end{DoxyCode}
+
+
+合并 MCP 服务器配置。
+
+参数：
+\begin{DoxyItemize}
+\item {\ttfamily settings}\+: 设置对象
+\item {\ttfamily extensions}\+: 扩展数组
+\end{DoxyItemize}
+
+返回：
+\begin{DoxyItemize}
+\item 合并后的 MCP 服务器配置
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md56}{}\doxysubsection{\texorpdfstring{set\+Target\+Dir 函数}{set\+Target\+Dir 函数}}\label{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md56}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ function\ setTargetDir(agentSettings:\ AgentSettings\ |\ undefined):\ string}
+
+\end{DoxyCode}
+
+
+设置目标目录。
+
+参数：
+\begin{DoxyItemize}
+\item {\ttfamily agent\+Settings}\+: 代理设置（可选）
+\end{DoxyItemize}
+
+返回：
+\begin{DoxyItemize}
+\item string\+: 目标目录路径
+\end{DoxyItemize}\hypertarget{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md57}{}\doxysubsection{\texorpdfstring{load\+Environment 函数}{load\+Environment 函数}}\label{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md57}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ function\ loadEnvironment():\ void}
+
+\end{DoxyCode}
+
+
+加载环境变量。\hypertarget{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md58}{}\doxysubsection{\texorpdfstring{find\+Env\+File 函数}{find\+Env\+File 函数}}\label{md_packages_2a2a-server_2src_2config_2config_8ts_autotoc_md58}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{function\ findEnvFile(startDir:\ string):\ string\ |\ null}
+
+\end{DoxyCode}
+
+
+查找环境变量文件。
+
+参数：
+\begin{DoxyItemize}
+\item {\ttfamily start\+Dir}\+: 起始目录
+\end{DoxyItemize}
+
+返回：
+\begin{DoxyItemize}
+\item string \texorpdfstring{$\vert$}{|} null\+: 环境变量文件路径或 null 
+\end{DoxyItemize}

@@ -1,0 +1,76 @@
+\chapter{Telemetry SDK }
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts}{}\label{md_packages_2core_2src_2telemetry_2sdk_8ts}\index{Telemetry SDK@{Telemetry SDK}}
+\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md870}%
+\Hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md870}%
+
+
+This module handles the initialization and management of the Open\+Telemetry SDK for the Gemini CLI application, providing distributed tracing, logging, and metrics collection capabilities.\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md871}{}\doxysection{\texorpdfstring{Global Variables}{Global Variables}}\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md871}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{let\ sdk:\ NodeSDK\ |\ undefined;}
+\DoxyCodeLine{let\ telemetryInitialized\ =\ false;}
+
+\end{DoxyCode}
+ Tracks the SDK instance and initialization status.\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md872}{}\doxysection{\texorpdfstring{Functions}{Functions}}\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md872}
+\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md873}{}\doxysubsection{\texorpdfstring{is\+Telemetry\+Sdk\+Initialized}{is\+Telemetry\+Sdk\+Initialized}}\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md873}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ function\ isTelemetrySdkInitialized():\ boolean}
+
+\end{DoxyCode}
+ Returns whether the telemetry SDK has been initialized.\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md874}{}\doxysubsection{\texorpdfstring{parse\+Otlp\+Endpoint}{parse\+Otlp\+Endpoint}}\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md874}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{function\ parseOtlpEndpoint(}
+\DoxyCodeLine{\ \ otlpEndpointSetting:\ string\ |\ undefined,}
+\DoxyCodeLine{\ \ protocol:\ 'grpc'\ |\ 'http',}
+\DoxyCodeLine{):\ string\ |\ undefined}
+
+\end{DoxyCode}
+ Parses and validates the OTLP endpoint URL, handling different protocols (g\+RPC vs HTTP) and cleaning up potential quote characters from environment variables.\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md875}{}\doxysubsection{\texorpdfstring{initialize\+Telemetry}{initialize\+Telemetry}}\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md875}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ function\ initializeTelemetry(config:\ Config):\ void}
+
+\end{DoxyCode}
+ Initializes the Open\+Telemetry SDK with the following features\+:
+\begin{DoxyItemize}
+\item Resource attributes including service name, version, and session ID
+\item Configurable exporters based on settings\+:
+\begin{DoxyItemize}
+\item OTLP g\+RPC or HTTP exporters when endpoint is provided
+\item File exporters when telemetry outfile is specified
+\item Console exporters as fallback
+\end{DoxyItemize}
+\item Span processing with batch span processor
+\item Log processing with batch log record processor
+\item Metric collection with periodic exporting
+\item HTTP instrumentation
+\item Signal handlers for graceful shutdown (SIGTERM, SIGINT)
+\item Metrics initialization
+\end{DoxyItemize}
+
+The function is idempotent and will return early if telemetry is already initialized or disabled in the config.\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md876}{}\doxysubsection{\texorpdfstring{shutdown\+Telemetry}{shutdown\+Telemetry}}\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md876}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ async\ function\ shutdownTelemetry(config:\ Config):\ Promise<void>}
+
+\end{DoxyCode}
+ Gracefully shuts down the telemetry SDK\+:
+\begin{DoxyItemize}
+\item Shuts down the Clearcut logger if active
+\item Shuts down the Open\+Telemetry SDK
+\item Handles errors during shutdown
+\item Resets initialization status
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md877}{}\doxysection{\texorpdfstring{Dependencies}{Dependencies}}\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md877}
+The module integrates with several Open\+Telemetry components\+:
+\begin{DoxyItemize}
+\item {\ttfamily @opentelemetry/sdk-\/node} for the Node.\+js SDK
+\item {\ttfamily @opentelemetry/exporter-\/trace-\/otlp-\/grpc} and {\ttfamily @opentelemetry/exporter-\/trace-\/otlp-\/http} for trace exporters
+\item {\ttfamily @opentelemetry/exporter-\/logs-\/otlp-\/grpc} and {\ttfamily @opentelemetry/exporter-\/logs-\/otlp-\/http} for log exporters
+\item {\ttfamily @opentelemetry/exporter-\/metrics-\/otlp-\/grpc} and {\ttfamily @opentelemetry/exporter-\/metrics-\/otlp-\/http} for metric exporters
+\item {\ttfamily @opentelemetry/instrumentation-\/http} for HTTP instrumentation
+\item Custom file exporters for local telemetry storage
+\item Clearcut logger for Google-\/specific logging
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md878}{}\doxysection{\texorpdfstring{Debugging}{Debugging}}\label{md_packages_2core_2src_2telemetry_2sdk_8ts_autotoc_md878}
+The module sets up diagnostic logging at INFO level, which can be changed to DEBUG for troubleshooting. 

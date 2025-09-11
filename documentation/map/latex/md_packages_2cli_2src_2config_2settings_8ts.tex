@@ -1,0 +1,86 @@
+\chapter{settings.\+ts }
+\hypertarget{md_packages_2cli_2src_2config_2settings_8ts}{}\label{md_packages_2cli_2src_2config_2settings_8ts}\index{settings.ts@{settings.ts}}
+\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md341}%
+\Hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md341}%
+
+
+设置管理模块，负责处理用户、工作区和系统级别的配置设置。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md342}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md342}
+
+\begin{DoxyEnumerate}
+\item 设置文件加载和保存
+\item 多级设置合并（系统默认、用户、工作区、系统）
+\item 设置迁移（\+V1 到 V2）
+\item 环境变量处理
+\item 工作区信任检查
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md343}{}\doxysection{\texorpdfstring{主要接口和类型}{主要接口和类型}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md343}
+\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md344}{}\doxysubsection{\texorpdfstring{Settings}{Settings}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md344}
+定义所有可用的设置选项，包括：
+\begin{DoxyItemize}
+\item 安全设置（认证、文件夹信任）
+\item UI 设置（主题、可访问性）
+\item 工具设置（核心工具、排除工具）
+\item 模型设置
+\item 遥测设置
+\item 上下文设置
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md345}{}\doxysubsection{\texorpdfstring{Loaded\+Settings}{Loaded\+Settings}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md345}
+封装加载的设置信息：
+\begin{DoxyItemize}
+\item 系统、系统默认、用户和工作区设置
+\item 合并后的设置
+\item 迁移状态信息
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md346}{}\doxysubsection{\texorpdfstring{Setting\+Scope}{Setting\+Scope}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md346}
+枚举类型，定义设置作用域：
+\begin{DoxyItemize}
+\item User\+: 用户级别
+\item Workspace\+: 工作区级别
+\item System\+: 系统级别
+\item System\+Defaults\+: 系统默认级别
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md347}{}\doxysection{\texorpdfstring{主要函数}{主要函数}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md347}
+\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md348}{}\doxysubsection{\texorpdfstring{load\+Settings(workspace\+Dir\+: string = process.\+cwd())\+: Loaded\+Settings}{load\+Settings(workspace\+Dir\+: string = process.\+cwd())\+: Loaded\+Settings}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md348}
+加载所有级别的设置：
+\begin{DoxyEnumerate}
+\item 加载系统设置
+\item 加载系统默认设置
+\item 加载用户设置
+\item 加载工作区设置（如果不是主目录）
+\item 处理主题名称兼容性
+\item 检查工作区信任状态
+\item 加载环境变量
+\item 解析环境变量
+\item 返回合并后的设置
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md349}{}\doxysubsection{\texorpdfstring{save\+Settings(settings\+File\+: Settings\+File)\+: void}{save\+Settings(settings\+File\+: Settings\+File)\+: void}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md349}
+保存设置到文件：
+\begin{DoxyItemize}
+\item 确保目录存在
+\item 处理设置迁移
+\item 写入 JSON 格式的设置文件
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md350}{}\doxysubsection{\texorpdfstring{needs\+Migration(settings\+: Record$<$string, unknown$>$)\+: boolean}{needs\+Migration(settings\+: Record$<$string, unknown$>$)\+: boolean}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md350}
+检查设置是否需要从 V1 迁移到 V2 格式。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md351}{}\doxysubsection{\texorpdfstring{migrate\+Settings\+To\+V2(flat\+Settings\+: Record$<$string, unknown$>$)\+: Record$<$string, unknown$>$ \texorpdfstring{$\vert$}{|} null}{migrate\+Settings\+To\+V2(flat\+Settings\+: Record$<$string, unknown$>$)\+: Record$<$string, unknown$>$ \texorpdfstring{$\vert$}{|} null}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md351}
+将 V1 格式的设置迁移到 V2 格式。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md352}{}\doxysubsection{\texorpdfstring{migrate\+Settings\+To\+V1(v2\+Settings\+: Record$<$string, unknown$>$)\+: Record$<$string, unknown$>$}{migrate\+Settings\+To\+V1(v2\+Settings\+: Record$<$string, unknown$>$)\+: Record$<$string, unknown$>$}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md352}
+将 V2 格式的设置迁移到 V1 格式。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md353}{}\doxysection{\texorpdfstring{辅助函数}{辅助函数}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md353}
+\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md354}{}\doxysubsection{\texorpdfstring{merge\+Settings()}{merge\+Settings()}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md354}
+合并多个设置对象，按照优先级顺序：
+\begin{DoxyEnumerate}
+\item 系统默认设置
+\item 用户设置
+\item 工作区设置（仅在受信任时）
+\item 系统设置（作为覆盖）
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md355}{}\doxysubsection{\texorpdfstring{load\+Environment(settings\+: Settings)\+: void}{load\+Environment(settings\+: Settings)\+: void}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md355}
+加载环境变量：
+\begin{DoxyItemize}
+\item 查找 .env 文件
+\item 处理工作区信任
+\item 特殊处理 Cloud Shell 环境
+\item 解析和设置环境变量
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md356}{}\doxysubsection{\texorpdfstring{find\+Env\+File(start\+Dir\+: string)\+: string \texorpdfstring{$\vert$}{|} null}{find\+Env\+File(start\+Dir\+: string)\+: string \texorpdfstring{$\vert$}{|} null}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md356}
+在目录树中查找 .env 文件。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md357}{}\doxysubsection{\texorpdfstring{set\+Up\+Cloud\+Shell\+Environment(env\+File\+Path\+: string \texorpdfstring{$\vert$}{|} null)\+: void}{set\+Up\+Cloud\+Shell\+Environment(env\+File\+Path\+: string \texorpdfstring{$\vert$}{|} null)\+: void}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md357}
+设置 Cloud Shell 环境变量。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md358}{}\doxysection{\texorpdfstring{常量}{常量}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md358}
+\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md359}{}\doxysubsection{\texorpdfstring{MIGRATION\+\_\+\+MAP}{MIGRATION\+\_\+\+MAP}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md359}
+定义 V1 到 V2 设置路径的映射关系。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md360}{}\doxysubsection{\texorpdfstring{KNOWN\+\_\+\+V2\+\_\+\+CONTAINERS}{KNOWN\+\_\+\+V2\+\_\+\+CONTAINERS}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md360}
+已知的 V2 设置容器键。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md361}{}\doxysubsection{\texorpdfstring{DEFAULT\+\_\+\+EXCLUDED\+\_\+\+ENV\+\_\+\+VARS}{DEFAULT\+\_\+\+EXCLUDED\+\_\+\+ENV\+\_\+\+VARS}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md361}
+默认排除的环境变量列表。\hypertarget{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md362}{}\doxysection{\texorpdfstring{文件路径}{文件路径}}\label{md_packages_2cli_2src_2config_2settings_8ts_autotoc_md362}
+
+\begin{DoxyItemize}
+\item USER\+\_\+\+SETTINGS\+\_\+\+PATH\+: 用户设置文件路径
+\item SETTINGS\+\_\+\+DIRECTORY\+\_\+\+NAME\+: 设置目录名称 
+\end{DoxyItemize}

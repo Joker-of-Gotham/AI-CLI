@@ -1,0 +1,30 @@
+\chapter{index.\+ts }
+\hypertarget{md_packages_2cli_2index_8ts}{}\label{md_packages_2cli_2index_8ts}\index{index.ts@{index.ts}}
+\label{md_packages_2cli_2index_8ts_autotoc_md170}%
+\Hypertarget{md_packages_2cli_2index_8ts_autotoc_md170}%
+
+
+这是 Gemini CLI 的入口文件，负责启动整个应用程序。\hypertarget{md_packages_2cli_2index_8ts_autotoc_md171}{}\doxysection{\texorpdfstring{功能概述}{功能概述}}\label{md_packages_2cli_2index_8ts_autotoc_md171}
+
+\begin{DoxyEnumerate}
+\item 导入并执行 {\ttfamily ./src/gemini.js} 模块
+\item 调用 {\ttfamily main} 函数启动应用
+\item 处理全局错误和未捕获的异常
+\end{DoxyEnumerate}\hypertarget{md_packages_2cli_2index_8ts_autotoc_md172}{}\doxysection{\texorpdfstring{主要函数}{主要函数}}\label{md_packages_2cli_2index_8ts_autotoc_md172}
+\hypertarget{md_packages_2cli_2index_8ts_autotoc_md173}{}\doxysubsection{\texorpdfstring{main()}{main()}}\label{md_packages_2cli_2index_8ts_autotoc_md173}
+
+\begin{DoxyItemize}
+\item 启动 CLI 应用程序的主入口点
+\item 捕获并处理致命错误
+\item 根据错误类型进行不同的处理：
+\begin{DoxyItemize}
+\item 如果是 {\ttfamily Fatal\+Error} 类型，显示错误信息并以相应退出码退出
+\item 如果是其他错误，显示堆栈跟踪并以 1 退出
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_packages_2cli_2index_8ts_autotoc_md174}{}\doxysection{\texorpdfstring{错误处理}{错误处理}}\label{md_packages_2cli_2index_8ts_autotoc_md174}
+
+\begin{DoxyItemize}
+\item 使用 {\ttfamily Fatal\+Error} 类型来处理已知的致命错误
+\item 对于未知错误，显示完整的堆栈跟踪信息
+\item 支持通过 {\ttfamily NO\+\_\+\+COLOR} 环境变量控制错误信息的颜色显示 
+\end{DoxyItemize}

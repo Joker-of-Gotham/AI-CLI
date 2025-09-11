@@ -1,0 +1,86 @@
+\chapter{Telemetry Index }
+\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts}{}\label{md_packages_2core_2src_2telemetry_2index_8ts}\index{Telemetry Index@{Telemetry Index}}
+\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md787}%
+\Hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md787}%
+
+
+This module serves as the main entry point for the telemetry system, exporting all necessary types, constants, and functions for telemetry collection and reporting.\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md788}{}\doxysection{\texorpdfstring{Enumerations}{Enumerations}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md788}
+\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md789}{}\doxysubsection{\texorpdfstring{Telemetry\+Target}{Telemetry\+Target}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md789}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ enum\ TelemetryTarget\ \{}
+\DoxyCodeLine{\ \ GCP\ =\ 'gcp',}
+\DoxyCodeLine{\ \ LOCAL\ =\ 'local',}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ Specifies where telemetry data should be sent\+:
+\begin{DoxyItemize}
+\item {\ttfamily GCP}\+: Google Cloud Platform
+\item {\ttfamily LOCAL}\+: Local storage/debugging
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md790}{}\doxysection{\texorpdfstring{Constants}{Constants}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md790}
+\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md791}{}\doxysubsection{\texorpdfstring{Default Values}{Default Values}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md791}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{const\ DEFAULT\_TELEMETRY\_TARGET\ =\ TelemetryTarget.LOCAL;}
+\DoxyCodeLine{const\ DEFAULT\_OTLP\_ENDPOINT\ =\ 'http://localhost:4317';}
+
+\end{DoxyCode}
+ Default configuration values for telemetry\+:
+\begin{DoxyItemize}
+\item Target\+: Local storage
+\item OTLP endpoint\+: Local collector at port 4317
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md792}{}\doxysection{\texorpdfstring{Exports}{Exports}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md792}
+\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md793}{}\doxysubsection{\texorpdfstring{SDK Functions}{SDK Functions}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md793}
+Functions for managing the telemetry SDK lifecycle\+:
+\begin{DoxyItemize}
+\item {\ttfamily initialize\+Telemetry}\+: Initialize the telemetry system
+\item {\ttfamily shutdown\+Telemetry}\+: Shut down the telemetry system
+\item {\ttfamily is\+Telemetry\+Sdk\+Initialized}\+: Check if telemetry is initialized
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md794}{}\doxysubsection{\texorpdfstring{Logging Functions}{Logging Functions}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md794}
+Functions for logging specific events\+:
+\begin{DoxyItemize}
+\item {\ttfamily log\+Cli\+Configuration}\+: Log CLI configuration changes
+\item {\ttfamily log\+User\+Prompt}\+: Log user prompts
+\item {\ttfamily log\+Tool\+Call}\+: Log tool invocations
+\item {\ttfamily log\+Api\+Request}\+: Log API requests
+\item {\ttfamily log\+Api\+Error}\+: Log API errors
+\item {\ttfamily log\+Api\+Response}\+: Log API responses
+\item {\ttfamily log\+Flash\+Fallback}\+: Log flash model fallback events
+\item {\ttfamily log\+Slash\+Command}\+: Log slash command executions
+\item {\ttfamily log\+Conversation\+Finished\+Event}\+: Log conversation completion
+\item {\ttfamily log\+Kitty\+Sequence\+Overflow}\+: Log kitty sequence overflow events
+\item {\ttfamily log\+Chat\+Compression}\+: Log chat history compression events
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md795}{}\doxysubsection{\texorpdfstring{Event Types}{Event Types}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md795}
+Event classes for different telemetry events\+:
+\begin{DoxyItemize}
+\item {\ttfamily Slash\+Command\+Status}\+: Status of slash commands
+\item {\ttfamily End\+Session\+Event}\+: Session termination events
+\item {\ttfamily User\+Prompt\+Event}\+: User prompt events
+\item {\ttfamily Api\+Request\+Event}\+: API request events
+\item {\ttfamily Api\+Error\+Event}\+: API error events
+\item {\ttfamily Api\+Response\+Event}\+: API response events
+\item {\ttfamily Flash\+Fallback\+Event}\+: Model fallback events
+\item {\ttfamily Start\+Session\+Event}\+: Session start events
+\item {\ttfamily Tool\+Call\+Event}\+: Tool call events
+\item {\ttfamily Conversation\+Finished\+Event}\+: Conversation completion events
+\item {\ttfamily Kitty\+Sequence\+Overflow\+Event}\+: Kitty sequence overflow events
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md796}{}\doxysubsection{\texorpdfstring{Event Creation Functions}{Event Creation Functions}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md796}
+
+\begin{DoxyItemize}
+\item {\ttfamily make\+Slash\+Command\+Event}\+: Create a slash command event
+\item {\ttfamily make\+Chat\+Compression\+Event}\+: Create a chat compression event
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md797}{}\doxysubsection{\texorpdfstring{Type Definitions}{Type Definitions}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md797}
+
+\begin{DoxyItemize}
+\item {\ttfamily Slash\+Command\+Event}\+: Type for slash command events
+\item {\ttfamily Chat\+Compression\+Event}\+: Type for chat compression events
+\item {\ttfamily Telemetry\+Event}\+: Base type for all telemetry events
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md798}{}\doxysubsection{\texorpdfstring{Open\+Telemetry Exports}{Open\+Telemetry Exports}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md798}
+Re-\/exports from Open\+Telemetry libraries\+:
+\begin{DoxyItemize}
+\item {\ttfamily Span\+Status\+Code}\+: Span status codes
+\item {\ttfamily Value\+Type}\+: Value types
+\item {\ttfamily Semantic\+Attributes}\+: Semantic attribute definitions
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md799}{}\doxysubsection{\texorpdfstring{UI Telemetry}{UI Telemetry}}\label{md_packages_2core_2src_2telemetry_2index_8ts_autotoc_md799}
+All exports from the UI telemetry module. 

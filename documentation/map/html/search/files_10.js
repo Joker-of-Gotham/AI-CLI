@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['read_2dfile_2emd_0',['read-file.md',['../read-file_8md.html',1,'']]],
+  ['read_2dfile_2etest_2ets_1',['read-file.test.ts',['../read-file_8test_8ts.html',1,'']]],
+  ['read_2dfile_2ets_2',['read-file.ts',['../read-file_8ts.html',1,'']]],
+  ['read_2dmany_2dfiles_2etest_2ets_3',['read-many-files.test.ts',['../read-many-files_8test_8ts.html',1,'']]],
+  ['read_2dmany_2dfiles_2ets_4',['read-many-files.ts',['../read-many-files_8ts.html',1,'']]],
+  ['readme_2emd_5',['README.md',['../a2a-server_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../cli_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../vscode-ide-companion_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)']]],
+  ['readstdin_2etest_2ets_6',['readStdin.test.ts',['../read_stdin_8test_8ts.html',1,'']]],
+  ['readstdin_2ets_7',['readStdin.ts',['../read_stdin_8ts.html',1,'']]],
+  ['readstdin_2ets_2emd_8',['readStdin.ts.md',['../read_stdin_8ts_8md.html',1,'']]],
+  ['remove_2etest_2ets_9',['remove.test.ts',['../remove_8test_8ts.html',1,'']]],
+  ['remove_2ets_10',['remove.ts',['../remove_8ts.html',1,'']]],
+  ['remove_2ets_2emd_11',['remove.ts.md',['../remove_8ts_8md.html',1,'']]],
+  ['requeststorage_2ets_12',['requestStorage.ts',['../request_storage_8ts.html',1,'']]],
+  ['requeststorage_2ets_2emd_13',['requestStorage.ts.md',['../request_storage_8ts_8md.html',1,'']]],
+  ['resolvepath_2ets_14',['resolvePath.ts',['../resolve_path_8ts.html',1,'']]],
+  ['restorecommand_2etest_2ets_15',['restoreCommand.test.ts',['../restore_command_8test_8ts.html',1,'']]],
+  ['restorecommand_2ets_16',['restoreCommand.ts',['../restore_command_8ts.html',1,'']]],
+  ['result_2dcache_2etest_2ets_17',['result-cache.test.ts',['../result-cache_8test_8ts.html',1,'']]],
+  ['result_2dcache_2ets_18',['result-cache.ts',['../result-cache_8ts.html',1,'']]],
+  ['retry_2etest_2ets_19',['retry.test.ts',['../retry_8test_8ts.html',1,'']]],
+  ['retry_2ets_20',['retry.ts',['../retry_8ts.html',1,'']]],
+  ['ripgrep_2etest_2ets_21',['ripGrep.test.ts',['../rip_grep_8test_8ts.html',1,'']]],
+  ['ripgrep_2ets_22',['ripGrep.ts',['../rip_grep_8ts.html',1,'']]]
+];

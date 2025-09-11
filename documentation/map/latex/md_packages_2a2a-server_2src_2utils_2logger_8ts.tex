@@ -1,0 +1,51 @@
+\chapter{src/utils/logger.\+ts }
+\hypertarget{md_packages_2a2a-server_2src_2utils_2logger_8ts}{}\label{md_packages_2a2a-server_2src_2utils_2logger_8ts}\index{src/utils/logger.ts@{src/utils/logger.ts}}
+\label{md_packages_2a2a-server_2src_2utils_2logger_8ts_autotoc_md149}%
+\Hypertarget{md_packages_2a2a-server_2src_2utils_2logger_8ts_autotoc_md149}%
+
+
+这个文件实现了日志记录功能，使用 winston 库。\hypertarget{md_packages_2a2a-server_2src_2utils_2logger_8ts_autotoc_md150}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2a2a-server_2src_2utils_2logger_8ts_autotoc_md150}
+\hypertarget{md_packages_2a2a-server_2src_2utils_2logger_8ts_autotoc_md151}{}\doxysubsection{\texorpdfstring{logger 对象}{logger 对象}}\label{md_packages_2a2a-server_2src_2utils_2logger_8ts_autotoc_md151}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{const\ logger\ =\ winston.createLogger(\{}
+\DoxyCodeLine{\ \ level:\ 'info',}
+\DoxyCodeLine{\ \ format:\ winston.format.combine(}
+\DoxyCodeLine{\ \ \ \ winston.format.timestamp(\{}
+\DoxyCodeLine{\ \ \ \ \ \ format:\ 'YYYY-\/MM-\/DD\ HH:mm:ss.SSS\ A',}
+\DoxyCodeLine{\ \ \ \ \}),}
+\DoxyCodeLine{\ \ \ \ winston.format.printf((info)\ =>\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ const\ \{\ level,\ timestamp,\ message,\ ...rest\ \}\ =\ info;}
+\DoxyCodeLine{\ \ \ \ \ \ return\ (}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \`{}[\$\{level.toUpperCase()\}]\ \$\{timestamp\}\ -\/-\/\ \$\{message\}`\ +}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \`{}\$\{Object.keys(rest).length\ >\ 0\ ?\ \`{}\(\backslash\)n\$\{JSON.stringify(rest,\ null,\ 2)\}`\ :\ ''\}`}
+\DoxyCodeLine{\ \ \ \ \ \ );}
+\DoxyCodeLine{\ \ \ \ \}),}
+\DoxyCodeLine{\ \ ),}
+\DoxyCodeLine{\ \ transports:\ [new\ winston.transports.Console()],}
+\DoxyCodeLine{\});}
+
+\end{DoxyCode}
+
+
+创建 winston 日志记录器实例，具有以下特性：
+
+
+\begin{DoxyEnumerate}
+\item 日志级别：info
+\item 格式：
+\begin{DoxyItemize}
+\item 时间戳格式：\+YYYY-\/\+MM-\/\+DD HH\+:mm\+:ss.\+SSS A
+\item 输出格式：\mbox{[}LEVEL\mbox{]} TIMESTAMP -- MESSAGE
+\item 如果有额外数据，会以 JSON 格式附加在消息后面
+\end{DoxyItemize}
+\item 传输：控制台输出
+\end{DoxyEnumerate}\hypertarget{md_packages_2a2a-server_2src_2utils_2logger_8ts_autotoc_md152}{}\doxysubsection{\texorpdfstring{导出}{导出}}\label{md_packages_2a2a-server_2src_2utils_2logger_8ts_autotoc_md152}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ \{\ logger\ \};}
+
+\end{DoxyCode}
+
+
+导出 logger 对象，供其他模块使用。 

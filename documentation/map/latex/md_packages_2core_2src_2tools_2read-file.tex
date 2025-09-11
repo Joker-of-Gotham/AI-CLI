@@ -1,0 +1,54 @@
+\chapter{Read\+File\+Tool 类 }
+\hypertarget{md_packages_2core_2src_2tools_2read-file}{}\label{md_packages_2core_2src_2tools_2read-file}\index{ReadFileTool 类@{ReadFileTool 类}}
+\label{md_packages_2core_2src_2tools_2read-file_autotoc_md950}%
+\Hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md950}%
+
+
+Read\+File\+Tool 是一个用于读取文件内容的工具实现。\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md951}{}\doxysection{\texorpdfstring{主要功能}{主要功能}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md951}
+
+\begin{DoxyEnumerate}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}文件读取\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：读取指定文件的内容
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}内容处理\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：处理文本、图像和\+PDF文件
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}分页支持\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：支持读取大文件的特定行范围
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}路径验证\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：验证文件路径的有效性
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}遥测记录\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}：记录文件操作的遥测数据
+\end{DoxyEnumerate}\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md952}{}\doxysection{\texorpdfstring{核心组件}{核心组件}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md952}
+\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md953}{}\doxysubsection{\texorpdfstring{Read\+File\+Tool\+Params 接口}{Read\+File\+Tool\+Params 接口}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md953}
+定义工具参数：
+\begin{DoxyItemize}
+\item {\ttfamily absolute\+\_\+path} -\/ 文件的绝对路径（必需）
+\item {\ttfamily offset} -\/ 起始行号（可选）
+\item {\ttfamily limit} -\/ 读取行数（可选）
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md954}{}\doxysubsection{\texorpdfstring{Read\+File\+Tool 类}{Read\+File\+Tool 类}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md954}
+继承自 {\ttfamily Base\+Declarative\+Tool}，实现文件读取功能：
+\begin{DoxyItemize}
+\item {\ttfamily Name} -\/ 工具名称：\textquotesingle{}read\+\_\+file\textquotesingle{}
+\item {\ttfamily validate\+Tool\+Param\+Values()} -\/ 验证参数值
+\item {\ttfamily create\+Invocation()} -\/ 创建工具调用实例
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md955}{}\doxysubsection{\texorpdfstring{Read\+File\+Tool\+Invocation 类}{Read\+File\+Tool\+Invocation 类}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md955}
+实现具体的文件读取逻辑：
+\begin{DoxyItemize}
+\item {\ttfamily get\+Description()} -\/ 获取文件描述
+\item {\ttfamily tool\+Locations()} -\/ 获取工具位置
+\item {\ttfamily execute()} -\/ 执行文件读取
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md956}{}\doxysection{\texorpdfstring{特殊功能}{特殊功能}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md956}
+\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md957}{}\doxysubsection{\texorpdfstring{内容截断处理}{内容截断处理}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md957}
+当文件内容过大时，工具会自动截断内容并提供继续读取的指导：
+\begin{DoxyItemize}
+\item 显示当前显示的行范围
+\item 提供下一次读取的offset参数建议
+\item 在内容前添加截断状态信息
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md958}{}\doxysubsection{\texorpdfstring{多媒体文件支持}{多媒体文件支持}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md958}
+支持处理多种文件类型：
+\begin{DoxyItemize}
+\item 文本文件
+\item 图像文件（\+PNG, JPG, GIF, WEBP, SVG, BMP）
+\item PDF文件
+\end{DoxyItemize}\hypertarget{md_packages_2core_2src_2tools_2read-file_autotoc_md959}{}\doxysubsection{\texorpdfstring{遥测集成}{遥测集成}}\label{md_packages_2core_2src_2tools_2read-file_autotoc_md959}
+记录文件操作的详细信息：
+\begin{DoxyItemize}
+\item 文件扩展名
+\item MIME类型
+\item 编程语言
+\item 操作类型（读取） 
+\end{DoxyItemize}
