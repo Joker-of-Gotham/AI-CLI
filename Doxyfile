@@ -1,0 +1,17 @@
+# ========== 最小可运行配置 ==========
+INPUT                  = ./test_doxygen.ts
+FILE_PATTERNS          = *.ts
+RECURSIVE              = NO
+
+EXTRACT_ALL            = YES
+EXTRACT_LOCAL_METHODS  = YES
+
+GENERATE_HTML          = YES
+OUTPUT_DIRECTORY       = ./documentation/map
+
+HAVE_DOT               = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+
+QUIET                  = NO
+WARNINGS               = YES
