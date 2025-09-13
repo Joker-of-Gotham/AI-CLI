@@ -70,3 +70,120 @@
 - 参数验证规则
 - 默认值设置
 - 弃用选项警告
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    config ||--|| yargs : uses
+    config ||--|| mcpCommand : imports
+    config ||--|| extensionsCommand : imports
+    config ||--|| Config : creates
+    config ||--|| loadServerHierarchicalMemory : calls
+    config ||--|| setServerGeminiMdFilename : calls
+    config ||--|| getCurrentGeminiMdFilename : calls
+    config ||--|| ApprovalMode : uses
+    config ||--|| DEFAULT_GEMINI_MODEL : uses
+    config ||--|| DEFAULT_GEMINI_EMBEDDING_MODEL : uses
+    config ||--|| DEFAULT_MEMORY_FILE_FILTERING_OPTIONS : uses
+    config ||--|| ShellTool : uses
+    config ||--|| EditTool : uses
+    config ||--|| WriteFileTool : uses
+    config ||--|| annotateActiveExtensions : calls
+    config ||--|| getCliVersion : calls
+    config ||--|| loadSandboxConfig : calls
+    config ||--|| resolvePath : calls
+    config ||--|| appEvents : uses
+    config ||--|| isWorkspaceTrusted : calls
+    parseArguments ||--|| yargs : uses
+    parseArguments ||--|| mcpCommand : imports
+    parseArguments ||--|| extensionsCommand : imports
+    parseArguments ||--|| getCliVersion : calls
+    loadHierarchicalGeminiMemory ||--|| loadServerHierarchicalMemory : calls
+    loadCliConfig ||--|| annotateActiveExtensions : calls
+    loadCliConfig ||--|| setServerGeminiMdFilename : calls
+    loadCliConfig ||--|| getCurrentGeminiMdFilename : calls
+    loadCliConfig ||--|| FileDiscoveryService : creates
+    loadCliConfig ||--|| loadHierarchicalGeminiMemory : calls
+    loadCliConfig ||--|| mergeMcpServers : calls
+    loadCliConfig ||--|| allowedMcpServers : calls
+    loadCliConfig ||--|| mergeExcludeTools : calls
+    loadCliConfig ||--|| loadSandboxConfig : calls
+    loadCliConfig ||--|| Config : creates
+    allowedMcpServers ||--|| MCPServerConfig : uses
+    mergeMcpServers ||--|| Settings : uses
+    mergeMcpServers ||--|| Extension : uses
+    mergeExcludeTools ||--|| Settings : uses
+    mergeExcludeTools ||--|| Extension : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    parseArguments {
+        Object yargsInstance
+        Object result
+    }
+    loadHierarchicalGeminiMemory {
+        string currentWorkingDirectory
+        Array includeDirectoriesToReadGemini
+        boolean debugMode
+        FileDiscoveryService fileService
+        Settings settings
+        Array extensionContextFilePaths
+        boolean folderTrust
+        string memoryImportFormat
+        Object fileFilteringOptions
+        string realCwd
+        string realHome
+        boolean isHomeDirectory
+        string effectiveCwd
+    }
+    loadCliConfig {
+        Settings settings
+        Extension[] extensions
+        string sessionId
+        CliArgs argv
+        string cwd
+        boolean debugMode
+        string memoryImportFormat
+        boolean ideMode
+        boolean folderTrust
+        boolean trustedFolder
+        Extension[] allExtensions
+        Extension[] activeExtensions
+        Array extensionContextFilePaths
+        FileDiscoveryService fileService
+        Object fileFiltering
+        Array includeDirectories
+        Object memoryContent
+        number fileCount
+        Object mcpServers
+        string question
+        ApprovalMode approvalMode
+        boolean interactive
+        Array extraExcludes
+        Array excludeTools
+        Array blockedMcpServers
+        Object sandboxConfig
+        boolean screenReader
+    }
+    allowedMcpServers {
+        Object mcpServers
+        Array allowMCPServers
+        Array blockedMcpServers
+        Set allowedNames
+    }
+    mergeMcpServers {
+        Settings settings
+        Extension[] extensions
+        Object mcpServers
+    }
+    mergeExcludeTools {
+        Settings settings
+        Extension[] extensions
+        Array extraExcludes
+        Set allExcludeTools
+    }
+```

@@ -74,3 +74,30 @@ gemini extensions install git@github.com:user/repo.git
 - 处理 Git 克隆错误
 - 检查扩展是否已安装
 - 提供详细的错误信息
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    install ||--|| installExtension : calls
+    install ||--|| getErrorMessage : uses
+    install ||--|| CommandModule : uses
+    handleInstall ||--|| installExtension : calls
+    handleInstall ||--|| getErrorMessage : uses
+    installCommand ||--|| handleInstall : calls
+    installCommand ||--|| CommandModule : implements
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    handleInstall {
+        InstallArgs args
+        ExtensionInstallMetadata installMetadata
+        string extensionName
+    }
+    installCommand {
+        CommandModule commandModule
+    }
+```

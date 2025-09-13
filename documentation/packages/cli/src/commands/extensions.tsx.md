@@ -85,3 +85,27 @@ gemini extensions update my-extension
 # 卸载扩展
 gemini extensions uninstall my-extension
 ```
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    extensions ||--|| installCommand : imports
+    extensions ||--|| uninstallCommand : imports
+    extensions ||--|| listCommand : imports
+    extensions ||--|| updateCommand : imports
+    extensions ||--|| disableCommand : imports
+    extensions ||--|| enableCommand : imports
+    extensions ||--|| linkCommand : imports
+    extensions ||--|| newCommand : imports
+    extensions ||--|| CommandModule : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    extensions {
+        CommandModule extensionsCommand
+    }
+```

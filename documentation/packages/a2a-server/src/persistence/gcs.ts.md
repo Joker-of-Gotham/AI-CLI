@@ -140,3 +140,39 @@ const getTmpArchiveFilename = (taskId: string): string
 
 返回：
 - string: 临时归档文件名
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    GCSTaskStore ||--|| Storage : uses
+    GCSTaskStore ||--|| gzipSync : uses
+    GCSTaskStore ||--|| gunzipSync : uses
+    GCSTaskStore ||--|| tar : uses
+    GCSTaskStore ||--|| fse : uses
+    GCSTaskStore ||--|| fsPromises : uses
+    GCSTaskStore ||--|| createReadStream : uses
+    GCSTaskStore ||--|| tmpdir : uses
+    GCSTaskStore ||--|| join : uses
+    GCSTaskStore ||--|| logger : uses
+    GCSTaskStore ||--|| setTargetDir : uses
+    GCSTaskStore ||--|| getPersistedState : uses
+    GCSTaskStore ||--|| uuidv4 : uses
+    GCSTaskStore ||--|| TaskStore : implements
+    NoOpTaskStore ||--|| TaskStore : implements
+    NoOpTaskStore ||--|| logger : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    GCSTaskStore {
+        Storage storage
+        string bucketName
+        Promise bucketInitialized
+    }
+    NoOpTaskStore {
+        TaskStore realStore
+    }
+```

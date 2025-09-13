@@ -97,3 +97,38 @@ async getMetadata(): Promise<TaskMetadata>
 - `getProposedContent(file_path: string, old_string: string, new_string: string): Promise<string>` - 获取提议的内容
 - `_applyReplacement(currentContent: string | null, oldString: string, newString: string, isNewFile: boolean): string` - 应用替换
 - `_handleToolConfirmationPart(part: Part): Promise<boolean>` - 处理工具确认部分
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    Task ||--|| CoreToolScheduler : uses
+    Task ||--|| GeminiClient : uses
+    Task ||--|| Config : uses
+    Task ||--|| ExecutionEventBus : publishes
+    Task ||--|| RequestContext : processes
+    Task ||--|| ServerGeminiStreamEvent : handles
+    Task ||--|| ToolCallRequestInfo : schedules
+    Task ||--|| CompletedToolCall : manages
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    Task {
+        string id
+        string contextId
+        CoreToolScheduler scheduler
+        Config config
+        GeminiClient geminiClient
+        Map pendingToolConfirmationDetails
+        TaskState taskState
+        ExecutionEventBus eventBus
+        CompletedToolCall[] completedToolCalls
+        boolean skipFinalTrueAfterInlineEdit
+        Map pendingToolCalls
+        Promise toolCompletionPromise
+        Object toolCompletionNotifier
+    }
+```

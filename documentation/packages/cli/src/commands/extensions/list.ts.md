@@ -60,3 +60,30 @@ my-extension (1.0.0)
 - 处理扩展加载错误
 - 显示友好的错误信息
 - 在出错时以非零退出码退出
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    list ||--|| loadUserExtensions : calls
+    list ||--|| toOutputString : calls
+    list ||--|| getErrorMessage : uses
+    list ||--|| CommandModule : uses
+    handleList ||--|| loadUserExtensions : calls
+    handleList ||--|| toOutputString : calls
+    handleList ||--|| getErrorMessage : uses
+    listCommand ||--|| handleList : calls
+    listCommand ||--|| CommandModule : implements
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    handleList {
+        Extension[] extensions
+    }
+    listCommand {
+        CommandModule commandModule
+    }
+```

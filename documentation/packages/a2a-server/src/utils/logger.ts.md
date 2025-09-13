@@ -41,3 +41,19 @@ export { logger };
 ```
 
 导出 logger 对象，供其他模块使用。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    logger ||--|| winston : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    logger {
+        winston.Logger logger
+    }
+```

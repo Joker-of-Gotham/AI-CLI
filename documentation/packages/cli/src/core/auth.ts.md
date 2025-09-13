@@ -55,3 +55,26 @@
 ## 使用场景
 
 此函数在应用程序初始化期间调用，作为 initializeApp 函数的一部分，确保在显示 UI 之前完成必要的认证步骤。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    auth ||--|| Config : uses
+    auth ||--|| AuthType : uses
+    auth ||--|| getErrorMessage : calls
+    performInitialAuth ||--|| Config : uses
+    performInitialAuth ||--|| AuthType : uses
+    performInitialAuth ||--|| getErrorMessage : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    performInitialAuth {
+        Config config
+        AuthType authType
+        Error e
+    }
+```

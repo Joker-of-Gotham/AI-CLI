@@ -74,3 +74,57 @@ function findEnvFile(startDir: string): string | null
 
 返回：
 - string | null: 环境变量文件路径或 null
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    loadConfig ||--|| Config : creates
+    loadConfig ||--|| FileDiscoveryService : uses
+    loadConfig ||--|| loadServerHierarchicalMemory : calls
+    loadConfig ||--|| mergeMcpServers : calls
+    loadConfig ||--|| setTargetDir : calls
+    loadConfig ||--|| loadEnvironment : calls
+    mergeMcpServers ||--|| Settings : uses
+    mergeMcpServers ||--|| Extension : uses
+    setTargetDir ||--|| AgentSettings : uses
+    loadEnvironment ||--|| findEnvFile : calls
+    findEnvFile ||--|| fs : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    loadConfig {
+        Settings settings
+        Extension[] extensions
+        string taskId
+        ConfigParameters configParams
+        string workspaceDir
+        string adcFilePath
+        Map mcpServers
+    }
+    mergeMcpServers {
+        Settings settings
+        Extension[] extensions
+        Map mcpServers
+    }
+    setTargetDir {
+        AgentSettings agentSettings
+        string targetDir
+        string originalCWD
+    }
+    loadEnvironment {
+        string envFilePath
+    }
+    findEnvFile {
+        string startDir
+        string currentDir
+        string geminiEnvPath
+        string envPath
+        string parentDir
+        string homeGeminiEnvPath
+        string homeEnvPath
+    }
+```

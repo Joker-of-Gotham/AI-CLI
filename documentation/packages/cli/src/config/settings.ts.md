@@ -100,3 +100,181 @@
 
 - USER_SETTINGS_PATH: 用户设置文件路径
 - SETTINGS_DIRECTORY_NAME: 设置目录名称
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    settings ||--|| fs : uses
+    settings ||--|| path : uses
+    settings ||--|| homedir : uses
+    settings ||--|| platform : uses
+    settings ||--|| dotenv : uses
+    settings ||--|| process : uses
+    settings ||--|| FatalConfigError : uses
+    settings ||--|| GEMINI_DIR : uses
+    settings ||--|| getErrorMessage : uses
+    settings ||--|| Storage : uses
+    settings ||--|| stripJsonComments : uses
+    settings ||--|| DefaultLight : uses
+    settings ||--|| DefaultDark : uses
+    settings ||--|| isWorkspaceTrusted : calls
+    settings ||--|| SETTINGS_SCHEMA : uses
+    settings ||--|| resolveEnvVarsInObject : calls
+    settings ||--|| customDeepMerge : calls
+    getMergeStrategyForPath ||--|| SETTINGS_SCHEMA : uses
+    setNestedProperty ||--|| Object : uses
+    needsMigration ||--|| MIGRATION_MAP : uses
+    needsMigration ||--|| KNOWN_V2_CONTAINERS : uses
+    migrateSettingsToV2 ||--|| needsMigration : calls
+    migrateSettingsToV2 ||--|| setNestedProperty : calls
+    migrateSettingsToV2 ||--|| MIGRATION_MAP : uses
+    getNestedProperty ||--|| Object : uses
+    migrateSettingsToV1 ||--|| getNestedProperty : calls
+    migrateSettingsToV1 ||--|| REVERSE_MIGRATION_MAP : uses
+    migrateSettingsToV1 ||--|| KNOWN_V2_CONTAINERS : uses
+    mergeSettings ||--|| customDeepMerge : calls
+    mergeSettings ||--|| getMergeStrategyForPath : calls
+    LoadedSettings ||--|| mergeSettings : calls
+    LoadedSettings ||--|| SettingScope : uses
+    findEnvFile ||--|| fs : uses
+    findEnvFile ||--|| path : uses
+    findEnvFile ||--|| GEMINI_DIR : uses
+    setUpCloudShellEnvironment ||--|| fs : uses
+    setUpCloudShellEnvironment ||--|| dotenv : uses
+    setUpCloudShellEnvironment ||--|| process : uses
+    loadEnvironment ||--|| findEnvFile : calls
+    loadEnvironment ||--|| isWorkspaceTrusted : calls
+    loadEnvironment ||--|| setUpCloudShellEnvironment : calls
+    loadEnvironment ||--|| fs : uses
+    loadEnvironment ||--|| dotenv : uses
+    loadEnvironment ||--|| process : uses
+    loadSettings ||--|| getSystemSettingsPath : calls
+    loadSettings ||--|| getSystemDefaultsPath : calls
+    loadSettings ||--|| Storage : uses
+    loadSettings ||--|| loadAndMigrate : calls
+    loadSettings ||--|| DefaultLight : uses
+    loadSettings ||--|| DefaultDark : uses
+    loadSettings ||--|| customDeepMerge : calls
+    loadSettings ||--|| isWorkspaceTrusted : calls
+    loadSettings ||--|| mergeSettings : calls
+    loadSettings ||--|| loadEnvironment : calls
+    loadSettings ||--|| resolveEnvVarsInObject : calls
+    loadSettings ||--|| LoadedSettings : creates
+    loadSettings ||--|| FatalConfigError : throws
+    saveSettings ||--|| fs : uses
+    loadAndMigrate ||--|| fs : uses
+    loadAndMigrate ||--|| stripJsonComments : uses
+    loadAndMigrate ||--|| needsMigration : calls
+    loadAndMigrate ||--|| migrateSettingsToV2 : calls
+    loadAndMigrate ||--|| getErrorMessage : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    getMergeStrategyForPath {
+        string[] path
+        SettingDefinition current
+        SettingsSchema currentSchema
+    }
+    setNestedProperty {
+        Record obj
+        string path
+        unknown value
+        string[] keys
+        string lastKey
+        Record current
+    }
+    needsMigration {
+        Record settings
+        boolean hasV1Keys
+        Set flatKeys
+    }
+    migrateSettingsToV2 {
+        Record flatSettings
+        Record v2Settings
+        Set flatKeys
+    }
+    getNestedProperty {
+        Record obj
+        string path
+        unknown current
+        string[] keys
+    }
+    migrateSettingsToV1 {
+        Record v2Settings
+        Record v1Settings
+        Set v2Keys
+    }
+    mergeSettings {
+        Settings system
+        Settings systemDefaults
+        Settings user
+        Settings workspace
+        boolean isTrusted
+        Settings merged
+    }
+    LoadedSettings {
+        SettingsFile system
+        SettingsFile systemDefaults
+        SettingsFile user
+        SettingsFile workspace
+        boolean isTrusted
+        Set migratedInMemorScopes
+        Settings _merged
+    }
+    findEnvFile {
+        string startDir
+        string currentDir
+        string geminiEnvPath
+        string envPath
+        string parentDir
+        string homeGeminiEnvPath
+        string homeEnvPath
+    }
+    setUpCloudShellEnvironment {
+        string envFilePath
+        string envFileContent
+        Object parsedEnv
+    }
+    loadEnvironment {
+        Settings settings
+        string envFilePath
+        string envFileContent
+        Object parsedEnv
+        Array excludedVars
+        boolean isProjectEnvFile
+    }
+    loadSettings {
+        string workspaceDir
+        Settings systemSettings
+        Settings systemDefaultSettings
+        Settings userSettings
+        Settings workspaceSettings
+        SettingsError[] settingsErrors
+        string systemSettingsPath
+        string systemDefaultsPath
+        Set migratedInMemorScopes
+        string resolvedWorkspaceDir
+        string resolvedHomeDir
+        string realWorkspaceDir
+        string realHomeDir
+        string workspaceSettingsPath
+        boolean isTrusted
+        Settings tempMergedSettings
+    }
+    saveSettings {
+        SettingsFile settingsFile
+        string dirPath
+        Settings settingsToSave
+    }
+    loadAndMigrate {
+        string filePath
+        SettingScope scope
+        string content
+        unknown rawSettings
+        Record settingsObject
+    }
+```

@@ -1,51 +1,70 @@
 # colors.ts
 
-## 概述
+这个文件导出了一个颜色主题对象，用于应用程序的 UI 颜色管理。
 
-`colors.ts` 是 cli 包中处理颜色主题的模块。该文件导出一个 `Colors` 对象，提供对当前活动主题颜色的访问。
+## 功能概述
 
-## 导出的对象
+1. 导出 `Colors` 对象作为颜色主题
+2. 通过主题管理器获取活动主题的颜色
+3. 提供一致的颜色访问接口
+
+## 主要对象
 
 ### Colors
-颜色主题对象，提供对当前活动主题颜色的访问：
+- 实现 `ColorsTheme` 接口
+- 通过 `themeManager` 获取活动主题的颜色值
+- 使用 getter 方法动态获取颜色值
 
-1. **属性**:
-   - `type`: 颜色主题类型
-   - `Foreground`: 前景色
-   - `Background`: 背景色
-   - `LightBlue`: 浅蓝色
-   - `AccentBlue`: 强调蓝色
-   - `AccentPurple`: 强调紫色
-   - `AccentCyan`: 强调青色
-   - `AccentGreen`: 强调绿色
-   - `AccentYellow`: 强调黄色
-   - `AccentRed`: 强调红色
-   - `DiffAdded`: 差异添加颜色
-   - `DiffRemoved`: 差异删除颜色
-   - `Comment`: 注释颜色
-   - `Gray`: 灰色
-   - `GradientColors`: 渐变颜色数组
+## 依赖关系
 
-2. **实现方式**:
-   - 使用 getter 方法动态获取当前活动主题的颜色值
-   - 通过 `themeManager.getActiveTheme().colors` 访问实际颜色值
+- 依赖 `./themes/theme-manager.js` 中的 `themeManager`
+- 依赖 `./themes/theme.js` 中的 `ColorsTheme` 类型
 
-## 依赖模块
+## 颜色属性
 
-- `./themes/theme-manager.js`: 主题管理器
-- `./themes/theme.js`: 颜色主题类型定义
+- `type`：主题类型
+- `Foreground`：前景色
+- `Background`：背景色
+- `LightBlue`：浅蓝色
+- `AccentBlue`：强调蓝色
+- `AccentPurple`：强调紫色
+- `AccentCyan`：强调青色
+- `AccentGreen`：强调绿色
+- `AccentYellow`：强调黄色
+- `AccentRed`：强调红色
+- `DiffAdded`：差异添加颜色
+- `DiffRemoved`：差异删除颜色
+- `Comment`：注释颜色
+- `Gray`：灰色
+- `GradientColors`：渐变色数组
 
-## 使用场景
+## 函数级调用关系
 
-该模块主要用于：
-1. 在 UI 组件中访问当前主题的颜色
-2. 提供一致的颜色访问接口
-3. 支持主题切换时的颜色更新
+```mermaid
+erDiagram
+    Colors ||--|| themeManager : uses
+    Colors ||--|| ColorsTheme : implements
+```
 
-## 设计考虑
+## 变量级调用关系
 
-该模块的设计考虑了：
-1. 通过 getter 方法实现动态颜色访问
-2. 与主题管理器的集成
-3. 提供完整的颜色属性集合
-4. 保持与主题系统的同步
+```mermaid
+erDiagram
+    Colors {
+        ColorsTheme type
+        string Foreground
+        string Background
+        string LightBlue
+        string AccentBlue
+        string AccentPurple
+        string AccentCyan
+        string AccentGreen
+        string AccentYellow
+        string AccentRed
+        string DiffAdded
+        string DiffRemoved
+        string Comment
+        string Gray
+        string[] GradientColors
+    }
+```

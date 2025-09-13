@@ -40,3 +40,24 @@
 - 通过全局异常处理防止应用崩溃
 - 通过模块检查避免在被导入时意外启动服务器
 - 通过环境变量检查避免在测试环境中启动实际服务器
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    server ||--|| main : calls
+    server ||--|| logger : uses
+    server ||--|| path : uses
+    server ||--|| url : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    server {
+        boolean isMainModule
+        string process.argv[1]
+        string import.meta.url
+    }
+```

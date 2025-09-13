@@ -29,3 +29,19 @@
 ## 使用方式
 
 该配置文件会被 Vitest 自动加载，用于配置测试运行环境。当运行 `npm test` 或 `vitest` 命令时，会使用此配置来执行测试和生成报告。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    vitest_config ||--|| defineConfig : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    vitest_config {
+        Object config
+    }
+```

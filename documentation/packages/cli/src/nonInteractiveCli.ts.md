@@ -116,3 +116,57 @@
 - 管道输入处理 (echo "prompt" | gemini)
 - 脚本中调用 (gemini "prompt" > output.txt)
 - 自动化工作流集成
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    nonInteractiveCli ||--|| Config : uses
+    nonInteractiveCli ||--|| ToolCallRequestInfo : uses
+    nonInteractiveCli ||--|| executeToolCall : calls
+    nonInteractiveCli ||--|| shutdownTelemetry : calls
+    nonInteractiveCli ||--|| isTelemetrySdkInitialized : calls
+    nonInteractiveCli ||--|| GeminiEventType : uses
+    nonInteractiveCli ||--|| parseAndFormatApiError : calls
+    nonInteractiveCli ||--|| FatalInputError : uses
+    nonInteractiveCli ||--|| FatalTurnLimitedError : uses
+    nonInteractiveCli ||--|| Content : uses
+    nonInteractiveCli ||--|| Part : uses
+    nonInteractiveCli ||--|| ConsolePatcher : creates
+    nonInteractiveCli ||--|| handleAtCommand : calls
+    runNonInteractive ||--|| ConsolePatcher : creates
+    runNonInteractive ||--|| handleAtCommand : calls
+    runNonInteractive ||--|| AbortController : creates
+    runNonInteractive ||--|| geminiClient : uses
+    runNonInteractive ||--|| GeminiEventType : uses
+    runNonInteractive ||--|| executeToolCall : calls
+    runNonInteractive ||--|| FatalInputError : throws
+    runNonInteractive ||--|| FatalTurnLimitedError : throws
+    runNonInteractive ||--|| parseAndFormatApiError : calls
+    runNonInteractive ||--|| process : uses
+    runNonInteractive ||--|| consolePatcher : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    runNonInteractive {
+        Config config
+        string input
+        string prompt_id
+        ConsolePatcher consolePatcher
+        Object geminiClient
+        AbortController abortController
+        Object processedQuery
+        boolean shouldProceed
+        Content[] currentMessages
+        number turnCount
+        ToolCallRequestInfo[] toolCallRequests
+        Object responseStream
+        Part[] toolResponseParts
+        Object requestInfo
+        Object toolResponse
+        Error error
+    }
+```

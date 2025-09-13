@@ -43,3 +43,26 @@
 2. Gemini API 方式需要 API 密钥
 3. Vertex AI 方式需要项目配置或 API 密钥
 4. 提供详细的错误信息帮助用户解决问题
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    auth ||--|| AuthType : uses
+    auth ||--|| loadEnvironment : calls
+    auth ||--|| loadSettings : calls
+    validateAuthMethod ||--|| loadEnvironment : calls
+    validateAuthMethod ||--|| loadSettings : calls
+    validateAuthMethod ||--|| AuthType : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    validateAuthMethod {
+        string authMethod
+        boolean hasVertexProjectLocationConfig
+        boolean hasGoogleApiKey
+    }
+```

@@ -12,3 +12,12 @@
 1. `./agent/executor.js` - 导出代理执行器相关功能
 2. `./http/app.js` - 导出 HTTP 应用相关功能
 3. `./types.js` - 导出类型定义
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    index ||--|| executor : exports
+    index ||--|| app : exports
+    index ||--|| types : exports
+```

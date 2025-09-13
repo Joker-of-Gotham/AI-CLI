@@ -45,3 +45,32 @@ gemini mcp remove my-server --scope user
 
 - 如果指定的服务器不存在，会显示相应提示信息
 - 操作成功后会显示确认信息
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    remove ||--|| loadSettings : calls
+    remove ||--|| SettingScope : uses
+    removeCommand ||--|| removeMcpServer : calls
+    removeCommand ||--|| CommandModule : implements
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    removeMcpServer {
+        string name
+        Object options
+        string scope
+        SettingScope settingsScope
+        Object settings
+        Object existingSettings
+        Object mcpServers
+        boolean serverExists
+    }
+    removeCommand {
+        CommandModule commandModule
+    }
+```

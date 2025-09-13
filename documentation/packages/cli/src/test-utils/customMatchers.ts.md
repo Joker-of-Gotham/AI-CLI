@@ -1,53 +1,50 @@
 # customMatchers.ts
 
-此文件为 Vitest 测试框架定义了自定义匹配器，用于验证 TextBuffer 对象。
+这个文件定义了自定义的 Vitest 匹配器，用于测试中验证文本缓冲区的有效字符。
 
-## 概述
+## 功能概述
 
-该文件使用自定义匹配器扩展了 Vitest 的 `expect` 接口，以检查 TextBuffer 是否仅包含有效字符。
+1. 定义 `toHaveOnlyValidCharacters` 自定义匹配器
+2. 扩展 Vitest 的 `expect` 接口
+3. 检测文本缓冲区中的无效字符
 
-## 自定义匹配器
+## 匹配器函数
 
 ### toHaveOnlyValidCharacters
+- 检查 `TextBuffer` 对象是否只包含有效字符
+- 检测无效字符：退格符和 ANSI 转义码
+- 检测换行符（`\n`）
+- 返回详细的错误信息，包括包含无效字符的行号和内容
 
-```typescript
-function toHaveOnlyValidCharacters(this: Assertion, buffer: TextBuffer)
+## 依赖关系
+
+- 依赖 `vitest` 进行测试断言
+- 依赖 `../ui/components/shared/text-buffer.js` 中的 `TextBuffer` 类型
+
+## 正则表达式
+
+使用正则表达式 `/[\b\x1b]/` 检测退格符和 ANSI 转义码。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    toHaveOnlyValidCharacters ||--|| TextBuffer : uses
+    toHaveOnlyValidCharacters ||--|| RegExp : uses
+    toHaveOnlyValidCharacters ||--|| expect : extends
 ```
 
-此匹配器通过确保以下内容来检查 TextBuffer 是否仅包含有效字符：
-1. 行内没有换行字符
-2. 没有退格字符 (`\b`)
-3. 没有 ANSI 转义码 (`\x1b`)
+## 变量级调用关系
 
-**参数:**
-- `buffer`: 要验证的 TextBuffer
-
-**返回:**
-- 一个符合 Vitest 匹配器 API 的对象，包含 `pass`、`message`、`actual` 和 `expected` 属性
-
-## 实现细节
-
-### 无效字符检测
-
-匹配器使用正则表达式来检测无效字符：
-```typescript
-const invalidCharsRegex = /[\b\x1b]/;
+```mermaid
+erDiagram
+    toHaveOnlyValidCharacters {
+        Assertion this
+        boolean isNot
+        boolean pass
+        Array~object~ invalidLines
+        number i
+        string line
+        RegExp invalidCharsRegex
+    }
 ```
-
-此正则表达式匹配：
-- `\b` - 退格字符
-- `\x1b` - ANSI 转义码
-
-### 验证过程
-
-1. 遍历缓冲区中的每一行
-2. 检查行内是否有换行字符（不应存在）
-3. 使用无效字符正则表达式测试每一行
-4. 收集有关无效行的信息用于错误报告
-
-### 错误报告
-
-当发现无效字符时，匹配器提供详细信息：
-- 包含无效字符的行
-- 这些行的实际内容
-- 期望的格式（无换行符、退格符或转义码的行）

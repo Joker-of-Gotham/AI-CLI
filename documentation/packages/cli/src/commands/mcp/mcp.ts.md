@@ -52,3 +52,22 @@ gemini mcp list
 # 移除 MCP 服务器
 gemini mcp remove my-server
 ```
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    mcp ||--|| addCommand : imports
+    mcp ||--|| removeCommand : imports
+    mcp ||--|| listCommand : imports
+    mcp ||--|| CommandModule : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    mcp {
+        CommandModule mcpCommand
+    }
+```

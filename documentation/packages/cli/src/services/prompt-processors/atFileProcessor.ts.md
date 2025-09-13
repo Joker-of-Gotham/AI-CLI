@@ -1,60 +1,70 @@
 # atFileProcessor.ts
 
-此文件实现了 `AtFileProcessor` 类，该类使用 `@{filePath}` 语法处理提示中的文件内容注入。
+这个文件定义了 `AtFileProcessor` 类，用于处理提示中的文件注入（@{file} 语法）。
 
-## 类: AtFileProcessor
+## 功能概述
 
-实现 `IPromptProcessor` 接口以处理提示中的文件内容注入。
+1. 实现 `IPromptProcessor` 接口
+2. 解析和注入 `@{file}` 语法引用的文件内容
+3. 处理文件读取错误和忽略文件的情况
 
-### 构造函数
+## 类和方法
 
-```typescript
-constructor(private readonly commandName?: string)
+### AtFileProcessor
+- 实现 `IPromptProcessor` 接口
+- 构造函数接收可选的命令名称
+- `process` 方法处理提示内容并注入文件内容
+
+## 依赖关系
+
+- 依赖 `@google/gemini-cli-core` 中的 `flatMapTextParts` 和 `readPathFromWorkspace` 函数
+- 依赖 `../../ui/commands/types.js` 中的 `CommandContext` 类型
+- 依赖 `../../ui/types.js` 中的 `MessageType` 枚举
+- 依赖 `./types.js` 中的类型定义
+- 依赖 `./injectionParser.js` 中的 `extractInjections` 函数
+
+## 处理逻辑
+
+1. 查找文本中的 `@{file}` 注入点
+2. 提取文件路径并读取内容
+3. 将文件内容替换到提示中
+4. 处理错误情况并显示相应消息
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    AtFileProcessor ||--|| IPromptProcessor : implements
+    AtFileProcessor ||--|| process : method
+    process ||--|| flatMapTextParts : calls
+    process ||--|| extractInjections : calls
+    process ||--|| readPathFromWorkspace : calls
+    process ||--|| CommandContext : uses
+    process ||--|| MessageType : uses
 ```
 
-**参数:**
-- `commandName`: 可选的命令名称，用于错误消息
+## 变量级调用关系
 
-### 方法
-
-#### process
-
-```typescript
-async process(
-  input: PromptPipelineContent,
-  context: CommandContext,
-): Promise<PromptPipelineContent>
+```mermaid
+erDiagram
+    AtFileProcessor {
+        readonly string | undefined commandName
+    }
+    process {
+        PromptPipelineContent input
+        CommandContext context
+        Config config
+        PromptPipelineContent result
+        string text
+        Injection[] injections
+        PromptPipelineContent output
+        number lastIndex
+        Injection injection
+        string prefix
+        string pathStr
+        Array~unknown~ fileContentParts
+        string uiMessage
+        string message
+        string suffix
+    }
 ```
-
-通过将 `@{filePath}` 占位符替换为实际文件内容来处理提示内容。
-
-**参数:**
-- `input`: 要处理的当前提示内容
-- `context`: 包含服务和 UI 处理程序的命令上下文
-
-**返回:**
-- 解析为处理后的提示内容（包含注入的文件内容）的承诺
-
-**实现细节:**
-1. 检查配置服务是否可用
-2. 使用 `flatMapTextParts` 处理提示的每个文本部分
-3. 对于每个文本部分，检查 `@{...}` 注入触发器
-4. 使用 `extractInjections` 工具提取注入
-5. 对于每个注入：
-   - 使用 `readPathFromWorkspace` 读取文件内容
-   - 通过显示信息消息处理被忽略的文件（由 .gitignore 或 .geminiignore）
-   - 通过显示错误消息并保留占位符来处理错误
-   - 将文件内容注入到提示中
-6. 保持非注入文本部分不变
-
-### 错误处理
-
-- 如果配置不可用，返回未更改的输入
-- 文件读取错误被捕获并记录，占位符保留在提示中
-- 为成功和失败的文件注入添加 UI 消息
-
-### 依赖项
-
-- 使用 `./injectionParser.js` 中的 `extractInjections` 来解析 `@{...}` 表达式
-- 使用 `@google/gemini-cli-core` 中的 `readPathFromWorkspace` 来读取文件内容
-- 使用 `@google/gemini-cli-core` 中的 `flatMapTextParts` 来处理文本部分

@@ -1,63 +1,63 @@
 # CommandService.ts
 
-`CommandService` 类协调所有斜杠命令的发现和加载。
+这个文件定义了 `CommandService` 类，用于协调和管理 CLI 中所有斜杠命令的发现和加载。
 
-## 类概述
+## 功能概述
 
-```typescript
-export class CommandService
+1. 实现命令加载器的编排和管理
+2. 处理命令名称冲突
+3. 提供统一的命令访问接口
+
+## 类和方法
+
+### CommandService
+- 使用提供者模式的命令加载器架构
+- 私有构造函数，强制使用异步工厂方法创建实例
+- `create` 静态方法用于异步创建和初始化服务实例
+- `getCommands` 方法用于获取加载的命令列表
+
+## 设计模式
+
+- 工厂模式：通过 `create` 静态方法创建实例
+- 提供者模式：支持多种命令加载器
+- 冲突解决机制：处理命令名称重复问题
+
+## 冲突解决策略
+
+1. 扩展命令与现有命令冲突时重命名为 `extensionName.commandName`
+2. 非扩展命令（内置、用户、项目）根据加载器顺序覆盖同名命令
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    CommandService ||--|| ICommandLoader : uses
+    CommandService ||--|| SlashCommand : uses
+    CommandService ||--|| create : static_method
+    CommandService ||--|| getCommands : method
+    create ||--|| Promise : returns
+    create ||--|| loadCommands : calls
+    create ||--|| console : uses
+    getCommands ||--|| readonly : returns
 ```
 
-此服务基于提供者模式的加载器运行。它使用 `ICommandLoader` 实例数组进行初始化，每个实例负责从特定源获取命令（例如，内置代码、本地文件）。
+## 变量级调用关系
 
-CommandService 负责调用这些加载器，聚合它们的结果，并解决任何名称冲突。这种架构允许在不修改服务本身的情况下扩展命令系统以支持新源。
-
-## 构造函数
-
-```typescript
-private constructor(private readonly commands: readonly SlashCommand[])
+```mermaid
+erDiagram
+    CommandService {
+        readonly SlashCommand[] commands
+    }
+    create {
+        PromiseSettledResult~SlashCommand[]~[] results
+        SlashCommand[] allCommands
+        Map~string,SlashCommand~ commandMap
+        string finalName
+        string renamedName
+        number suffix
+        readonly SlashCommand[] finalCommands
+    }
+    getCommands {
+        readonly SlashCommand[] commands
+    }
 ```
-
-构造函数是私有的，以强制使用异步工厂方法创建实例。
-
-## 静态方法
-
-### create
-
-```typescript
-static async create(
-  loaders: ICommandLoader[],
-  signal: AbortSignal,
-): Promise<CommandService>
-```
-
-异步创建并初始化新的 CommandService 实例。此工厂方法协调整个命令加载过程。
-
-**参数:**
-- `loaders`: 符合 `ICommandLoader` 接口的对象数组。内置命令应排在前面，然后是 FileCommandLoader。
-- `signal`: 用于取消加载过程的 AbortSignal。
-
-**返回:**
-- 解析为新创建的、完全初始化的 `CommandService` 实例的承诺。
-
-#### 冲突解决
-
-- 与现有命令冲突的扩展命令会被重命名为 `extensionName.commandName`
-- 非扩展命令（内置、用户、项目）根据加载器顺序覆盖同名的早期命令
-
-## 实例方法
-
-### getCommands
-
-```typescript
-getCommands(): readonly SlashCommand[]
-```
-
-检索当前加载和去重的斜杠命令列表。
-
-**返回:**
-- 可用 `SlashCommand` 对象的只读统一数组。
-
-## 实现细节
-
-服务并行运行所有提供的加载器，聚合它们的结果，通过重命名处理扩展命令的名称冲突，然后返回完全构建的 `CommandService` 实例。

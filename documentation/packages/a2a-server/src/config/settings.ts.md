@@ -75,3 +75,44 @@ function resolveEnvVarsInObject<T>(obj: T): T
 - `SETTINGS_DIRECTORY_NAME`: 设置目录名
 - `USER_SETTINGS_DIR`: 用户设置目录
 - `USER_SETTINGS_PATH`: 用户设置文件路径
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    loadSettings ||--|| fs : uses
+    loadSettings ||--|| path : uses
+    loadSettings ||--|| homedir : uses
+    loadSettings ||--|| JSON : uses
+    loadSettings ||--|| stripJsonComments : uses
+    loadSettings ||--|| resolveEnvVarsInObject : calls
+    loadSettings ||--|| getErrorMessage : calls
+    resolveEnvVarsInString ||--|| process : uses
+    resolveEnvVarsInObject ||--|| resolveEnvVarsInString : calls
+    resolveEnvVarsInObject ||--|| Array : uses
+    resolveEnvVarsInObject ||--|| Object : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    loadSettings {
+        string workspaceDir
+        Settings userSettings
+        Settings workspaceSettings
+        SettingsError[] settingsErrors
+        string userContent
+        string projectContent
+        string workspaceSettingsPath
+    }
+    resolveEnvVarsInString {
+        string value
+        RegExp envVarRegex
+        string varName
+    }
+    resolveEnvVarsInObject {
+        T obj
+        T newObj
+    }
+```

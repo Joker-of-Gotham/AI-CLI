@@ -1,68 +1,72 @@
 # BuiltinCommandLoader.ts
 
-`BuiltinCommandLoader` 类负责加载作为 Gemini CLI 应用程序组成部分的核心硬编码斜杠命令。
+这个文件定义了 `BuiltinCommandLoader` 类，用于加载 Gemini CLI 应用程序的核心内置斜杠命令。
 
-## 类概述
+## 功能概述
 
-```typescript
-export class BuiltinCommandLoader implements ICommandLoader
+1. 导入所有内置的斜杠命令
+2. 实现 `ICommandLoader` 接口
+3. 提供加载所有内置命令的方法
+
+## 类和方法
+
+### BuiltinCommandLoader
+- 实现 `ICommandLoader` 接口
+- 构造函数接收一个可选的 `Config` 对象
+- `loadCommands` 方法异步加载所有内置命令并返回 `SlashCommand` 数组
+
+## 依赖关系
+
+- 依赖 `@google/gemini-cli-core` 中的 `Config` 类型
+- 依赖 `./types.js` 中的 `ICommandLoader` 接口
+- 依赖 `../ui/commands/types.js` 中的 `SlashCommand` 类型
+- 导入所有内置命令模块
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    BuiltinCommandLoader ||--|| ICommandLoader : implements
+    BuiltinCommandLoader ||--|| Config : uses
+    BuiltinCommandLoader ||--|| SlashCommand : uses
+    BuiltinCommandLoader ||--|| loadCommands : method
+    loadCommands ||--|| aboutCommand : imports
+    loadCommands ||--|| authCommand : imports
+    loadCommands ||--|| bugCommand : imports
+    loadCommands ||--|| chatCommand : imports
+    loadCommands ||--|| clearCommand : imports
+    loadCommands ||--|| compressCommand : imports
+    loadCommands ||--|| copyCommand : imports
+    loadCommands ||--|| corgiCommand : imports
+    loadCommands ||--|| docsCommand : imports
+    loadCommands ||--|| directoryCommand : imports
+    loadCommands ||--|| editorCommand : imports
+    loadCommands ||--|| extensionsCommand : imports
+    loadCommands ||--|| helpCommand : imports
+    loadCommands ||--|| ideCommand : imports
+    loadCommands ||--|| initCommand : imports
+    loadCommands ||--|| mcpCommand : imports
+    loadCommands ||--|| memoryCommand : imports
+    loadCommands ||--|| privacyCommand : imports
+    loadCommands ||--|| quitCommand : imports
+    loadCommands ||--|| restoreCommand : imports
+    loadCommands ||--|| statsCommand : imports
+    loadCommands ||--|| themeCommand : imports
+    loadCommands ||--|| toolsCommand : imports
+    loadCommands ||--|| settingsCommand : imports
+    loadCommands ||--|| vimCommand : imports
+    loadCommands ||--|| setupGithubCommand : imports
+    loadCommands ||--|| terminalSetupCommand : imports
 ```
 
-此类实现 `ICommandLoader` 接口，并提供加载 CLI 中所有内置命令的功能。
+## 变量级调用关系
 
-## 构造函数
-
-```typescript
-constructor(private config: Config | null)
+```mermaid
+erDiagram
+    BuiltinCommandLoader {
+        Config | null config
+    }
+    loadCommands {
+        Array~SlashCommand | null~ allDefinitions
+    }
 ```
-
-构造函数接受一个可选的 `Config` 对象，某些命令在初始化期间可能需要使用。
-
-## 方法
-
-### loadCommands
-
-```typescript
-async loadCommands(_signal: AbortSignal): Promise<SlashCommand[]>
-```
-
-此方法收集所有原始内置命令定义，注入所需的依赖项（例如配置），并过滤掉不可用的命令。
-
-**参数:**
-- `_signal`: AbortSignal（对于此同步加载器未使用）
-
-**返回:**
-- 解析为 `SlashCommand` 对象数组的承诺
-
-## 实现细节
-
-加载器导入并聚合来自 UI 命令目录的所有内置命令，包括：
-- aboutCommand
-- authCommand
-- bugCommand
-- chatCommand
-- clearCommand
-- compressCommand
-- copyCommand
-- corgiCommand
-- docsCommand
-- directoryCommand
-- editorCommand
-- extensionsCommand
-- helpCommand
-- ideCommand
-- initCommand
-- mcpCommand
-- memoryCommand
-- privacyCommand
-- quitCommand
-- restoreCommand
-- statsCommand
-- themeCommand
-- toolsCommand
-- settingsCommand
-- vimCommand
-- setupGithubCommand
-- terminalSetupCommand
-
-需要配置的命令在初始化期间传递配置对象。

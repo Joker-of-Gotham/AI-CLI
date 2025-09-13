@@ -142,3 +142,226 @@
 - 扩展管理命令执行
 - 工作区扩展迁移
 - 扩展配置解析
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    extension ||--|| Storage : uses
+    extension ||--|| fs : uses
+    extension ||--|| path : uses
+    extension ||--|| os : uses
+    extension ||--|| simpleGit : uses
+    extension ||--|| SettingScope : uses
+    extension ||--|| loadSettings : calls
+    extension ||--|| getErrorMessage : uses
+    extension ||--|| recursivelyHydrateStrings : calls
+    extension ||--|| isWorkspaceTrusted : calls
+    extension ||--|| resolveEnvVarsInObject : calls
+    ExtensionStorage ||--|| Storage : uses
+    ExtensionStorage ||--|| fs : uses
+    ExtensionStorage ||--|| path : uses
+    ExtensionStorage ||--|| os : uses
+    getWorkspaceExtensions ||--|| loadExtensionsFromDir : calls
+    copyExtension ||--|| fs : uses
+    performWorkspaceExtensionMigration ||--|| installExtension : calls
+    loadExtensions ||--|| loadUserExtensions : calls
+    loadExtensions ||--|| getWorkspaceExtensions : calls
+    loadExtensions ||--|| isWorkspaceTrusted : calls
+    loadExtensions ||--|| loadSettings : calls
+    loadUserExtensions ||--|| loadExtensionsFromDir : calls
+    loadExtensionsFromDir ||--|| Storage : uses
+    loadExtensionsFromDir ||--|| fs : uses
+    loadExtensionsFromDir ||--|| path : uses
+    loadExtensionsFromDir ||--|| loadExtension : calls
+    loadExtension ||--|| fs : uses
+    loadExtension ||--|| path : uses
+    loadExtension ||--|| loadInstallMetadata : calls
+    loadExtension ||--|| getContextFileNames : calls
+    loadExtension ||--|| recursivelyHydrateStrings : calls
+    loadExtension ||--|| resolveEnvVarsInObject : calls
+    loadInstallMetadata ||--|| fs : uses
+    loadInstallMetadata ||--|| path : uses
+    getContextFileNames ||--|| ExtensionConfig : uses
+    annotateActiveExtensions ||--|| loadSettings : calls
+    cloneFromGit ||--|| simpleGit : uses
+    installExtension ||--|| ExtensionStorage : creates
+    installExtension ||--|| loadSettings : calls
+    installExtension ||--|| isWorkspaceTrusted : calls
+    installExtension ||--|| fs : uses
+    installExtension ||--|| path : uses
+    installExtension ||--|| cloneFromGit : calls
+    installExtension ||--|| loadExtensionConfig : calls
+    installExtension ||--|| copyExtension : calls
+    loadExtensionConfig ||--|| fs : uses
+    loadExtensionConfig ||--|| path : uses
+    loadExtensionConfig ||--|| recursivelyHydrateStrings : calls
+    uninstallExtension ||--|| loadUserExtensions : calls
+    uninstallExtension ||--|| removeFromDisabledExtensions : calls
+    uninstallExtension ||--|| ExtensionStorage : creates
+    uninstallExtension ||--|| fs : uses
+    toOutputString ||--|| Extension : uses
+    updateExtensionByName ||--|| loadUserExtensions : calls
+    updateExtensionByName ||--|| updateExtension : calls
+    updateExtension ||--|| ExtensionStorage : creates
+    updateExtension ||--|| loadExtension : calls
+    updateExtension ||--|| uninstallExtension : calls
+    updateExtension ||--|| installExtension : calls
+    updateExtension ||--|| fs : uses
+    updateExtension ||--|| copyExtension : calls
+    disableExtension ||--|| SettingScope : uses
+    disableExtension ||--|| loadSettings : calls
+    enableExtension ||--|| removeFromDisabledExtensions : calls
+    removeFromDisabledExtensions ||--|| loadSettings : calls
+    updateAllUpdatableExtensions ||--|| loadExtensions : calls
+    updateAllUpdatableExtensions ||--|| updateExtension : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    ExtensionStorage {
+        string extensionName
+    }
+    getWorkspaceExtensions {
+        string workspaceDir
+        Extension[] extensions
+    }
+    copyExtension {
+        string source
+        string destination
+    }
+    performWorkspaceExtensionMigration {
+        Extension[] extensions
+        string[] failedInstallNames
+    }
+    loadExtensions {
+        string workspaceDir
+        Object settings
+        Array disabledExtensions
+        Extension[] allExtensions
+        Map uniqueExtensions
+    }
+    loadUserExtensions {
+        Extension[] userExtensions
+        Map uniqueExtensions
+    }
+    loadExtensionsFromDir {
+        string dir
+        Storage storage
+        string extensionsDir
+        Extension[] extensions
+        string[] subdirs
+        string subdir
+        string extensionDir
+        Extension extension
+    }
+    loadExtension {
+        string extensionDir
+        ExtensionInstallMetadata installMetadata
+        string effectiveExtensionPath
+        string configFilePath
+        string configContent
+        ExtensionConfig config
+        string[] contextFiles
+    }
+    loadInstallMetadata {
+        string extensionDir
+        string metadataFilePath
+        string configContent
+        ExtensionInstallMetadata metadata
+    }
+    getContextFileNames {
+        ExtensionConfig config
+        string[] contextFileNames
+    }
+    annotateActiveExtensions {
+        Extension[] extensions
+        string[] enabledExtensionNames
+        string workspaceDir
+        Object settings
+        Array disabledExtensions
+        GeminiCLIExtension[] annotatedExtensions
+        Set lowerCaseEnabledExtensions
+        Set notFoundNames
+    }
+    cloneFromGit {
+        string gitUrl
+        string destination
+    }
+    installExtension {
+        ExtensionInstallMetadata installMetadata
+        string cwd
+        Object settings
+        string extensionsDir
+        string localSourcePath
+        string tempDir
+        string newExtensionName
+        ExtensionConfig newExtensionConfig
+        ExtensionStorage extensionStorage
+        string destinationPath
+        Extension[] installedExtensions
+        string metadataString
+        string metadataPath
+    }
+    loadExtensionConfig {
+        string extensionDir
+        string configFilePath
+        string configContent
+        ExtensionConfig config
+    }
+    uninstallExtension {
+        string extensionName
+        string cwd
+        Extension[] installedExtensions
+        ExtensionStorage storage
+    }
+    toOutputString {
+        Extension extension
+        string output
+    }
+    updateExtensionByName {
+        string extensionName
+        string cwd
+        Extension[] installedExtensions
+        Extension extension
+        ExtensionUpdateInfo updateInfo
+    }
+    updateExtension {
+        Extension extension
+        string cwd
+        string originalVersion
+        string tempDir
+        ExtensionStorage updatedExtensionStorage
+        Extension updatedExtension
+        string updatedVersion
+    }
+    disableExtension {
+        string name
+        SettingScope scope
+        string cwd
+        Object settings
+        Object settingsFile
+        Object extensionSettings
+        Array disabledExtensions
+    }
+    enableExtension {
+        string name
+        SettingScope[] scopes
+    }
+    removeFromDisabledExtensions {
+        string name
+        SettingScope[] scopes
+        string cwd
+        Object settings
+        Object settingsFile
+        Object extensionSettings
+        Array disabledExtensions
+    }
+    updateAllUpdatableExtensions {
+        string cwd
+        Extension[] extensions
+        ExtensionUpdateInfo[] updateInfos
+    }
+```

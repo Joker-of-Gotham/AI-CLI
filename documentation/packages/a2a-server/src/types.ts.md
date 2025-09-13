@@ -42,3 +42,24 @@
 - `METADATA_KEY` - 持久化状态的键名
 - `getPersistedState` - 获取持久化状态的函数
 - `setPersistedState` - 设置持久化状态的函数
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    getPersistedState ||--|| METADATA_KEY : uses
+    setPersistedState ||--|| METADATA_KEY : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    getPersistedState {
+        PersistedTaskMetadata metadata
+    }
+    setPersistedState {
+        PersistedTaskMetadata metadata
+        PersistedStateMetadata state
+    }
+```

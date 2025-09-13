@@ -10,3 +10,10 @@
 ## 导出内容
 
 该文件本身不包含任何逻辑，仅作为导出的中转站，实际导出内容来自 `./src/index.js`。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    index ||--|| src/index : exports
+```

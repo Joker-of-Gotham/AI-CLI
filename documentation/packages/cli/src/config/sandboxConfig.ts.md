@@ -76,3 +76,41 @@
 3. 自动检测可用的沙箱命令
 4. 详细的错误信息帮助用户配置沙箱
 5. 避免循环依赖的设计
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    sandboxConfig ||--|| FatalSandboxError : uses
+    sandboxConfig ||--|| commandExists : uses
+    sandboxConfig ||--|| os : uses
+    sandboxConfig ||--|| getPackageJson : calls
+    sandboxConfig ||--|| Settings : uses
+    loadSandboxConfig ||--|| getSandboxCommand : calls
+    loadSandboxConfig ||--|| getPackageJson : calls
+    getSandboxCommand ||--|| commandExists : uses
+    getSandboxCommand ||--|| os : uses
+    getSandboxCommand ||--|| FatalSandboxError : throws
+    isSandboxCommand ||--|| VALID_SANDBOX_COMMANDS : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    loadSandboxConfig {
+        Settings settings
+        SandboxCliArgs argv
+        any sandboxOption
+        string command
+        Object packageJson
+        string image
+    }
+    getSandboxCommand {
+        boolean|string sandbox
+        string environmentConfiguredSandbox
+    }
+    isSandboxCommand {
+        string value
+    }
+```

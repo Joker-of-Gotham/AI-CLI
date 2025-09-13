@@ -1,61 +1,63 @@
 # injectionParser.ts
 
-此文件提供了用于解析提示模板中的注入表达式（如 `@{...}` 或 `!{...}`）的实用程序。
+这个文件提供了注入解析功能，用于解析提示字符串中的注入点（如 `!{...}` 或 `@{...}`）。
 
-## 接口: Injection
+## 功能概述
 
-表示提示字符串中检测到的单个注入点。
+1. 定义 `Injection` 接口表示注入点
+2. 提供 `extractInjections` 函数解析提示字符串中的注入点
+3. 正确处理嵌套的大括号
 
-### 属性
+## 接口和函数
 
-- `content: string` - 从大括号内提取的内容（例如命令或路径），已修剪
-- `startIndex: number` - 注入的起始索引（包含，指向触发器的开始）
-- `endIndex: number` - 注入的结束索引（不包含，指向闭合 '}' 之后）
-
-## 函数
+### Injection
+- 表示检测到的注入点
+- 包含内容、起始索引和结束索引
 
 ### extractInjections
+- 解析提示字符串以提取注入点
+- 支持嵌套大括号处理
+- 不支持转义字符
+- 如果发现未闭合的注入点会抛出错误
 
-```typescript
-export function extractInjections(
-  prompt: string,
-  trigger: string,
-  contextName?: string,
-): Injection[]
+## 解析逻辑
+
+1. 查找触发序列（如 `!{` 或 `@{`）
+2. 使用大括号计数法处理嵌套
+3. 提取注入内容并创建 `Injection` 对象
+4. 验证所有注入点都正确闭合
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    extractInjections ||--|| Injection : returns
+    extractInjections ||--|| RegExp : uses
+    extractInjections ||--|| string : uses
 ```
 
-迭代解析提示字符串以提取注入（例如 `!{...}` 或 `@{...}`），正确处理内容中的嵌套大括号。
+## 变量级调用关系
 
-**参数:**
-- `prompt`: 要解析的提示字符串
-- `trigger`: 开放触发序列（例如 `'!{'`, `'@{'`）
-- `contextName`: 可选的上下文名称（例如命令名称）用于错误消息
-
-**返回:**
-- 提取的 Injection 对象数组
-
-**抛出:**
-- `Error` 如果找到未闭合的注入
-
-**实现细节:**
-1. 使用简单的大括号计数来处理内容中的嵌套大括号
-2. 不支持大括号的转义
-3. 迭代处理提示，查找触发器的所有实例
-4. 对于找到的每个触发器，计数大括号以定位匹配的闭合大括号
-5. 提取大括号之间的内容并创建 Injection 对象
-6. 如果找到未闭合的注入，抛出带有详细上下文的错误
-
-**解析算法:**
-1. 查找触发字符串的下一个出现位置
-2. 从触发器后的字符开始，计数大括号：
-   - 每个 `{` 增加计数器
-   - 每个 `}` 减少计数器
-   - 当计数器达到 0 时，我们找到了匹配的闭合大括号
-3. 提取触发器和闭合大括号之间的内容
-4. 继续查找更多注入
-5. 如果在闭合所有大括号之前到达字符串末尾，抛出错误
-
-**限制:**
-- 不支持内容中大括号的转义
-- 要求注入内容中的大括号平衡
-- 除了抛出错误外，不优雅地处理格式错误的注入语法
+```mermaid
+erDiagram
+    Injection {
+        string content
+        number startIndex
+        number endIndex
+    }
+    extractInjections {
+        string prompt
+        string trigger
+        string | undefined contextName
+        Injection[] injections
+        number index
+        number startIndex
+        number currentIndex
+        number braceCount
+        boolean foundEnd
+        string char
+        string injectionContent
+        number endIndex
+        string contextInfo
+    }
+```

@@ -80,3 +80,50 @@ function getContextFileNames(config: ExtensionConfig): string[]
 
 - `EXTENSIONS_DIRECTORY_NAME`: 扩展目录名
 - `EXTENSIONS_CONFIG_FILENAME`: 扩展配置文件名
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    loadExtensions ||--|| loadExtensionsFromDir : calls
+    loadExtensions ||--|| logger : uses
+    loadExtensionsFromDir ||--|| fs : uses
+    loadExtensionsFromDir ||--|| loadExtension : calls
+    loadExtension ||--|| fs : uses
+    loadExtension ||--|| JSON : uses
+    loadExtension ||--|| getContextFileNames : calls
+    loadExtension ||--|| logger : uses
+    getContextFileNames ||--|| ExtensionConfig : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    loadExtensions {
+        string workspaceDir
+        Extension[] allExtensions
+        Extension[] uniqueExtensions
+        Set seenNames
+    }
+    loadExtensionsFromDir {
+        string dir
+        string extensionsDir
+        Extension[] extensions
+        string[] subdirs
+        string subdir
+        string extensionDir
+    }
+    loadExtension {
+        string extensionDir
+        string configFilePath
+        string configContent
+        ExtensionConfig config
+        string[] contextFileNames
+        string[] contextFiles
+    }
+    getContextFileNames {
+        ExtensionConfig config
+        string[] contextFileNames
+    }
+```

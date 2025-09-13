@@ -22,3 +22,23 @@
 - 使用 `FatalError` 类型来处理已知的致命错误
 - 对于未知错误，显示完整的堆栈跟踪信息
 - 支持通过 `NO_COLOR` 环境变量控制错误信息的颜色显示
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    index ||--|| main : calls
+    index ||--|| FatalError : uses
+    index ||--|| process : uses
+    index ||--|| console : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    index {
+        Error error
+        string errorMessage
+    }
+```

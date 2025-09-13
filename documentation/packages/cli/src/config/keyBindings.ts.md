@@ -102,3 +102,25 @@
 3. 多种键组合支持（Ctrl、Shift、Command/Meta）
 4. 粘贴操作的特殊处理
 5. 与原始硬编码逻辑的完全兼容
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    keyBindings ||--|| Command : defines
+    keyBindings ||--|| KeyBinding : defines
+    keyBindings ||--|| KeyBindingConfig : defines
+    keyBindings ||--|| defaultKeyBindings : exports
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    keyBindings {
+        Command Command
+        KeyBinding KeyBinding
+        KeyBindingConfig KeyBindingConfig
+        KeyBindingConfig defaultKeyBindings
+    }
+```

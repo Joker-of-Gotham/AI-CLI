@@ -61,3 +61,179 @@
 - 集成扩展系统
 - 支持主题定制
 - 包含更新检查机制
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    gemini ||--|| React : uses
+    gemini ||--|| render : uses
+    gemini ||--|| Box : uses
+    gemini ||--|| Text : uses
+    gemini ||--|| Spinner : uses
+    gemini ||--|| AppContainer : uses
+    gemini ||--|| loadCliConfig : calls
+    gemini ||--|| parseArguments : calls
+    gemini ||--|| readStdin : calls
+    gemini ||--|| basename : uses
+    gemini ||--|| v8 : uses
+    gemini ||--|| os : uses
+    gemini ||--|| dns : uses
+    gemini ||--|| spawn : uses
+    gemini ||--|| start_sandbox : calls
+    gemini ||--|| loadSettings : calls
+    gemini ||--|| themeManager : uses
+    gemini ||--|| getStartupWarnings : calls
+    gemini ||--|| getUserStartupWarnings : calls
+    gemini ||--|| ConsolePatcher : creates
+    gemini ||--|| runNonInteractive : calls
+    gemini ||--|| loadExtensions : calls
+    gemini ||--|| cleanupCheckpoints : calls
+    gemini ||--|| registerCleanup : calls
+    gemini ||--|| runExitCleanup : calls
+    gemini ||--|| getCliVersion : calls
+    gemini ||--|| sessionId : uses
+    gemini ||--|| logUserPrompt : calls
+    gemini ||--|| AuthType : uses
+    gemini ||--|| getOauthClient : calls
+    gemini ||--|| uiTelemetryService : uses
+    gemini ||--|| initializeApp : calls
+    gemini ||--|| validateAuthMethod : calls
+    gemini ||--|| setMaxSizedBoxDebugging : calls
+    gemini ||--|| validateNonInteractiveAuth : calls
+    gemini ||--|| detectAndEnableKittyProtocol : calls
+    gemini ||--|| checkForUpdates : calls
+    gemini ||--|| handleAutoUpdate : calls
+    gemini ||--|| appEvents : uses
+    gemini ||--|| SettingsContext : uses
+    gemini ||--|| SessionStatsProvider : uses
+    gemini ||--|| VimModeProvider : uses
+    gemini ||--|| KeypressProvider : uses
+    gemini ||--|| useKittyKeyboardProtocol : calls
+    gemini ||--|| writeFileSync : uses
+    validateDnsResolutionOrder ||--|| DnsResolutionOrder : uses
+    getNodeMemoryArgs ||--|| os : uses
+    getNodeMemoryArgs ||--|| v8 : uses
+    getNodeMemoryArgs ||--|| Config : uses
+    relaunchWithAdditionalArgs ||--|| spawn : uses
+    setupUnhandledRejectionHandler ||--|| process : uses
+    setupUnhandledRejectionHandler ||--|| appEvents : uses
+    startInteractiveUI ||--|| getCliVersion : calls
+    startInteractiveUI ||--|| setWindowTitle : calls
+    startInteractiveUI ||--|| SettingsContext : uses
+    startInteractiveUI ||--|| KeypressProvider : uses
+    startInteractiveUI ||--|| SessionStatsProvider : uses
+    startInteractiveUI ||--|| VimModeProvider : uses
+    startInteractiveUI ||--|| AppContainer : uses
+    startInteractiveUI ||--|| useKittyKeyboardProtocol : calls
+    startInteractiveUI ||--|| render : uses
+    startInteractiveUI ||--|| checkForUpdates : calls
+    startInteractiveUI ||--|| handleAutoUpdate : calls
+    startInteractiveUI ||--|| registerCleanup : calls
+    main ||--|| setupUnhandledRejectionHandler : calls
+    main ||--|| loadSettings : calls
+    main ||--|| cleanupCheckpoints : calls
+    main ||--|| parseArguments : calls
+    main ||--|| loadExtensions : calls
+    main ||--|| loadCliConfig : calls
+    main ||--|| detectAndEnableKittyProtocol : calls
+    main ||--|| registerCleanup : calls
+    main ||--|| ConsolePatcher : creates
+    main ||--|| validateDnsResolutionOrder : calls
+    main ||--|| dns : uses
+    main ||--|| SettingScope : uses
+    main ||--|| AuthType : uses
+    main ||--|| setMaxSizedBoxDebugging : calls
+    main ||--|| config.initialize : calls
+    main ||--|| themeManager : uses
+    main ||--|| initializeApp : calls
+    main ||--|| validateAuthMethod : calls
+    main ||--|| readStdin : calls
+    main ||--|| start_sandbox : calls
+    main ||--|| getNodeMemoryArgs : calls
+    main ||--|| relaunchWithAdditionalArgs : calls
+    main ||--|| getOauthClient : calls
+    main ||--|| runZedIntegration : calls
+    main ||--|| getStartupWarnings : calls
+    main ||--|| getUserStartupWarnings : calls
+    main ||--|| startInteractiveUI : calls
+    main ||--|| logUserPrompt : calls
+    main ||--|| validateNonInteractiveAuth : calls
+    main ||--|| runNonInteractive : calls
+    main ||--|| runExitCleanup : calls
+    setWindowTitle ||--|| process : uses
+    setWindowTitle ||--|| LoadedSettings : uses
+    InitializingComponent ||--|| useState : uses
+    InitializingComponent ||--|| useEffect : uses
+    InitializingComponent ||--|| appEvents : uses
+    InitializingComponent ||--|| Box : uses
+    InitializingComponent ||--|| Text : uses
+    InitializingComponent ||--|| Spinner : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    validateDnsResolutionOrder {
+        string order
+        DnsResolutionOrder defaultValue
+    }
+    getNodeMemoryArgs {
+        Config config
+        number totalMemoryMB
+        Object heapStats
+        number currentMaxOldSpaceSizeMb
+        number targetMaxOldSpaceSizeInMB
+    }
+    relaunchWithAdditionalArgs {
+        string[] additionalArgs
+        string[] nodeArgs
+        Object newEnv
+        Object child
+    }
+    setupUnhandledRejectionHandler {
+        boolean unhandledRejectionOccurred
+        string errorMessage
+    }
+    startInteractiveUI {
+        Config config
+        LoadedSettings settings
+        string[] startupWarnings
+        string workspaceRoot
+        InitializationResult initializationResult
+        string version
+    }
+    main {
+        LoadedSettings settings
+        Object argv
+        Extension[] extensions
+        Config config
+        boolean wasRaw
+        Promise kittyProtocolDetectionComplete
+        ConsolePatcher consolePatcher
+        Object mcpServers
+        number mcpServersCount
+        Object spinnerInstance
+        InitializationResult initializationResult
+        string[] memoryArgs
+        Object sandboxConfig
+        string stdinData
+        string[] sandboxArgs
+        string input
+        string[] startupWarnings
+        string prompt_id
+        Config nonInteractiveConfig
+    }
+    setWindowTitle {
+        string title
+        LoadedSettings settings
+        string windowTitle
+    }
+    InitializingComponent {
+        number initialTotal
+        number total
+        number connected
+        string message
+    }
+```

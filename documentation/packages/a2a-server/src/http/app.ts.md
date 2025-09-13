@@ -50,3 +50,46 @@ export async function main()
 ```
 
 主函数，启动服务器。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    createApp ||--|| express : creates
+    createApp ||--|| GCSTaskStore : creates
+    createApp ||--|| NoOpTaskStore : creates
+    createApp ||--|| InMemoryTaskStore : creates
+    createApp ||--|| CoderAgentExecutor : creates
+    createApp ||--|| DefaultRequestHandler : creates
+    createApp ||--|| A2AExpressApp : creates
+    createApp ||--|| requestStorage : uses
+    main ||--|| createApp : calls
+    main ||--|| updateCoderAgentCardUrl : calls
+    main ||--|| logger : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    createApp {
+        string bucketName
+        TaskStore taskStoreForExecutor
+        TaskStore taskStoreForHandler
+        GCSTaskStore gcsTaskStore
+        InMemoryTaskStore inMemoryTaskStore
+        CoderAgentExecutor agentExecutor
+        DefaultRequestHandler requestHandler
+        express.Application expressApp
+        A2AExpressApp appBuilder
+    }
+    main {
+        express.Application expressApp
+        string port
+        Server server
+        string actualPort
+    }
+    updateCoderAgentCardUrl {
+        number port
+    }
+```

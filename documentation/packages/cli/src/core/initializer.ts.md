@@ -65,3 +65,31 @@
 ## 使用场景
 
 此函数在应用程序启动时调用，位于 React UI 渲染之前，确保所有必要的初始化操作完成后再显示用户界面。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    initializer ||--|| Config : uses
+    initializer ||--|| LoadedSettings : uses
+    initializer ||--|| performInitialAuth : calls
+    initializer ||--|| validateTheme : calls
+    initializeApp ||--|| performInitialAuth : calls
+    initializeApp ||--|| validateTheme : calls
+    initializeApp ||--|| Config : uses
+    initializeApp ||--|| LoadedSettings : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    initializeApp {
+        Config config
+        LoadedSettings settings
+        string authError
+        string themeError
+        boolean shouldOpenAuthDialog
+        InitializationResult result
+    }
+```

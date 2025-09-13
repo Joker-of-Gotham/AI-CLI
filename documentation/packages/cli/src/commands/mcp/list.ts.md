@@ -70,3 +70,58 @@ Configured MCP servers:
 ✓ python-server: python /path/to/server.py (stdio) - Connected
 ✗ http-server: http://localhost:8080 (http) - Disconnected
 ```
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    list ||--|| loadSettings : calls
+    list ||--|| loadExtensions : calls
+    list ||--|| createTransport : calls
+    list ||--|| Client : uses
+    list ||--|| MCPServerStatus : uses
+    getMcpServersFromConfig ||--|| loadSettings : calls
+    getMcpServersFromConfig ||--|| loadExtensions : calls
+    testMCPConnection ||--|| Client : creates
+    testMCPConnection ||--|| createTransport : calls
+    getServerStatus ||--|| testMCPConnection : calls
+    listMcpServers ||--|| getMcpServersFromConfig : calls
+    listMcpServers ||--|| getServerStatus : calls
+    listCommand ||--|| listMcpServers : calls
+    listCommand ||--|| CommandModule : implements
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    getMcpServersFromConfig {
+        Object settings
+        Extension[] extensions
+        Record mcpServers
+    }
+    testMCPConnection {
+        string serverName
+        MCPServerConfig config
+        Client client
+        Object transport
+    }
+    getServerStatus {
+        string serverName
+        MCPServerConfig server
+        MCPServerStatus status
+    }
+    listMcpServers {
+        Record mcpServers
+        string[] serverNames
+        string serverName
+        MCPServerConfig server
+        MCPServerStatus status
+        string statusIndicator
+        string statusText
+        string serverInfo
+    }
+    listCommand {
+        CommandModule commandModule
+    }
+```

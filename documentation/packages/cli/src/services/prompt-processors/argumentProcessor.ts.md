@@ -1,44 +1,47 @@
 # argumentProcessor.ts
 
-此文件实现了 `DefaultArgumentProcessor` 类，该类负责在提示模板没有显式使用 `{{args}}` 占位符时将用户命令参数附加到提示中。
+这个文件定义了 `DefaultArgumentProcessor` 类，用于在提示中不包含 `{{args}}` 时将用户的完整命令调用附加到提示中。
 
-## 类: DefaultArgumentProcessor
+## 功能概述
 
-实现 `IPromptProcessor` 接口以处理提示中的参数。
+1. 实现 `IPromptProcessor` 接口
+2. 在提示不包含 `{{args}}` 时附加用户命令参数
+3. 允许模型执行自己的参数解析
 
-### 构造函数
+## 类和方法
 
-```typescript
-constructor()
+### DefaultArgumentProcessor
+- 实现 `IPromptProcessor` 接口
+- `process` 方法处理提示内容并附加命令参数
+
+## 依赖关系
+
+- 依赖 `@google/gemini-cli-core` 中的 `appendToLastTextPart` 函数
+- 依赖 `./types.js` 中的 `IPromptProcessor` 接口和 `PromptPipelineContent` 类型
+- 依赖 `../../ui/commands/types.js` 中的 `CommandContext` 类型
+
+## 使用条件
+
+仅在提示不包含 `{{args}}` 占位符时使用此处理器。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    DefaultArgumentProcessor ||--|| IPromptProcessor : implements
+    DefaultArgumentProcessor ||--|| process : method
+    process ||--|| appendToLastTextPart : calls
+    process ||--|| CommandContext : uses
+    process ||--|| PromptPipelineContent : uses
 ```
 
-构造函数不接受参数。
+## 变量级调用关系
 
-### 方法
-
-#### process
-
-```typescript
-async process(
-  prompt: PromptPipelineContent,
-  context: CommandContext,
-): Promise<PromptPipelineContent>
+```mermaid
+erDiagram
+    process {
+        PromptPipelineContent prompt
+        CommandContext context
+        PromptPipelineContent result
+    }
 ```
-
-通过在提示的最后一个文本部分附加用户的完整命令调用来处理提示，前提是提供了参数且提示不包含 `{{args}}` �占位符。
-
-**参数:**
-- `prompt`: 当前的提示内容状态（部分数组）
-- `context`: 包含调用详细信息的命令上下文
-
-**返回:**
-- 解析为处理后的提示内容的承诺
-
-**实现细节:**
-1. 检查上下文是否有调用参数
-2. 如果存在参数，将原始调用附加到提示的最后一个文本部分
-3. 如果没有参数，返回未更改的提示
-
-### 使用上下文
-
-此处理器仅在提示模板不包含 `{{args}}` 时使用，允许模型通过访问完整用户命令来执行自己的参数解析。

@@ -69,3 +69,37 @@ gemini mcp add my-server python /path/to/server.py -e API_KEY=abc123 -e DEBUG=tr
 # 添加带 HTTP 头的 SSE 服务器
 gemini mcp add my-sse-server http://localhost:8080/stream --transport sse -H "Authorization: Bearer token"
 ```
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    add ||--|| loadSettings : calls
+    add ||--|| SettingScope : uses
+    add ||--|| MCPServerConfig : uses
+    addCommand ||--|| addMcpServer : calls
+    addCommand ||--|| CommandModule : implements
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    addMcpServer {
+        string name
+        string commandOrUrl
+        Array args
+        Object options
+        SettingScope settingsScope
+        Object settings
+        Partial newServer
+        Record headers
+        Record env
+        Object existingSettings
+        Object mcpServers
+        boolean isExistingServer
+    }
+    addCommand {
+        CommandModule commandModule
+    }
+```

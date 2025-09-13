@@ -138,3 +138,41 @@ async execute(requestContext: RequestContext, eventBus: ExecutionEventBus): Prom
 参数：
 - `requestContext`: 请求上下文
 - `eventBus`: 执行事件总线
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    CoderAgentExecutor ||--o{ TaskWrapper : creates
+    CoderAgentExecutor ||--o{ Task : manages
+    TaskWrapper ||--|| Task : wraps
+    CoderAgentExecutor ||--|| TaskStore : uses
+    CoderAgentExecutor ||--|| Config : loads
+    CoderAgentExecutor ||--|| AgentSettings : uses
+    CoderAgentExecutor ||--|| ExecutionEventBus : publishes
+    CoderAgentExecutor ||--|| RequestContext : processes
+    Task ||--|| GeminiClient : uses
+    Task ||--|| ExecutionEventBus : publishes
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    CoderAgentExecutor {
+        Map tasks
+        Set executingTasks
+        TaskStore taskStore
+    }
+    TaskWrapper {
+        Task task
+        AgentSettings agentSettings
+    }
+    Task {
+        string id
+        string contextId
+        string taskState
+        GeminiClient geminiClient
+        ExecutionEventBus eventBus
+    }
+```
