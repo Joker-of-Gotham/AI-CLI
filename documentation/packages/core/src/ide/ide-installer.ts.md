@@ -130,3 +130,46 @@ async install(): Promise<InstallResult>
 3. 如果找到，执行扩展安装命令：
    - `"<command>" --install-extension google.gemini-cli-vscode-ide-companion --force`
 4. 返回成功或失败结果及适当消息
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    getIdeInstaller ||--|| VsCodeInstaller : creates
+    findVsCodeCommand ||--|| getVsCodeCommand : calls
+    findVsCodeCommand ||--|| child_process.execSync : calls
+    findVsCodeCommand ||--|| fs.existsSync : calls
+    findVsCodeCommand ||--|| os.homedir : calls
+    VsCodeInstaller ||--|| findVsCodeCommand : calls
+    VsCodeInstaller ||--|| getIdeInfo : calls
+    VsCodeInstaller ||--|| child_process.execSync : calls
+    VsCodeInstaller ||--|| GEMINI_CLI_COMPANION_EXTENSION_NAME : uses
+    install ||--|| vsCodeCommand : awaits
+    install ||--|| child_process.execSync : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    getIdeInstaller {
+        DetectedIde ide
+        NodeJS.Platform platform
+    }
+    findVsCodeCommand {
+        NodeJS.Platform platform
+        string vscodeCommand
+        string[] locations
+        string homeDir
+    }
+    VsCodeInstaller {
+        Promise vsCodeCommand
+        IdeInfo ideInfo
+        DetectedIde ide
+        NodeJS.Platform platform
+    }
+    install {
+        string commandPath
+        string command
+    }
+```

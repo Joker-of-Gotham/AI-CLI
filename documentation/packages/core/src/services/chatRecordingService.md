@@ -72,3 +72,82 @@
 - 自动创建聊天记录目录
 - 使用时间戳和会话ID命名文件
 - 安全的文件读写操作
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    ChatRecordingService ||--|| initialize : calls
+    ChatRecordingService ||--|| recordMessage : calls
+    ChatRecordingService ||--|| recordThought : calls
+    ChatRecordingService ||--|| recordMessageTokens : calls
+    ChatRecordingService ||--|| recordToolCalls : calls
+    ChatRecordingService ||--|| deleteSession : calls
+    ChatRecordingService ||--|| writeConversationToFile : calls
+    ChatRecordingService ||--|| readConversationFromFile : calls
+    ChatRecordingService ||--|| getChatRecordingDir : calls
+    ChatRecordingService ||--|| getChatRecordingPath : calls
+    initialize ||--|| readConversationFromFile : calls
+    initialize ||--|| getChatRecordingDir : calls
+    initialize ||--|| fs.mkdirSync : calls
+    recordMessage ||--|| writeConversationToFile : calls
+    recordThought ||--|| writeConversationToFile : calls
+    recordMessageTokens ||--|| writeConversationToFile : calls
+    recordToolCalls ||--|| writeConversationToFile : calls
+    deleteSession ||--|| getChatRecordingPath : calls
+    deleteSession ||--|| fs.unlinkSync : calls
+    writeConversationToFile ||--|| getChatRecordingPath : calls
+    writeConversationToFile ||--|| fs.writeFileSync : calls
+    readConversationFromFile ||--|| getChatRecordingPath : calls
+    readConversationFromFile ||--|| fs.readFileSync : calls
+    readConversationFromFile ||--|| fs.existsSync : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    ChatRecordingService {
+        ConversationRecord conversation
+        string sessionId
+        string projectHash
+        boolean initialized
+    }
+    initialize {
+        string existingSessionId
+        string projectRoot
+        string projectHash
+    }
+    recordMessage {
+        MessageRecord messageRecord
+    }
+    recordThought {
+        MessageRecord thoughtRecord
+    }
+    recordMessageTokens {
+        string messageId
+        object tokenUsage
+    }
+    recordToolCalls {
+        ToolCallRecord[] toolCallRecords
+    }
+    deleteSession {
+        string recordingPath
+    }
+    writeConversationToFile {
+        string recordingPath
+        string conversationJson
+    }
+    readConversationFromFile {
+        string recordingPath
+        string conversationJson
+    }
+    getChatRecordingDir {
+        string geminiDir
+        string chatRecordingsDir
+    }
+    getChatRecordingPath {
+        string chatRecordingsDir
+        string filename
+    }
+```

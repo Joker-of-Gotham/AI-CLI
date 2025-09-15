@@ -123,3 +123,33 @@
 - HTTPS 通信
 - 敏感数据保护
 - 符合安全最佳实践
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    createCodeAssistContentGenerator ||--|| getOauthClient : calls
+    createCodeAssistContentGenerator ||--|| setupUser : calls
+    createCodeAssistContentGenerator ||--|| CodeAssistServer : creates
+    getCodeAssistServer ||--|| LoggingContentGenerator : uses
+    getCodeAssistServer ||--|| CodeAssistServer : returns
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    createCodeAssistContentGenerator {
+        HttpOptions httpOptions
+        AuthType authType
+        Config config
+        string sessionId
+        object authClient
+        object userData
+    }
+    getCodeAssistServer {
+        Config config
+        ContentGenerator server
+        CodeAssistServer CodeAssistServer
+    }
+```

@@ -49,3 +49,29 @@ const TMP_DIR_NAME = 'tmp';
 - `getFilePathHash(filePath: string)`: 创建文件路径的 SHA-256 哈希，用于目录名
 
 Storage 类使用全局和项目特定目录的组合来组织不同类型的数据，使用哈希为每个项目创建唯一目录。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    Storage ||--|| os.homedir : calls
+    Storage ||--|| path.join : calls
+    Storage ||--|| crypto.createHash : calls
+    Storage ||--|| fs.mkdirSync : calls
+    Storage ||--|| getGlobalGeminiDir : calls
+    Storage ||--|| getProjectRoot : calls
+    Storage ||--|| getFilePathHash : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    Storage {
+        string targetDir
+        string GEMINI_DIR
+        string GOOGLE_ACCOUNTS_FILENAME
+        string OAUTH_FILE
+        string TMP_DIR_NAME
+    }
+```

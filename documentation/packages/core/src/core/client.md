@@ -44,3 +44,65 @@
 - `MAX_TURNS` - 最大对话轮数
 - `COMPRESSION_TOKEN_THRESHOLD` - 触发压缩的 token 阈值
 - `COMPRESSION_PRESERVE_THRESHOLD` - 压缩时保留的历史比例
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    GeminiClient ||--|| GeminiChat : creates
+    GeminiClient ||--|| LoopDetectionService : creates
+    GeminiClient ||--|| startChat : calls
+    GeminiClient ||--|| getChat : calls
+    GeminiClient ||--|| addHistory : calls
+    GeminiClient ||--|| setHistory : calls
+    GeminiClient ||--|| getHistory : calls
+    GeminiClient ||--|| setTools : calls
+    GeminiClient ||--|| resetChat : calls
+    GeminiClient ||--|| addDirectoryContext : calls
+    GeminiClient ||--|| sendMessageStream : calls
+    GeminiClient ||--|| generateJson : calls
+    GeminiClient ||--|| generateContent : calls
+    GeminiClient ||--|| generateEmbedding : calls
+    GeminiClient ||--|| tryCompressChat : calls
+    GeminiClient ||--|| getIdeContextParts : calls
+    GeminiClient ||--|| isThinkingSupported : calls
+    GeminiClient ||--|| isThinkingDefault : calls
+    GeminiClient ||--|| findIndexAfterFraction : calls
+    sendMessageStream ||--|| Turn : creates
+    sendMessageStream ||--|| loopDetector.turnStarted : calls
+    sendMessageStream ||--|| checkNextSpeaker : calls
+    sendMessageStream ||--|| logNextSpeakerCheck : calls
+    generateJson ||--|| getCoreSystemPrompt : calls
+    generateJson ||--|| getContentGeneratorOrFail : calls
+    generateJson ||--|| retryWithBackoff : calls
+    generateJson ||--|| getResponseText : calls
+    generateJson ||--|| logMalformedJsonResponse : calls
+    generateJson ||--|| reportError : calls
+    generateContent ||--|| getCoreSystemPrompt : calls
+    generateContent ||--|| getContentGeneratorOrFail : calls
+    generateContent ||--|| retryWithBackoff : calls
+    generateContent ||--|| reportError : calls
+    generateEmbedding ||--|| getContentGeneratorOrFail : calls
+    tryCompressChat ||--|| getChat : calls
+    tryCompressChat ||--|| getContentGeneratorOrFail : calls
+    tryCompressChat ||--|| findIndexAfterFraction : calls
+    tryCompressChat ||--|| getCompressionPrompt : calls
+    tryCompressChat ||--|| logChatCompression : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    GeminiClient {
+        GeminiChat chat
+        GenerateContentConfig generateContentConfig
+        number sessionTurnCount
+        LoopDetectionService loopDetector
+        string lastPromptId
+        IdeContext lastSentIdeContext
+        boolean forceFullIdeContext
+        boolean hasFailedCompressionAttempt
+        Config config
+    }
+```

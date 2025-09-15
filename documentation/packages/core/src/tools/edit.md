@@ -64,3 +64,75 @@ EditTool 是一个用于替换文件内容的工具实现。
 - 编程语言
 - 操作类型（创建或更新）
 - 差异统计信息
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    EditTool ||--|| BaseDeclarativeTool : extends
+    EditTool ||--|| EditToolParams : uses
+    EditTool ||--|| EditToolInvocation : creates
+    EditTool ||--|| validateToolParamValues : implements
+    EditTool ||--|| createInvocation : implements
+    EditTool ||--|| getModifyContext : implements
+    EditToolInvocation ||--|| ToolInvocation : implements
+    EditToolInvocation ||--|| getDescription : implements
+    EditToolInvocation ||--|| toolLocations : implements
+    EditToolInvocation ||--|| shouldConfirmExecute : implements
+    EditToolInvocation ||--|| execute : implements
+    execute ||--|| fs.readFile : calls
+    execute ||--|| fs.writeFile : calls
+    execute ||--|| logFileOperation : calls
+    shouldConfirmExecute ||--|| fs.readFile : calls
+    shouldConfirmExecute ||--|| createDiff : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    EditTool {
+        string Name
+    }
+    EditToolParams {
+        string file_path
+        string old_string
+        string new_string
+        number expected_replacements
+        boolean modified_by_user
+        string ai_proposed_content
+    }
+    EditToolInvocation {
+        EditToolParams args
+        Config config
+    }
+    validateToolParamValues {
+        EditToolParams params
+        object errors
+    }
+    createInvocation {
+        EditToolParams args
+        Config config
+        EditToolInvocation invocation
+    }
+    getModifyContext {
+        EditToolParams params
+        object context
+    }
+    getDescription {
+        string description
+    }
+    toolLocations {
+        string[] locations
+    }
+    shouldConfirmExecute {
+        boolean shouldConfirm
+        string diff
+    }
+    execute {
+        string fileContent
+        string newFileContent
+        number replacements
+        DiffStat diffStat
+    }
+```

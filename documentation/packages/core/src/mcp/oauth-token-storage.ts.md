@@ -127,3 +127,102 @@ async clearAll(): Promise<void>
 ```
 
 清除所有存储的 MCP OAuth 令牌。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    MCPOAuthTokenStorage ||--|| path : uses
+    MCPOAuthTokenStorage ||--|| fs : uses
+    MCPOAuthTokenStorage ||--|| getConfigDir : calls
+    MCPOAuthTokenStorage ||--|| mkdir : calls
+    MCPOAuthTokenStorage ||--|| readFile : calls
+    MCPOAuthTokenStorage ||--|| writeFile : calls
+    MCPOAuthTokenStorage ||--|| unlink : calls
+    MCPOAuthTokenStorage ||--|| rmdir : calls
+    
+    getAllCredentials ||--|| getTokenFilePath : calls
+    getAllCredentials ||--|| readFile : calls
+    
+    listServers ||--|| getAllCredentials : calls
+    
+    setCredentials ||--|| getTokenFilePath : calls
+    setCredentials ||--|| writeFile : calls
+    
+    saveToken ||--|| getCredentials : calls
+    saveToken ||--|| setCredentials : calls
+    
+    getCredentials ||--|| getAllCredentials : calls
+    
+    deleteCredentials ||--|| getTokenFilePath : calls
+    deleteCredentials ||--|| unlink : calls
+    
+    clearAll ||--|| getTokenFilePath : calls
+    clearAll ||--|| unlink : calls
+    clearAll ||--|| rmdir : calls
+    
+    ensureConfigDir ||--|| getConfigDir : calls
+    ensureConfigDir ||--|| mkdir : calls
+    
+    getTokenFilePath ||--|| getConfigDir : calls
+    getTokenFilePath ||--|| path.join : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    MCPOAuthTokenStorage {
+        string TOKENS_FILENAME
+    }
+    
+    getAllCredentials {
+        string filePath
+        string data
+        object parsed
+        Map credentials
+    }
+    
+    listServers {
+        Map credentials
+        string[] serverNames
+    }
+    
+    setCredentials {
+        string filePath
+        string data
+        OAuthCredentials credentials
+    }
+    
+    saveToken {
+        OAuthCredentials existingCredentials
+        OAuthCredentials newCredentials
+    }
+    
+    getCredentials {
+        Map credentials
+        OAuthCredentials credential
+    }
+    
+    deleteCredentials {
+        string filePath
+    }
+    
+    clearAll {
+        string dirPath
+    }
+    
+    ensureConfigDir {
+        string configDir
+    }
+    
+    getTokenFilePath {
+        string configDir
+        string filePath
+    }
+    
+    isTokenExpired {
+        OAuthToken token
+        number currentTime
+    }
+```

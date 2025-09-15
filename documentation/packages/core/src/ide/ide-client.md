@@ -120,3 +120,73 @@ Stdio 连接配置：
 - 跨平台进程检测
 - 支持不同 IDE 类型
 - 处理进程生命周期
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    IdeClient ||--|| getInstance : calls
+    IdeClient ||--|| connect : calls
+    IdeClient ||--|| openDiff : calls
+    IdeClient ||--|| closeDiff : calls
+    IdeClient ||--|| disconnect : calls
+    IdeClient ||--|| validateWorkspacePath : calls
+    IdeClient ||--|| getPortFromEnv : calls
+    IdeClient ||--|| getStdioConfigFromEnv : calls
+    IdeClient ||--|| getConnectionConfigFromFile : calls
+    IdeClient ||--|| establishHttpConnection : calls
+    IdeClient ||--|| establishStdioConnection : calls
+    IdeClient ||--|| registerClientHandlers : calls
+    IdeClient ||--|| setState : calls
+    IdeClient ||--|| resolveDiffFromCli : calls
+    IdeClient ||--|| addStatusChangeListener : calls
+    IdeClient ||--|| removeStatusChangeListener : calls
+    IdeClient ||--|| addTrustChangeListener : calls
+    IdeClient ||--|| removeTrustChangeListener : calls
+    IdeClient ||--|| getIdeProcessInfo : calls
+    IdeClient ||--|| detectIde : calls
+    IdeClient ||--|| getIdeInfo : calls
+    getInstance ||--|| getIdeProcessInfo : calls
+    getInstance ||--|| detectIde : calls
+    getInstance ||--|| getIdeInfo : calls
+    connect ||--|| validateWorkspacePath : calls
+    connect ||--|| getConnectionConfigFromFile : calls
+    connect ||--|| getPortFromEnv : calls
+    connect ||--|| getStdioConfigFromEnv : calls
+    connect ||--|| establishHttpConnection : calls
+    connect ||--|| establishStdioConnection : calls
+    openDiff ||--|| client.callTool : calls
+    closeDiff ||--|| client.callTool : calls
+    resolveDiffFromCli ||--|| closeDiff : calls
+    disconnect ||--|| closeDiff : calls
+    validateWorkspacePath ||--|| getRealPath : calls
+    validateWorkspacePath ||--|| isSubpath : calls
+    getConnectionConfigFromFile ||--|| fs.promises.readFile : calls
+    establishHttpConnection ||--|| Client : creates
+    establishHttpConnection ||--|| StreamableHTTPClientTransport : creates
+    establishHttpConnection ||--|| client.connect : calls
+    establishHttpConnection ||--|| registerClientHandlers : calls
+    establishStdioConnection ||--|| Client : creates
+    establishStdioConnection ||--|| StdioClientTransport : creates
+    establishStdioConnection ||--|| client.connect : calls
+    establishStdioConnection ||--|| registerClientHandlers : calls
+    registerClientHandlers ||--|| client.setNotificationHandler : calls
+    registerClientHandlers ||--|| ideContext.setIdeContext : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    IdeClient {
+        Promise instancePromise
+        Client client
+        IDEConnectionState state
+        DetectedIde currentIde
+        string currentIdeDisplayName
+        object ideProcessInfo
+        Map diffResponses
+        Set statusListeners
+        Set trustChangeListeners
+    }
+```

@@ -78,3 +78,100 @@
 - MCP 客户端模块用于服务器通信
 - 安全 JSON 字符串化工具
 - 配置管理
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    ToolRegistry ||--|| registerTool : calls
+    ToolRegistry ||--|| getTool : calls
+    ToolRegistry ||--|| getAllTools : calls
+    ToolRegistry ||--|| getAllToolNames : calls
+    ToolRegistry ||--|| getToolsByServer : calls
+    ToolRegistry ||--|| discoverAllTools : calls
+    ToolRegistry ||--|| discoverMcpTools : calls
+    ToolRegistry ||--|| discoverToolsForServer : calls
+    ToolRegistry ||--|| discoverAndRegisterToolsFromCommand : calls
+    ToolRegistry ||--|| removeDiscoveredTools : calls
+    ToolRegistry ||--|| removeMcpToolsByServer : calls
+    ToolRegistry ||--|| getFunctionDeclarations : calls
+    ToolRegistry ||--|| getFunctionDeclarationsFiltered : calls
+    ToolRegistry ||--|| McpClientManager : uses
+    discoverAllTools ||--|| discoverAndRegisterToolsFromCommand : calls
+    discoverAllTools ||--|| discoverMcpTools : calls
+    discoverMcpTools ||--|| discoverToolsForServer : calls
+    discoverToolsForServer ||--|| McpClientManager.listServers : calls
+    discoverToolsForServer ||--|| McpClientManager.getServerClient : calls
+    discoverAndRegisterToolsFromCommand ||--|| child_process.spawn : calls
+    discoverAndRegisterToolsFromCommand ||--|| shell-quote.parse : calls
+    DiscoveredToolInvocation ||--|| child_process.spawn : calls
+    DiscoveredToolInvocation ||--|| shell-quote.parse : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    ToolRegistry {
+        Map tools
+        McpClientManager mcpClientManager
+    }
+    registerTool {
+        ToolDefinition tool
+        string name
+    }
+    getTool {
+        string name
+        ToolDefinition tool
+    }
+    getAllTools {
+        ToolDefinition[] tools
+    }
+    getAllToolNames {
+        string[] toolNames
+    }
+    getToolsByServer {
+        string serverName
+        ToolDefinition[] tools
+    }
+    discoverAllTools {
+        Config config
+        string[] discoveryCommands
+    }
+    discoverMcpTools {
+        Config config
+    }
+    discoverToolsForServer {
+        string serverName
+        McpClient client
+        ListToolsResult tools
+    }
+    discoverAndRegisterToolsFromCommand {
+        string command
+        ChildProcess child
+        string stdout
+        string stderr
+    }
+    removeDiscoveredTools {
+        string[] removedTools
+    }
+    removeMcpToolsByServer {
+        string serverName
+        string[] removedTools
+    }
+    getFunctionDeclarations {
+        ToolDefinition[] tools
+        FunctionDeclaration[] declarations
+    }
+    getFunctionDeclarationsFiltered {
+        string[] toolNames
+        ToolDefinition[] tools
+        FunctionDeclaration[] declarations
+    }
+    DiscoveredToolInvocation {
+        DiscoveredToolParams args
+        string command
+        string[] parsedCommand
+        ChildProcess child
+    }
+```

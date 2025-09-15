@@ -88,3 +88,57 @@ Shell 执行服务提供跨平台的 shell 命令执行功能，支持 robust �
 - 使用 bash 作为默认 shell
 - 使用进程组管理
 - 支持标准 Unix 信号处理
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    ShellExecutionService ||--|| execute : calls
+    ShellExecutionService ||--|| executeWithPty : calls
+    ShellExecutionService ||--|| childProcessFallback : calls
+    execute ||--|| executeWithPty : calls
+    execute ||--|| childProcessFallback : calls
+    executeWithPty ||--|| spawn : calls
+    executeWithPty ||--|| stripAnsi : calls
+    executeWithPty ||--|| getCachedEncodingForBuffer : calls
+    executeWithPty ||--|| isBinaryData : calls
+    childProcessFallback ||--|| spawn : calls
+    childProcessFallback ||--|| stripAnsi : calls
+    childProcessFallback ||--|| getCachedEncodingForBuffer : calls
+    childProcessFallback ||--|| isBinaryData : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    ShellExecutionService {
+        // No instance variables
+    }
+    execute {
+        string command
+        object options
+        AbortSignal signal
+        string shell
+        boolean usePty
+    }
+    executeWithPty {
+        string command
+        object options
+        AbortSignal signal
+        string shell
+        object ptyProcess
+        Buffer stdoutBuffer
+        Buffer stderrBuffer
+        boolean isWindows
+    }
+    childProcessFallback {
+        string command
+        object options
+        AbortSignal signal
+        string shell
+        object childProcess
+        Buffer stdoutBuffer
+        Buffer stderrBuffer
+    }
+```

@@ -1,25 +1,42 @@
 # AsciiArt.ts
 
-这个文件定义了应用程序的 ASCII 艺术 Logo。
+ASCII艺术字模块，提供不同尺寸的Gemini CLI Logo ASCII艺术字。
 
 ## 功能概述
 
-1. 导出三个不同尺寸的 ASCII Logo
-2. 提供应用程序品牌标识的文本表示
+1. 提供三种不同尺寸的ASCII艺术字Logo
+2. 用于在终端中显示品牌标识
+3. 支持不同显示场景的需求
 
 ## 导出内容
 
 ### shortAsciiLogo
-- 短版本的 ASCII Logo
-- 适用于空间有限的显示场景
+- 紧凑型ASCII艺术字Logo
+- 适合空间有限的显示场景
+- 包含完整的Gemini CLI文字标识
 
 ### longAsciiLogo
-- 长版本的 ASCII Logo
-- 适用于主屏幕显示
+- 长型ASCII艺术字Logo
+- 提供更宽的显示效果
+- 在Logo前添加了装饰性元素
 
 ### tinyAsciiLogo
-- 微小版本的 ASCII Logo
-- 适用于极小空间的显示场景
+- 迷你型ASCII艺术字Logo
+- 最小尺寸的Logo版本
+- 适合极小空间的显示需求
+
+## 使用场景
+
+1. 应用程序启动时显示品牌标识
+2. 帮助信息中显示Logo
+3. 版本信息显示
+4. 欢迎界面装饰
+
+## 字符设计
+
+- 使用Unicode字符█、░等创建视觉效果
+- 通过字符的密度变化形成图案
+- 保持Gemini CLI品牌视觉一致性
 
 ## 函数级调用关系
 
@@ -34,13 +51,9 @@ erDiagram
 
 ```mermaid
 erDiagram
-    shortAsciiLogo {
-        string logo
-    }
-    longAsciiLogo {
-        string logo
-    }
-    tinyAsciiLogo {
-        string logo
+    AsciiArt {
+        string shortAsciiLogo
+        string longAsciiLogo
+        string tinyAsciiLogo
     }
 ```

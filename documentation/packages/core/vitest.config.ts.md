@@ -1,34 +1,45 @@
 # vitest.config.ts
 
-## 概述
+这个文件是core包Vitest测试框架的配置文件。
 
-`vitest.config.ts` 是 core 包的 Vitest 测试配置文件。Vitest 是一个基于 Vite 的单元测试框架，这个配置文件定义了测试运行的参数和行为。
+## 功能概述
 
-## 配置详情
+1. 配置Vitest测试环境
+2. 设置测试报告和覆盖率
 
-该配置文件导出一个 Vitest 配置对象，包含以下设置：
+## 配置结构
 
-### 测试报告器
-- `reporters`: 配置测试报告器为默认报告器和 JUnit 报告器
-- `silent`: 静默模式运行测试
-- `outputFile`: JUnit 报告输出到 `junit.xml` 文件
+### 测试配置
+- `reporters`: 设置测试报告器
+- `silent`: 静默模式
+- `setupFiles`: 设置测试环境设置文件
+- `outputFile`: 设置JUnit报告输出文件
 
-### 测试设置
-- `setupFiles`: 测试设置文件为 `./test-setup.ts`
+### 覆盖率配置
+- `enabled`: 启用覆盖率
+- `provider`: 设置覆盖率提供者为v8
+- `reportsDirectory`: 设置覆盖率报告目录
+- `include`: 定义覆盖率包含的文件
+- `reporter`: 设置覆盖率报告器
 
-### 代码覆盖率
-- `enabled`: 启用代码覆盖率
-- `provider`: 使用 V8 作为覆盖率提供者
-- `reportsDirectory`: 覆盖率报告输出到 `./coverage` 目录
-- `include`: 包含 `src/**/*` 目录中的文件进行覆盖率分析
-- `reporter`: 配置多种覆盖率报告格式：
-  - `text`: 文本摘要报告，输出到 `full-text-summary.txt`
-  - `html`: HTML 格式的详细报告
-  - `json`: JSON 格式的报告
-  - `lcov`: LCOV 格式的报告
-  - `cobertura`: Cobertura XML 格式的报告
-  - `json-summary`: JSON 摘要报告，输出到 `coverage-summary.json`
+## 依赖关系
 
-## 使用方式
+- 依赖 `vitest/config` 中的 `defineConfig`
 
-该配置文件会被 Vitest 自动加载，用于配置测试运行环境。当运行 `npm test` 或 `vitest` 命令时，会使用此配置来执行测试和生成报告。
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    vitest.config ||--|| defineConfig : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    vitest.config {
+        function defineConfig
+        object test
+        object coverage
+    }
+```

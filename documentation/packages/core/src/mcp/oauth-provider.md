@@ -130,3 +130,141 @@ OAuth 配置接口：
 - 令牌加密存储
 - 刷新令牌安全处理
 - 避免内存中的敏感数据泄露
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    MCPOAuthProvider ||--|| MCPOAuthTokenStorage : uses
+    MCPOAuthProvider ||--|| OAuthUtils : uses
+    MCPOAuthProvider ||--|| openBrowserSecurely : calls
+    MCPOAuthProvider ||--|| getErrorMessage : calls
+    MCPOAuthProvider ||--|| crypto : uses
+    MCPOAuthProvider ||--|| http : uses
+    MCPOAuthProvider ||--|| URL : uses
+    MCPOAuthProvider ||--|| fetch : calls
+    
+    authenticate ||--|| discoverOAuthFromMCPServer : calls
+    authenticate ||--|| registerClient : calls
+    authenticate ||--|| generatePKCEParams : calls
+    authenticate ||--|| buildAuthorizationUrl : calls
+    authenticate ||--|| startCallbackServer : calls
+    authenticate ||--|| exchangeCodeForToken : calls
+    authenticate ||--|| tokenStorage.saveToken : calls
+    authenticate ||--|| tokenStorage.getCredentials : calls
+    
+    getValidToken ||--|| tokenStorage.getCredentials : calls
+    getValidToken ||--|| tokenStorage.isTokenExpired : calls
+    getValidToken ||--|| refreshAccessToken : calls
+    getValidToken ||--|| tokenStorage.saveToken : calls
+    getValidToken ||--|| tokenStorage.deleteCredentials : calls
+    
+    refreshAccessToken ||--|| fetch : calls
+    
+    registerClient ||--|| fetch : calls
+    
+    exchangeCodeForToken ||--|| fetch : calls
+    
+    startCallbackServer ||--|| http.createServer : calls
+    
+    buildAuthorizationUrl ||--|| OAuthUtils.buildResourceParameter : calls
+    
+    generatePKCEParams ||--|| crypto.randomBytes : calls
+    generatePKCEParams ||--|| crypto.createHash : calls
+    
+    discoverOAuthFromMCPServer ||--|| OAuthUtils.discoverOAuthConfig : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    MCPOAuthProvider {
+        MCPOAuthTokenStorage tokenStorage
+        PKCEParams pkceParams
+        string REDIRECT_PORT
+        string REDIRECT_PATH
+        number HTTP_OK
+    }
+    
+    authenticate {
+        string serverName
+        MCPOAuthConfig config
+        string mcpServerUrl
+        OAuthAuthorizationResponse callbackPromise
+        OAuthTokenResponse tokenResponse
+        OAuthToken token
+    }
+    
+    getValidToken {
+        string serverName
+        MCPOAuthConfig config
+        object credentials
+        OAuthToken token
+        OAuthTokenResponse newTokenResponse
+        OAuthToken newToken
+    }
+    
+    refreshAccessToken {
+        MCPOAuthConfig config
+        string refreshToken
+        string tokenUrl
+        string mcpServerUrl
+        object params
+        object response
+        string responseText
+        string contentType
+        OAuthTokenResponse tokenResponse
+    }
+    
+    registerClient {
+        string registrationUrl
+        MCPOAuthConfig config
+        string redirectUri
+        OAuthClientRegistrationRequest registrationRequest
+        object response
+        string errorText
+        OAuthClientRegistrationResponse registrationResponse
+    }
+    
+    exchangeCodeForToken {
+        MCPOAuthConfig config
+        string code
+        string codeVerifier
+        string mcpServerUrl
+        string redirectUri
+        object params
+        object response
+        string responseText
+        string contentType
+        OAuthTokenResponse tokenResponse
+    }
+    
+    startCallbackServer {
+        string expectedState
+        object server
+        object url
+        string code
+        string state
+        string error
+    }
+    
+    buildAuthorizationUrl {
+        MCPOAuthConfig config
+        PKCEParams pkceParams
+        string mcpServerUrl
+        string redirectUri
+        object params
+        object url
+    }
+    
+    generatePKCEParams {
+        string codeVerifier
+        string codeChallenge
+        string state
+    }
+    
+    discoverOAuthFromMCPServer {
+        string mcpServerUrl
+    }
+```

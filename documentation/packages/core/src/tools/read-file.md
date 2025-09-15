@@ -50,3 +50,59 @@ ReadFileTool 是一个用于读取文件内容的工具实现。
 - MIME类型
 - 编程语言
 - 操作类型（读取）
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    ReadFileTool ||--|| BaseDeclarativeTool : extends
+    ReadFileTool ||--|| ReadFileToolParams : uses
+    ReadFileTool ||--|| ReadFileToolInvocation : creates
+    ReadFileTool ||--|| validateToolParamValues : implements
+    ReadFileTool ||--|| createInvocation : implements
+    ReadFileToolInvocation ||--|| ToolInvocation : implements
+    ReadFileToolInvocation ||--|| getDescription : implements
+    ReadFileToolInvocation ||--|| toolLocations : implements
+    ReadFileToolInvocation ||--|| execute : implements
+    execute ||--|| fs.readFile : calls
+    execute ||--|| fs.stat : calls
+    execute ||--|| logFileOperation : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    ReadFileTool {
+        string Name
+    }
+    ReadFileToolParams {
+        string absolute_path
+        number offset
+        number limit
+    }
+    ReadFileToolInvocation {
+        ReadFileToolParams args
+        Config config
+    }
+    validateToolParamValues {
+        ReadFileToolParams params
+        object errors
+    }
+    createInvocation {
+        ReadFileToolParams args
+        Config config
+        ReadFileToolInvocation invocation
+    }
+    getDescription {
+        string description
+    }
+    toolLocations {
+        string[] locations
+    }
+    execute {
+        string fileContent
+        object fileStats
+        string result
+    }
+```

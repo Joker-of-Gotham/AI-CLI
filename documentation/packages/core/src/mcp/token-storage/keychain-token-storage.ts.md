@@ -149,3 +149,99 @@ async isAvailable(): Promise<boolean>
 ### 常量
 
 - `KEYCHAIN_TEST_PREFIX = '__keychain_test__'` - 钥匙串中测试账户的前缀
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    KeychainTokenStorage ||--|| BaseTokenStorage : extends
+    KeychainTokenStorage ||--|| TokenStorage : implements
+    KeychainTokenStorage ||--|| OAuthCredentials : uses
+    KeychainTokenStorage ||--|| Keytar : uses
+    
+    getKeytar ||--|| import : calls
+    
+    getCredentials ||--|| getKeytar : calls
+    getCredentials ||--|| isTokenExpired : calls
+    
+    setCredentials ||--|| getKeytar : calls
+    
+    deleteCredentials ||--|| getKeytar : calls
+    
+    listServers ||--|| getKeytar : calls
+    
+    getAllCredentials ||--|| getKeytar : calls
+    getAllCredentials ||--|| isTokenExpired : calls
+    
+    clearAll ||--|| getKeytar : calls
+    
+    checkKeychainAvailability ||--|| getKeytar : calls
+    
+    isAvailable ||--|| checkKeychainAvailability : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    KeychainTokenStorage {
+        boolean keychainAvailable
+        Keytar keytarModule
+        boolean keytarLoadAttempted
+        string serviceName
+    }
+    
+    getKeytar {
+        Keytar keytar
+    }
+    
+    getCredentials {
+        Keytar keytar
+        string accountName
+        string credentialsJson
+        OAuthCredentials credentials
+    }
+    
+    setCredentials {
+        Keytar keytar
+        string accountName
+        string credentialsJson
+    }
+    
+    deleteCredentials {
+        Keytar keytar
+        string accountName
+        boolean deleted
+    }
+    
+    listServers {
+        Keytar keytar
+        Array credentials
+        string[] serverNames
+    }
+    
+    getAllCredentials {
+        Keytar keytar
+        Array credentials
+        Map allCredentials
+        OAuthCredentials parsedCredentials
+    }
+    
+    clearAll {
+        Keytar keytar
+        Array credentials
+        string accountName
+    }
+    
+    checkKeychainAvailability {
+        Keytar keytar
+        string testAccount
+        string testPassword
+        boolean retrieved
+        boolean deleted
+    }
+    
+    isAvailable {
+        boolean available
+    }
+```

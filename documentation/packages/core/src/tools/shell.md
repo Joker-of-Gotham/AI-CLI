@@ -62,3 +62,61 @@ ShellTool 是一个用于执行 shell 命令的工具实现。
 - 退出码
 - 输出大小
 - 错误信息
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    ShellTool ||--|| BaseDeclarativeTool : extends
+    ShellTool ||--|| ShellToolParams : uses
+    ShellTool ||--|| ShellToolInvocation : creates
+    ShellTool ||--|| validateToolParamValues : implements
+    ShellTool ||--|| createInvocation : implements
+    ShellToolInvocation ||--|| ToolInvocation : implements
+    ShellToolInvocation ||--|| getDescription : implements
+    ShellToolInvocation ||--|| shouldConfirmExecute : implements
+    ShellToolInvocation ||--|| execute : implements
+    execute ||--|| ShellExecutionService.execute : calls
+    execute ||--|| logToolCall : calls
+    shouldConfirmExecute ||--|| isSensitiveCommand : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    ShellTool {
+        string Name
+    }
+    ShellToolParams {
+        string command
+        string description
+        string directory
+    }
+    ShellToolInvocation {
+        ShellToolParams args
+        Config config
+    }
+    validateToolParamValues {
+        ShellToolParams params
+        object errors
+    }
+    createInvocation {
+        ShellToolParams args
+        Config config
+        ShellToolInvocation invocation
+    }
+    getDescription {
+        string description
+    }
+    shouldConfirmExecute {
+        boolean shouldConfirm
+        string confirmationMessage
+    }
+    execute {
+        ShellExecutionResult result
+        string output
+        number exitCode
+        string error
+    }
+```

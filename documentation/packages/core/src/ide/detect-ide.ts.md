@@ -116,3 +116,38 @@ function verifyVSCode(
 - 仅在初始检测为 VSCode 时处理
 - 检查进程命令是否包含 'code'（不区分大小写）
 - 为官方 VSCode 返回 VSCode，为非官方构建返回 VSCodeFork
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    getIdeInfo ||--|| DetectedIde : uses
+    detectIdeFromEnv ||--|| process.env : reads
+    detectIde ||--|| detectIdeFromEnv : calls
+    detectIde ||--|| verifyVSCode : calls
+    verifyVSCode ||--|| ideProcessInfo : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    getIdeInfo {
+        DetectedIde ide
+    }
+    detectIdeFromEnv {
+        object process.env
+    }
+    detectIde {
+        object ideProcessInfo
+        string pid
+        string command
+        DetectedIde ide
+    }
+    verifyVSCode {
+        DetectedIde ide
+        object ideProcessInfo
+        string pid
+        string command
+    }
+```

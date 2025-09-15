@@ -59,3 +59,67 @@ Google 账户信息文件名：'google_accounts.json'
 - 跨平台兼容（Windows 和 POSIX）
 - 处理相对路径和绝对路径
 - 支持路径规范化
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    tildeifyPath ||--|| os.homedir : calls
+    tildeifyPath ||--|| path.resolve : calls
+    makeRelative ||--|| path.resolve : calls
+    makeRelative ||--|| path.relative : calls
+    getProjectHash ||--|| crypto.createHash : calls
+    shortenPath ||--|| path.basename : calls
+    shortenPath ||--|| path.dirname : calls
+    escapePath ||--|| SHELL_SPECIAL_CHARS : uses
+    unescapePath ||--|| replace : calls
+    isSubpath ||--|| path.resolve : calls
+    isSubpath ||--|| path.normalize : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    tildeifyPath {
+        string fullPath
+        string homeDir
+        string tildeifiedPath
+    }
+    makeRelative {
+        string root
+        string target
+        string relativePath
+    }
+    getProjectHash {
+        string projectRoot
+        string hash
+    }
+    shortenPath {
+        string p
+        number maxLength
+        string shortenedPath
+    }
+    escapePath {
+        string p
+        string escapedPath
+    }
+    unescapePath {
+        string p
+        string unescapedPath
+    }
+    isSubpath {
+        string parent
+        string child
+        boolean isSubpathResult
+    }
+    GEMINI_DIR {
+        string value = '.gemini'
+    }
+    GOOGLE_ACCOUNTS_FILENAME {
+        string value = 'google_accounts.json'
+    }
+    SHELL_SPECIAL_CHARS {
+        RegExp pattern
+    }
+```

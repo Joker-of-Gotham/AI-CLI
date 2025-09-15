@@ -110,3 +110,98 @@
 
 ### AnyDeclarativeTool
 具有未知参数和结果类型的声明式工具的类型别名。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    ToolInvocation ||--|| getDescription : implements
+    ToolInvocation ||--|| toolLocations : implements
+    ToolInvocation ||--|| shouldConfirmExecute : implements
+    ToolInvocation ||--|| execute : implements
+    ToolBuilder ||--|| build : implements
+    BaseToolInvocation ||--|| ToolInvocation : implements
+    DeclarativeTool ||--|| buildAndExecute : implements
+    DeclarativeTool ||--|| validateBuildAndExecute : implements
+    DeclarativeTool ||--|| silentBuild : implements
+    BaseDeclarativeTool ||--|| DeclarativeTool : extends
+    BaseDeclarativeTool ||--|| validateToolParams : implements
+    BaseDeclarativeTool ||--|| validateToolParamValues : implements
+    BaseDeclarativeTool ||--|| build : implements
+    build ||--|| validateToolParams : calls
+    build ||--|| validateToolParamValues : calls
+    build ||--|| createInvocation : calls
+    buildAndExecute ||--|| validateBuildAndExecute : calls
+    validateBuildAndExecute ||--|| validateToolParams : calls
+    validateBuildAndExecute ||--|| createInvocation : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    ToolInvocation {
+        object params
+        string description
+        string[] locations
+        boolean shouldConfirm
+        ToolResult result
+    }
+    ToolBuilder {
+        string name
+        string displayName
+        string description
+        Kind kind
+        object schema
+        boolean isOutputMarkdown
+        boolean canUpdateOutput
+        ToolInvocation invocation
+    }
+    ToolResult {
+        string llmContent
+        string returnDisplay
+        string error
+    }
+    BaseToolInvocation {
+        object params
+        string description
+        string[] locations
+        boolean shouldConfirm
+    }
+    DeclarativeTool {
+        object params
+        ToolInvocation invocation
+        ToolResult result
+    }
+    BaseDeclarativeTool {
+        object params
+        ToolInvocation invocation
+        SchemaValidator validator
+    }
+    FileDiff {
+        string fileDiff
+        string fileName
+        string originalContent
+        string newContent
+        DiffStat diffStat
+    }
+    DiffStat {
+        number model_added_lines
+        number model_removed_lines
+        number model_added_chars
+        number model_removed_chars
+        number user_added_lines
+        number user_removed_lines
+        number user_added_chars
+        number user_removed_chars
+    }
+    hasCycleInSchema {
+        object schema
+        Set visited
+        boolean hasCycle
+    }
+    isTool {
+        object obj
+        boolean isToolResult
+    }
+```

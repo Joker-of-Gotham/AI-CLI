@@ -141,3 +141,192 @@ export function logContentRetryFailure(config: Config, event: ContentRetryFailur
 - 指标记录函数用于定量分析
 - 用户账户管理用于用户识别
 - 安全的 JSON 字符串化用于序列化复杂对象
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    loggers ||--|| shouldLogUserPrompts : calls
+    loggers ||--|| getCommonAttributes : calls
+    loggers ||--|| logCliConfiguration : calls
+    loggers ||--|| logUserPrompt : calls
+    loggers ||--|| logToolCall : calls
+    loggers ||--|| logFileOperation : calls
+    loggers ||--|| logApiRequest : calls
+    loggers ||--|| logFlashFallback : calls
+    loggers ||--|| logApiError : calls
+    loggers ||--|| logApiResponse : calls
+    loggers ||--|| logLoopDetected : calls
+    loggers ||--|| logNextSpeakerCheck : calls
+    loggers ||--|| logSlashCommand : calls
+    loggers ||--|| logIdeConnection : calls
+    loggers ||--|| logConversationFinishedEvent : calls
+    loggers ||--|| logChatCompression : calls
+    loggers ||--|| logKittySequenceOverflow : calls
+    loggers ||--|| logMalformedJsonResponse : calls
+    loggers ||--|| logInvalidChunk : calls
+    loggers ||--|| logContentRetry : calls
+    loggers ||--|| logContentRetryFailure : calls
+    logCliConfiguration ||--|| logger.info : calls
+    logCliConfiguration ||--|| getCommonAttributes : calls
+    logUserPrompt ||--|| logger.info : calls
+    logUserPrompt ||--|| getCommonAttributes : calls
+    logUserPrompt ||--|| shouldLogUserPrompts : calls
+    logToolCall ||--|| logger.info : calls
+    logToolCall ||--|| getCommonAttributes : calls
+    logToolCall ||--|| recordToolCallMetrics : calls
+    logFileOperation ||--|| logger.info : calls
+    logFileOperation ||--|| getCommonAttributes : calls
+    logFileOperation ||--|| recordFileOperationMetric : calls
+    logApiRequest ||--|| logger.info : calls
+    logApiRequest ||--|| getCommonAttributes : calls
+    logFlashFallback ||--|| logger.info : calls
+    logFlashFallback ||--|| getCommonAttributes : calls
+    logApiError ||--|| logger.error : calls
+    logApiError ||--|| getCommonAttributes : calls
+    logApiError ||--|| recordApiErrorMetrics : calls
+    logApiResponse ||--|| logger.info : calls
+    logApiResponse ||--|| getCommonAttributes : calls
+    logApiResponse ||--|| recordApiResponseMetrics : calls
+    logApiResponse ||--|| recordTokenUsageMetrics : calls
+    logLoopDetected ||--|| logger.info : calls
+    logLoopDetected ||--|| getCommonAttributes : calls
+    logNextSpeakerCheck ||--|| logger.info : calls
+    logNextSpeakerCheck ||--|| getCommonAttributes : calls
+    logSlashCommand ||--|| logger.info : calls
+    logSlashCommand ||--|| getCommonAttributes : calls
+    logIdeConnection ||--|| logger.info : calls
+    logIdeConnection ||--|| getCommonAttributes : calls
+    logConversationFinishedEvent ||--|| logger.info : calls
+    logConversationFinishedEvent ||--|| getCommonAttributes : calls
+    logChatCompression ||--|| logger.info : calls
+    logChatCompression ||--|| getCommonAttributes : calls
+    logChatCompression ||--|| recordChatCompressionMetrics : calls
+    logKittySequenceOverflow ||--|| logger.info : calls
+    logKittySequenceOverflow ||--|| getCommonAttributes : calls
+    logMalformedJsonResponse ||--|| logger.info : calls
+    logMalformedJsonResponse ||--|| getCommonAttributes : calls
+    logInvalidChunk ||--|| logger.info : calls
+    logInvalidChunk ||--|| getCommonAttributes : calls
+    logInvalidChunk ||--|| recordInvalidChunkMetrics : calls
+    logContentRetry ||--|| logger.info : calls
+    logContentRetry ||--|| getCommonAttributes : calls
+    logContentRetry ||--|| recordContentRetryMetrics : calls
+    logContentRetryFailure ||--|| logger.info : calls
+    logContentRetryFailure ||--|| getCommonAttributes : calls
+    logContentRetryFailure ||--|| recordContentRetryFailureMetrics : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    loggers {
+        // No module-level variables
+    }
+    shouldLogUserPrompts {
+        Config config
+        boolean logPrompts
+    }
+    getCommonAttributes {
+        Config config
+        object commonAttributes
+    }
+    logCliConfiguration {
+        Config config
+        StartSessionEvent event
+        object commonAttributes
+        object configInfo
+    }
+    logUserPrompt {
+        Config config
+        UserPromptEvent event
+        object commonAttributes
+        boolean shouldLogContent
+    }
+    logToolCall {
+        Config config
+        ToolCallEvent event
+        object commonAttributes
+    }
+    logFileOperation {
+        Config config
+        FileOperationEvent event
+        object commonAttributes
+    }
+    logApiRequest {
+        Config config
+        ApiRequestEvent event
+        object commonAttributes
+    }
+    logFlashFallback {
+        Config config
+        FlashFallbackEvent event
+        object commonAttributes
+    }
+    logApiError {
+        Config config
+        ApiErrorEvent event
+        object commonAttributes
+    }
+    logApiResponse {
+        Config config
+        ApiResponseEvent event
+        object commonAttributes
+    }
+    logLoopDetected {
+        Config config
+        LoopDetectedEvent event
+        object commonAttributes
+    }
+    logNextSpeakerCheck {
+        Config config
+        NextSpeakerCheckEvent event
+        object commonAttributes
+    }
+    logSlashCommand {
+        Config config
+        SlashCommandEvent event
+        object commonAttributes
+    }
+    logIdeConnection {
+        Config config
+        IdeConnectionEvent event
+        object commonAttributes
+    }
+    logConversationFinishedEvent {
+        Config config
+        ConversationFinishedEvent event
+        object commonAttributes
+    }
+    logChatCompression {
+        Config config
+        ChatCompressionEvent event
+        object commonAttributes
+    }
+    logKittySequenceOverflow {
+        Config config
+        KittySequenceOverflowEvent event
+        object commonAttributes
+    }
+    logMalformedJsonResponse {
+        Config config
+        MalformedJsonResponseEvent event
+        object commonAttributes
+    }
+    logInvalidChunk {
+        Config config
+        InvalidChunkEvent event
+        object commonAttributes
+    }
+    logContentRetry {
+        Config config
+        ContentRetryEvent event
+        object commonAttributes
+    }
+    logContentRetryFailure {
+        Config config
+        ContentRetryFailureEvent event
+        object commonAttributes
+    }
+```

@@ -37,3 +37,45 @@
 创建内容生成器实例，根据认证类型选择合适的实现：
 - 对于 Google 登录和 Cloud Shell，使用 `CodeAssistContentGenerator`
 - 对于 API 密钥，使用 `GoogleGenAI` 实现
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    createContentGeneratorConfig ||--|| process.env : reads
+    createContentGeneratorConfig ||--|| config.getModel : calls
+    createContentGenerator ||--|| LoggingContentGenerator : creates
+    createContentGenerator ||--|| createCodeAssistContentGenerator : calls
+    createContentGenerator ||--|| GoogleGenAI : creates
+    createContentGenerator ||--|| InstallationManager : creates
+    createContentGenerator ||--|| installationManager.getInstallationId : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    createContentGeneratorConfig {
+        Config config
+        AuthType authType
+        string geminiApiKey
+        string googleApiKey
+        string googleCloudProject
+        string googleCloudLocation
+        string effectiveModel
+        ContentGeneratorConfig contentGeneratorConfig
+    }
+    createContentGenerator {
+        ContentGeneratorConfig config
+        Config gcConfig
+        string sessionId
+        string version
+        string userAgent
+        Record baseHeaders
+        Record headers
+        InstallationManager installationManager
+        string installationId
+        object httpOptions
+        GoogleGenAI googleGenAI
+    }
+```

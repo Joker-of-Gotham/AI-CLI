@@ -62,3 +62,35 @@ Config 类通过 `setFileSystemService()` 方法支持注入自定义实现：
 - 沙箱环境
 - 内存文件系统
 - 网络文件系统
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    FileSystemService ||--|| readTextFile : defines
+    FileSystemService ||--|| writeTextFile : defines
+    StandardFileSystemService ||--|| FileSystemService : implements
+    StandardFileSystemService ||--|| readTextFile : implements
+    StandardFileSystemService ||--|| writeTextFile : implements
+    readTextFile ||--|| fs.readFile : calls
+    writeTextFile ||--|| path.dirname : calls
+    writeTextFile ||--|| fs.mkdir : calls
+    writeTextFile ||--|| fs.writeFile : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    StandardFileSystemService {
+        // No instance variables
+    }
+    readTextFile {
+        string filePath
+    }
+    writeTextFile {
+        string filePath
+        string content
+        string dirPath
+    }
+```

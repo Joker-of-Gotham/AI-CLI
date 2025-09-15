@@ -96,3 +96,41 @@ export async function getIdeProcessInfo(): Promise<{
 - Windows 委托给 `getIdeProcessInfoForWindows()`
 - 类 Unix 系统委托给 `getIdeProcessInfoForUnix()`
 - 如果无法可靠地识别 IDE 进程，将顶级祖先进程 ID 和命令作为备用返回
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    getIdeProcessInfo ||--|| getIdeProcessInfoForWindows : calls
+    getIdeProcessInfo ||--|| getIdeProcessInfoForUnix : calls
+    getIdeProcessInfoForUnix ||--|| getProcessInfo : calls
+    getIdeProcessInfoForWindows ||--|| getProcessInfo : calls
+    getProcessInfo ||--|| os.platform : calls
+    getProcessInfo ||--|| execAsync : calls
+    getProcessInfo ||--|| promisify : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    getIdeProcessInfo {
+        string platform
+    }
+    getIdeProcessInfoForUnix {
+        string[] shells
+        number currentPid
+        number i
+    }
+    getIdeProcessInfoForWindows {
+        number currentPid
+        number previousPid
+        number i
+    }
+    getProcessInfo {
+        number pid
+        string platform
+        string powershellCommand
+        string command
+    }
+```

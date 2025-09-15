@@ -35,3 +35,27 @@ export const DEFAULT_GEMINI_EMBEDDING_MODEL = 'gemini-embedding-001';
 export const DEFAULT_THINKING_MODE = -1;
 ```
 默认的思考模式值。一些思考模型默认不启用动态思考，用 -1 表示。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    models ||--|| DEFAULT_GEMINI_MODEL : exports
+    models ||--|| DEFAULT_GEMINI_FLASH_MODEL : exports
+    models ||--|| DEFAULT_GEMINI_FLASH_LITE_MODEL : exports
+    models ||--|| DEFAULT_GEMINI_EMBEDDING_MODEL : exports
+    models ||--|| DEFAULT_THINKING_MODE : exports
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    models {
+        string DEFAULT_GEMINI_MODEL
+        string DEFAULT_GEMINI_FLASH_MODEL
+        string DEFAULT_GEMINI_FLASH_LITE_MODEL
+        string DEFAULT_GEMINI_EMBEDDING_MODEL
+        number DEFAULT_THINKING_MODE
+    }
+```

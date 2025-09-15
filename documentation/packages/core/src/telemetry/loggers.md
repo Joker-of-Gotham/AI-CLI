@@ -140,3 +140,174 @@
 - 验证事件数据的完整性
 - 处理缺失或无效的数据字段
 - 提供默认值和错误处理
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    loggers ||--|| logCliConfiguration : calls
+    loggers ||--|| logUserPrompt : calls
+    loggers ||--|| logToolCall : calls
+    loggers ||--|| logFileOperation : calls
+    loggers ||--|| logApiRequest : calls
+    loggers ||--|| logApiError : calls
+    loggers ||--|| logApiResponse : calls
+    loggers ||--|| getCommonAttributes : calls
+    loggers ||--|| shouldLogUserPrompts : calls
+    loggers ||--|| recordToolCallMetrics : calls
+    loggers ||--|| recordFileOperationMetric : calls
+    loggers ||--|| recordApiErrorMetrics : calls
+    loggers ||--|| recordTokenUsageMetrics : calls
+    loggers ||--|| recordApiResponseMetrics : calls
+    loggers ||--|| logStartSessionEvent : calls
+    loggers ||--|| logNewPromptEvent : calls
+    loggers ||--|| logToolCallEvent : calls
+    loggers ||--|| logApiRequestEvent : calls
+    loggers ||--|| logApiErrorEvent : calls
+    loggers ||--|| logApiResponseEvent : calls
+    logCliConfiguration ||--|| logger.info : calls
+    logCliConfiguration ||--|| getCommonAttributes : calls
+    logUserPrompt ||--|| logger.info : calls
+    logUserPrompt ||--|| getCommonAttributes : calls
+    logUserPrompt ||--|| shouldLogUserPrompts : calls
+    logToolCall ||--|| logger.info : calls
+    logToolCall ||--|| getCommonAttributes : calls
+    logFileOperation ||--|| logger.info : calls
+    logFileOperation ||--|| getCommonAttributes : calls
+    logApiRequest ||--|| logger.info : calls
+    logApiRequest ||--|| getCommonAttributes : calls
+    logApiError ||--|| logger.error : calls
+    logApiError ||--|| getCommonAttributes : calls
+    logApiResponse ||--|| logger.info : calls
+    logApiResponse ||--|| getCommonAttributes : calls
+    recordToolCallMetrics ||--|| toolCallCounter.add : calls
+    recordToolCallMetrics ||--|| toolCallTimeHistogram.record : calls
+    recordFileOperationMetric ||--|| fileOperationCounter.add : calls
+    recordApiErrorMetrics ||--|| apiErrorCounter.add : calls
+    recordTokenUsageMetrics ||--|| tokenUsageCounter.add : calls
+    recordApiResponseMetrics ||--|| apiResponseTimeHistogram.record : calls
+    logStartSessionEvent ||--|| clearcutLogger.log : calls
+    logNewPromptEvent ||--|| clearcutLogger.log : calls
+    logToolCallEvent ||--|| clearcutLogger.log : calls
+    logApiRequestEvent ||--|| clearcutLogger.log : calls
+    logApiErrorEvent ||--|| clearcutLogger.log : calls
+    logApiResponseEvent ||--|| clearcutLogger.log : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    loggers {
+        // No module-level variables
+    }
+    logCliConfiguration {
+        Config config
+        object commonAttributes
+        object configInfo
+    }
+    logUserPrompt {
+        string prompt
+        string promptId
+        AuthType authType
+        number promptLength
+        object commonAttributes
+        boolean shouldLogContent
+    }
+    logToolCall {
+        string toolName
+        object args
+        number executionTimeMs
+        boolean success
+        string error
+        string toolType
+        object commonAttributes
+    }
+    logFileOperation {
+        string toolName
+        string operation
+        number lineCount
+        string mimeType
+        string fileExtension
+        string language
+        object commonAttributes
+    }
+    logApiRequest {
+        string model
+        string promptId
+        string requestText
+        object commonAttributes
+    }
+    logApiError {
+        string model
+        string error
+        string errorType
+        number statusCode
+        number executionTimeMs
+        AuthType authType
+        object commonAttributes
+    }
+    logApiResponse {
+        string model
+        number statusCode
+        number executionTimeMs
+        object tokenUsage
+        string responseText
+        string error
+        object commonAttributes
+    }
+    getCommonAttributes {
+        Config config
+        object commonAttributes
+    }
+    shouldLogUserPrompts {
+        Config config
+        boolean logPrompts
+    }
+    recordToolCallMetrics {
+        string toolName
+        number executionTimeMs
+        boolean success
+        string toolType
+    }
+    recordFileOperationMetric {
+        string operation
+        string mimeType
+        string fileExtension
+        string language
+        number lineCount
+    }
+    recordApiErrorMetrics {
+        string model
+        string errorType
+        number statusCode
+    }
+    recordTokenUsageMetrics {
+        object tokenUsage
+        string model
+    }
+    recordApiResponseMetrics {
+        number executionTimeMs
+        number statusCode
+        boolean success
+        string model
+    }
+    logStartSessionEvent {
+        object event
+    }
+    logNewPromptEvent {
+        object event
+    }
+    logToolCallEvent {
+        object event
+    }
+    logApiRequestEvent {
+        object event
+    }
+    logApiErrorEvent {
+        object event
+    }
+    logApiResponseEvent {
+        object event
+    }
+```

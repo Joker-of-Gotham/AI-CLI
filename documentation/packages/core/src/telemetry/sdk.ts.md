@@ -70,3 +70,76 @@ export async function shutdownTelemetry(config: Config): Promise<void>
 ## 调试
 
 该模块在 INFO 级别设置诊断日志记录，可以在故障排除时更改为 DEBUG。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    sdk ||--|| isTelemetrySdkInitialized : calls
+    sdk ||--|| parseOtlpEndpoint : calls
+    sdk ||--|| initializeTelemetry : calls
+    sdk ||--|| shutdownTelemetry : calls
+    initializeTelemetry ||--|| isTelemetrySdkInitialized : calls
+    initializeTelemetry ||--|| parseOtlpEndpoint : calls
+    initializeTelemetry ||--|| NodeSDK : creates
+    initializeTelemetry ||--|| Resource : creates
+    initializeTelemetry ||--|| ConsoleSpanExporter : creates
+    initializeTelemetry ||--|| ConsoleLogRecordExporter : creates
+    initializeTelemetry ||--|| ConsoleMetricExporter : creates
+    initializeTelemetry ||--|| FileSpanExporter : creates
+    initializeTelemetry ||--|| FileLogExporter : creates
+    initializeTelemetry ||--|| FileMetricExporter : creates
+    initializeTelemetry ||--|| OTLPTraceExporter : creates
+    initializeTelemetry ||--|| OTLPLogExporter : creates
+    initializeTelemetry ||--|| OTLPMetricExporter : creates
+    initializeTelemetry ||--|| BatchSpanProcessor : creates
+    initializeTelemetry ||--|| BatchLogRecordProcessor : creates
+    initializeTelemetry ||--|| PeriodicExportingMetricReader : creates
+    initializeTelemetry ||--|| HttpInstrumentation : creates
+    initializeTelemetry ||--|| process.on : calls
+    initializeTelemetry ||--|| initializeMetrics : calls
+    shutdownTelemetry ||--|| clearcutLogger.close : calls
+    shutdownTelemetry ||--|| sdk.shutdown : calls
+    parseOtlpEndpoint ||--|| URL : creates
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    sdk {
+        NodeSDK sdk
+        boolean telemetryInitialized
+    }
+    isTelemetrySdkInitialized {
+        // No local variables
+    }
+    parseOtlpEndpoint {
+        string otlpEndpointSetting
+        string protocol
+        string endpoint
+        URL url
+    }
+    initializeTelemetry {
+        Config config
+        TelemetrySettings settings
+        boolean enabled
+        string serviceName
+        string serviceVersion
+        object resourceAttributes
+        Resource resource
+        string otlpEndpoint
+        object traceExporter
+        object logExporter
+        object metricExporter
+        BatchSpanProcessor spanProcessor
+        BatchLogRecordProcessor logProcessor
+        PeriodicExportingMetricReader metricReader
+        HttpInstrumentation httpInstrumentation
+        NodeSDK nodeSdk
+    }
+    shutdownTelemetry {
+        Config config
+        // No other local variables
+    }
+```

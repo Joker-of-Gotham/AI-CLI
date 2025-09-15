@@ -79,3 +79,56 @@ const DEFAULT_OTLP_ENDPOINT = 'http://localhost:4317';
 
 ### UI 遥测
 来自 UI 遥测模块的所有导出。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    index ||--|| TelemetryTarget : exports
+    index ||--|| DEFAULT_TELEMETRY_TARGET : exports
+    index ||--|| DEFAULT_OTLP_ENDPOINT : exports
+    index ||--|| initializeTelemetry : exports
+    index ||--|| shutdownTelemetry : exports
+    index ||--|| isTelemetrySdkInitialized : exports
+    index ||--|| logCliConfiguration : exports
+    index ||--|| logUserPrompt : exports
+    index ||--|| logToolCall : exports
+    index ||--|| logApiRequest : exports
+    index ||--|| logApiError : exports
+    index ||--|| logApiResponse : exports
+    index ||--|| logFlashFallback : exports
+    index ||--|| logSlashCommand : exports
+    index ||--|| logConversationFinishedEvent : exports
+    index ||--|| logKittySequenceOverflow : exports
+    index ||--|| logChatCompression : exports
+    index ||--|| SlashCommandStatus : exports
+    index ||--|| EndSessionEvent : exports
+    index ||--|| UserPromptEvent : exports
+    index ||--|| ApiRequestEvent : exports
+    index ||--|| ApiErrorEvent : exports
+    index ||--|| ApiResponseEvent : exports
+    index ||--|| FlashFallbackEvent : exports
+    index ||--|| StartSessionEvent : exports
+    index ||--|| ToolCallEvent : exports
+    index ||--|| ConversationFinishedEvent : exports
+    index ||--|| KittySequenceOverflowEvent : exports
+    index ||--|| makeSlashCommandEvent : exports
+    index ||--|| makeChatCompressionEvent : exports
+    index ||--|| SlashCommandEvent : exports
+    index ||--|| ChatCompressionEvent : exports
+    index ||--|| TelemetryEvent : exports
+    index ||--|| SpanStatusCode : exports
+    index ||--|| ValueType : exports
+    index ||--|| SemanticAttributes : exports
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    index {
+        TelemetryTarget TelemetryTarget
+        TelemetryTarget DEFAULT_TELEMETRY_TARGET
+        string DEFAULT_OTLP_ENDPOINT
+    }
+```

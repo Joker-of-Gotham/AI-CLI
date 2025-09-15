@@ -1,22 +1,41 @@
-# Core测试设置
+# test-setup.ts
 
-此模块处理核心包的全局测试设置配置。它确保在不同平台和CI/CD系统中测试执行环境的一致性。
+这个文件是core包测试环境的设置文件。
 
-## 环境配置
+## 功能概述
 
-设置会移除`NO_COLOR`环境变量，以确保本地和CI测试运行之间主题行为的一致性：
-```ts
-if (process.env.NO_COLOR !== undefined) {
-  delete process.env.NO_COLOR;
-}
+1. 重置NO_COLOR环境变量以确保测试行为一致
+2. 禁用429错误模拟
+
+## 代码结构
+
+### 环境变量设置
+- 检查并删除NO_COLOR环境变量
+
+### 429错误模拟设置
+- 导入 `setSimulate429` 函数
+- 调用 `setSimulate429(false)` 禁用429错误模拟
+
+## 依赖关系
+
+- 依赖Node.js的process对象
+- 依赖 `./src/utils/testUtils.js` 中的 `setSimulate429` 函数
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    test-setup ||--|| process : uses
+    test-setup ||--|| setSimulate429 : calls
 ```
 
-## 429模拟
+## 变量级调用关系
 
-设置在全局范围内禁用429（速率限制）模拟：
-```ts
-import { setSimulate429 } from './src/utils/testUtils.js';
-setSimulate429(false);
+```mermaid
+erDiagram
+    test-setup {
+        object process
+        string NO_COLOR
+        function setSimulate429
+    }
 ```
-
-这确保测试不受人工速率限制的影响，提供更可靠和一致的测试结果。

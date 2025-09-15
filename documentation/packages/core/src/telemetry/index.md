@@ -121,3 +121,133 @@ Google 内部日志记录器：
 - FileSpanExporter
 - FileLogExporter
 - FileMetricExporter
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    telemetry ||--|| initializeTelemetry : calls
+    telemetry ||--|| shutdownTelemetry : calls
+    telemetry ||--|| logCliConfiguration : calls
+    telemetry ||--|| logUserPrompt : calls
+    telemetry ||--|| logToolCall : calls
+    telemetry ||--|| logApiRequest : calls
+    telemetry ||--|| logApiError : calls
+    telemetry ||--|| logApiResponse : calls
+    telemetry ||--|| recordApiErrorMetrics : calls
+    telemetry ||--|| recordTokenUsageMetrics : calls
+    telemetry ||--|| recordApiResponseMetrics : calls
+    telemetry ||--|| recordToolCallMetrics : calls
+    initializeTelemetry ||--|| NodeSDK : creates
+    initializeTelemetry ||--|| Resource : creates
+    initializeTelemetry ||--|| ConsoleSpanExporter : creates
+    initializeTelemetry ||--|| ConsoleLogExporter : creates
+    initializeTelemetry ||--|| ConsoleMetricExporter : creates
+    initializeTelemetry ||--|| FileSpanExporter : creates
+    initializeTelemetry ||--|| FileLogExporter : creates
+    initializeTelemetry ||--|| FileMetricExporter : creates
+    initializeTelemetry ||--|| OTLPTraceExporter : creates
+    initializeTelemetry ||--|| OTLPLogExporter : creates
+    initializeTelemetry ||--|| OTLPMetricExporter : creates
+    initializeTelemetry ||--|| BatchSpanProcessor : creates
+    initializeTelemetry ||--|| SimpleLogRecordProcessor : creates
+    initializeTelemetry ||--|| PeriodicExportingMetricReader : creates
+    shutdownTelemetry ||--|| clearcutLogger_close : calls
+    shutdownTelemetry ||--|| sdk.shutdown : calls
+    logCliConfiguration ||--|| logger.info : calls
+    logUserPrompt ||--|| logger.info : calls
+    logToolCall ||--|| logger.info : calls
+    logApiRequest ||--|| logger.info : calls
+    logApiError ||--|| logger.error : calls
+    logApiResponse ||--|| logger.info : calls
+    recordApiErrorMetrics ||--|| apiErrorCounter.add : calls
+    recordTokenUsageMetrics ||--|| tokenUsageCounter.add : calls
+    recordApiResponseMetrics ||--|| apiResponseTimeHistogram.record : calls
+    recordToolCallMetrics ||--|| toolCallCounter.add : calls
+    recordToolCallMetrics ||--|| toolCallTimeHistogram.record : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    telemetry {
+        NodeSDK sdk
+        boolean initialized
+        Counter apiErrorCounter
+        Counter tokenUsageCounter
+        Histogram apiResponseTimeHistogram
+        Counter toolCallCounter
+        Histogram toolCallTimeHistogram
+    }
+    initializeTelemetry {
+        Config config
+        TelemetrySettings settings
+        Resource resource
+        object traceExporter
+        object logExporter
+        object metricExporter
+        BatchSpanProcessor spanProcessor
+        SimpleLogRecordProcessor logProcessor
+        PeriodicExportingMetricReader metricReader
+    }
+    shutdownTelemetry {
+        // No local variables
+    }
+    logCliConfiguration {
+        Config config
+        object configInfo
+    }
+    logUserPrompt {
+        string prompt
+        string promptId
+        AuthType authType
+        number promptLength
+    }
+    logToolCall {
+        string toolName
+        object args
+        number executionTimeMs
+        boolean success
+        string error
+    }
+    logApiRequest {
+        string model
+        string promptId
+        string requestText
+    }
+    logApiError {
+        string model
+        string error
+        string errorType
+        number statusCode
+        number executionTimeMs
+    }
+    logApiResponse {
+        string model
+        number statusCode
+        number executionTimeMs
+        object tokenUsage
+        string responseText
+    }
+    recordApiErrorMetrics {
+        string model
+        string errorType
+        number statusCode
+    }
+    recordTokenUsageMetrics {
+        object tokenUsage
+        string model
+    }
+    recordApiResponseMetrics {
+        number executionTimeMs
+        number statusCode
+        boolean success
+        string model
+    }
+    recordToolCallMetrics {
+        string toolName
+        number executionTimeMs
+        boolean success
+    }
+```

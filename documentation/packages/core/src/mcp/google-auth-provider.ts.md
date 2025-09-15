@@ -49,7 +49,7 @@ saveClientInformation(clientInformation: OAuthClientInformationFull): void
 保存客户端信息。
 
 **参数:**
-- `clientInformation`: �      要保存的客户端信息
+- `clientInformation`: 要保存的客户端信息
 
 #### tokens
 
@@ -108,4 +108,39 @@ saveCodeVerifier(_codeVerifier: string): void
 
 ### 常量
 
-- `ALLOWED_HOSTS = [/^.+\\.googleapis\\.com$/, /^(.*\\.)?luci\\.app$/]` - 允许主机的正则表达式
+- `ALLOWED_HOSTS = [/^.+\.googleapis\.com$/, /^(.*\.)?luci\.app$/]` - 允许主机的正则表达式
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    GoogleCredentialProvider ||--|| GoogleAuth : creates
+    GoogleCredentialProvider ||--|| URL : creates
+    GoogleCredentialProvider ||--|| ALLOWED_HOSTS : uses
+    constructor ||--|| config : uses
+    tokens ||--|| auth.getClient : calls
+    tokens ||--|| client.getAccessToken : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    GoogleCredentialProvider {
+        GoogleAuth auth
+        string redirectUrl
+        OAuthClientMetadata clientMetadata
+        OAuthClientInformationFull _clientInformation
+        MCPServerConfig config
+    }
+    constructor {
+        string url
+        string hostname
+        string[] scopes
+    }
+    tokens {
+        object client
+        object accessTokenResponse
+        OAuthTokens tokens
+    }
+```

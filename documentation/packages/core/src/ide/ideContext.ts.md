@@ -156,3 +156,53 @@ export const ideContext = createIdeContextStore();
 ```
 
 应用程序的默认、共享 IDE 上下文存储实例。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    createIdeContextStore ||--|| setIdeContext : creates
+    createIdeContextStore ||--|| getIdeContext : creates
+    createIdeContextStore ||--|| subscribeToIdeContext : creates
+    createIdeContextStore ||--|| clearIdeContext : creates
+    createIdeContextStore ||--|| notifySubscribers : creates
+    setIdeContext ||--|| notifySubscribers : calls
+    clearIdeContext ||--|| notifySubscribers : calls
+    subscribeToIdeContext ||--|| subscribers : uses
+    notifySubscribers ||--|| subscribers : uses
+    CloseDiffResponseSchema ||--|| JSON.parse : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    createIdeContextStore {
+        IdeContext ideContextState
+        Set subscribers
+    }
+    setIdeContext {
+        IdeContext newIdeContext
+        IdeContext ideContextState
+    }
+    getIdeContext {
+        IdeContext ideContextState
+    }
+    clearIdeContext {
+        IdeContext ideContextState
+    }
+    subscribeToIdeContext {
+        IdeContextSubscriber subscriber
+        Set subscribers
+    }
+    notifySubscribers {
+        Set subscribers
+        IdeContext ideContextState
+    }
+    CloseDiffResponseSchema {
+        object val
+        object ctx
+        object parsed
+        object validationResult
+    }
+```

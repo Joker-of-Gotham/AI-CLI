@@ -43,3 +43,55 @@
 
 ### decodeTagName()
 解码之前编码的文件名字符串。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    Logger ||--|| initialize : calls
+    Logger ||--|| logMessage : calls
+    Logger ||--|| getPreviousUserMessages : calls
+    Logger ||--|| saveCheckpoint : calls
+    Logger ||--|| loadCheckpoint : calls
+    Logger ||--|| deleteCheckpoint : calls
+    Logger ||--|| checkpointExists : calls
+    Logger ||--|| _readLogFile : calls
+    Logger ||--|| _updateLogFile : calls
+    Logger ||--|| _checkpointPath : calls
+    Logger ||--|| _getCheckpointPath : calls
+    Logger ||--|| encodeTagName : calls
+    Logger ||--|| decodeTagName : calls
+    initialize ||--|| fs.mkdir : calls
+    initialize ||--|| fs.access : calls
+    initialize ||--|| _readLogFile : calls
+    initialize ||--|| fs.writeFile : calls
+    logMessage ||--|| _updateLogFile : calls
+    _updateLogFile ||--|| _readLogFile : calls
+    _updateLogFile ||--|| fs.writeFile : calls
+    getPreviousUserMessages ||--|| logs : reads
+    saveCheckpoint ||--|| fs.writeFile : calls
+    saveCheckpoint ||--|| _checkpointPath : calls
+    loadCheckpoint ||--|| _getCheckpointPath : calls
+    loadCheckpoint ||--|| fs.readFile : calls
+    deleteCheckpoint ||--|| fs.unlink : calls
+    deleteCheckpoint ||--|| _checkpointPath : calls
+    checkpointExists ||--|| _getCheckpointPath : calls
+    checkpointExists ||--|| fs.access : calls
+    _getCheckpointPath ||--|| fs.access : calls
+    _checkpointPath ||--|| encodeTagName : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    Logger {
+        string geminiDir
+        string logFilePath
+        string sessionId
+        number messageId
+        boolean initialized
+        LogEntry[] logs
+        Storage storage
+    }
+```

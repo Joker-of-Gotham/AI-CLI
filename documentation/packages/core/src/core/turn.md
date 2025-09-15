@@ -58,3 +58,34 @@ Turn 类管理服务器上下文中的代理循环轮次。
 
 ### getCitations()
 从生成内容响应中提取引用信息。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    Turn ||--|| run : calls
+    Turn ||--|| handlePendingFunctionCall : calls
+    Turn ||--|| getDebugResponses : calls
+    run ||--|| chat.sendMessageStream : calls
+    run ||--|| getResponseText : calls
+    run ||--|| getCitations : calls
+    run ||--|| reportError : calls
+    run ||--|| toFriendlyError : calls
+    run ||--|| getErrorMessage : calls
+    run ||--|| chat.maybeIncludeSchemaDepthContext : calls
+    handlePendingFunctionCall ||--|| pendingToolCalls : updates
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    Turn {
+        ToolCallRequestInfo[] pendingToolCalls
+        GenerateContentResponse[] debugResponses
+        Set pendingCitations
+        FinishReason finishReason
+        GeminiChat chat
+        string prompt_id
+    }
+```

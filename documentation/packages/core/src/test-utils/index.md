@@ -101,3 +101,49 @@
 - 工具注册和发现
 - 参数验证和处理
 - 结果处理和显示
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    test-utils ||--|| MockTool : exports
+    test-utils ||--|| MockToolOptions : exports
+    test-utils ||--|| MockToolInvocation : exports
+    MockTool ||--|| MockToolInvocation : creates
+    MockTool ||--|| ToolRegistry.register : calls
+    MockToolInvocation ||--|| MockTool.shouldConfirmExecute : delegates
+    MockToolInvocation ||--|| MockTool.execute : delegates
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    test-utils {
+        // No module-level variables, only class and interface exports
+    }
+    MockTool {
+        string name
+        string displayName
+        string description
+        boolean canUpdateOutput
+        boolean isOutputMarkdown
+        Function shouldConfirmExecute
+        Function execute
+        object params
+    }
+    MockToolOptions {
+        string name
+        string displayName
+        string description
+        boolean canUpdateOutput
+        boolean isOutputMarkdown
+        Function shouldConfirmExecute
+        Function execute
+        object params
+    }
+    MockToolInvocation {
+        MockTool tool
+        object args
+    }
+```

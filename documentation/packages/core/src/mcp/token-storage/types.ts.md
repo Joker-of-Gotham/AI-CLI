@@ -60,3 +60,46 @@ export enum TokenStorageType {
   ENCRYPTED_FILE = 'encrypted_file',
 }
 ```
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    OAuthToken ||--|| TokenStorage : used_by
+    OAuthCredentials ||--|| TokenStorage : used_by
+    TokenStorageType ||--|| TokenStorage : used_by
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    OAuthToken {
+        string accessToken
+        string refreshToken
+        number expiresAt
+        string tokenType
+        string scope
+    }
+    
+    OAuthCredentials {
+        string serverName
+        OAuthToken token
+        string clientId
+        string tokenUrl
+        string mcpServerUrl
+        number updatedAt
+    }
+    
+    TokenStorage {
+        string serverName
+        OAuthCredentials credentials
+        string[] serverNames
+        Map credentialsMap
+    }
+    
+    TokenStorageType {
+        string KEYCHAIN
+        string ENCRYPTED_FILE
+    }
+```

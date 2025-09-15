@@ -1,66 +1,45 @@
 # useAuth.ts
 
-这个文件提供了认证相关的 React 钩子和验证函数。
+这个文件定义了认证相关的 hooks，用于管理认证状态和错误处理。
 
 ## 功能概述
 
-1. 导出 `validateAuthMethodWithSettings` 验证函数
-2. 导出 `useAuthCommand` React 钩子
-3. 管理认证状态和错误处理
+1. 验证认证方式是否符合设置要求
+2. 管理认证状态和错误信息
+3. 处理认证过程中的逻辑
 
-## 主要函数
+## 函数结构
 
 ### validateAuthMethodWithSettings
-- 验证认证方法是否符合设置要求
-- 检查强制认证类型
-- 检查外部认证设置
-- 调用 `validateAuthMethod` 进行基础验证
+- 接收认证类型和设置作为参数
+- 验证认证类型是否符合设置中的强制要求
+- 如果设置中指定了使用外部认证，则返回 null
+- 否则调用 `validateAuthMethod` 进行验证
 
 ### useAuthCommand
-- React 钩子，用于管理认证状态
-- 使用 `useState` 管理认证状态和错误
+- 接收设置和配置作为参数
+- 使用 `useState` 管理认证状态和错误信息
+- 使用 `useCallback` 定义错误处理函数
 - 使用 `useEffect` 处理认证逻辑
-- 使用 `useCallback` 优化错误处理函数
+- 返回认证状态、状态设置函数、错误信息和错误处理函数
 
 ## 依赖关系
 
-- 依赖 React 的 `useState`、`useEffect` 和 `useCallback` 钩子
-- 依赖 `../../config/settings.js` 中的 `LoadedSettings` 类型
-- 依赖 `@google/gemini-cli-core` 中的 `AuthType` 枚举和 `Config` 类型
-- 依赖 `@google/gemini-cli-core` 中的 `getErrorMessage` 函数
-- 依赖 `../types.js` 中的 `AuthState` 枚举
-- 依赖 `../../config/auth.js` 中的 `validateAuthMethod` 函数
-
-## 认证状态管理
-
-1. `AuthState.Unauthenticated`：未认证状态
-2. `AuthState.Updating`：更新认证状态
-3. `AuthState.Authenticated`：已认证状态
-
-## 认证逻辑
-
-1. 检查认证类型是否已选择
-2. 验证认证方法是否有效
-3. 检查默认认证类型环境变量
-4. 调用 `config.refreshAuth` 刷新认证
-5. 处理认证成功和失败情况
-
-## 返回值
-
-### useAuthCommand 返回值
-- `authState`：当前认证状态
-- `setAuthState`：设置认证状态的函数
-- `authError`：认证错误信息
-- `onAuthError`：处理认证错误的函数
+- 依赖 `react` 中的 `useState`、`useEffect` 和 `useCallback`
+- 依赖 `../../config/settings.js` 中的 `LoadedSettings`
+- 依赖 `@google/gemini-cli-core` 中的 `AuthType` 和 `Config`
+- 依赖 `@google/gemini-cli-core` 中的 `getErrorMessage`
+- 依赖 `../types.js` 中的 `AuthState`
+- 依赖 `../../config/auth.js` 中的 `validateAuthMethod`
 
 ## 函数级调用关系
 
 ```mermaid
 erDiagram
     validateAuthMethodWithSettings ||--|| validateAuthMethod : calls
-    useAuthCommand ||--|| useState : uses
-    useAuthCommand ||--|| useEffect : uses
-    useAuthCommand ||--|| useCallback : uses
+    useAuthCommand ||--|| useState : calls
+    useAuthCommand ||--|| useCallback : calls
+    useAuthCommand ||--|| useEffect : calls
     useAuthCommand ||--|| validateAuthMethodWithSettings : calls
     useAuthCommand ||--|| config.refreshAuth : calls
     useAuthCommand ||--|| getErrorMessage : calls
@@ -71,22 +50,16 @@ erDiagram
 
 ```mermaid
 erDiagram
-    validateAuthMethodWithSettings {
-        AuthType authType
-        LoadedSettings settings
-        string | undefined enforcedType
-    }
     useAuthCommand {
-        LoadedSettings settings
-        Config config
+        object settings
+        object config
         AuthState authState
         function setAuthState
-        string | null authError
+        string authError
         function setAuthError
         function onAuthError
-        AuthType | undefined authType
-        string | undefined error
-        string | undefined defaultAuthType
-        unknown e
+        AuthType authType
+        string defaultAuthType
+        function validateAuthMethodWithSettings
     }
 ```

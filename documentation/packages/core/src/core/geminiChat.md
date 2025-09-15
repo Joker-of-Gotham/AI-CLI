@@ -42,3 +42,60 @@
 ## EmptyStreamError 类
 
 自定义错误类，用于表示流完成但没有有效内容的情况，会触发重试机制。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    GeminiChat ||--|| ChatRecordingService : creates
+    GeminiChat ||--|| sendMessage : calls
+    GeminiChat ||--|| sendMessageStream : calls
+    GeminiChat ||--|| makeApiCallAndProcessStream : calls
+    GeminiChat ||--|| processStreamResponse : calls
+    GeminiChat ||--|| recordHistory : calls
+    GeminiChat ||--|| extractCuratedHistory : calls
+    GeminiChat ||--|| isValidResponse : calls
+    GeminiChat ||--|| isValidContent : calls
+    GeminiChat ||--|| validateHistory : calls
+    GeminiChat ||--|| setTools : calls
+    GeminiChat ||--|| getHistory : calls
+    GeminiChat ||--|| clearHistory : calls
+    GeminiChat ||--|| addHistory : calls
+    GeminiChat ||--|| setHistory : calls
+    GeminiChat ||--|| stripThoughtsFromHistory : calls
+    GeminiChat ||--|| getChatRecordingService : calls
+    GeminiChat ||--|| recordCompletedToolCalls : calls
+    GeminiChat ||--|| recordThoughtFromContent : calls
+    sendMessage ||--|| createUserContent : calls
+    sendMessage ||--|| getHistory : calls
+    sendMessage ||--|| config.getContentGenerator : calls
+    sendMessage ||--|| retryWithBackoff : calls
+    sendMessage ||--|| handleFallback : calls
+    sendMessage ||--|| chatRecordingService.recordMessage : calls
+    sendMessageStream ||--|| createUserContent : calls
+    sendMessageStream ||--|| getHistory : calls
+    sendMessageStream ||--|| makeApiCallAndProcessStream : calls
+    makeApiCallAndProcessStream ||--|| config.getContentGenerator : calls
+    makeApiCallAndProcessStream ||--|| retryWithBackoff : calls
+    makeApiCallAndProcessStream ||--|| handleFallback : calls
+    makeApiCallAndProcessStream ||--|| processStreamResponse : calls
+    processStreamResponse ||--|| isValidResponse : calls
+    processStreamResponse ||--|| chatRecordingService.recordMessage : calls
+    processStreamResponse ||--|| recordHistory : calls
+    recordHistory ||--|| extractCuratedHistory : calls
+    recordHistory ||--|| chatRecordingService.recordToolCalls : calls
+    recordThoughtFromContent ||--|| chatRecordingService.recordThought : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    GeminiChat {
+        Promise sendPromise
+        ChatRecordingService chatRecordingService
+        Config config
+        GenerateContentConfig generationConfig
+        Content[] history
+    }
+```

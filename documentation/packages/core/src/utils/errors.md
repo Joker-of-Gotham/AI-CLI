@@ -56,3 +56,64 @@
 - 处理字符串格式的 JSON 响应
 - 兼容不同格式的响应数据
 - 提取错误代码和消息
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    isNodeError ||--|| typeof : calls
+    getErrorMessage ||--|| hasOwnProperty : calls
+    toFriendlyError ||--|| parseResponseData : calls
+    toFriendlyError ||--|| BadRequestError : creates
+    toFriendlyError ||--|| UnauthorizedError : creates
+    toFriendlyError ||--|| ForbiddenError : creates
+    FatalError ||--|| Error : extends
+    FatalAuthenticationError ||--|| FatalError : extends
+    FatalInputError ||--|| FatalError : extends
+    FatalSandboxError ||--|| FatalError : extends
+    FatalConfigError ||--|| FatalError : extends
+    FatalTurnLimitedError ||--|| FatalError : extends
+    ForbiddenError ||--|| Error : extends
+    UnauthorizedError ||--|| Error : extends
+    BadRequestError ||--|| Error : extends
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    isNodeError {
+        unknown error
+        boolean isNodeErrorResult
+    }
+    getErrorMessage {
+        unknown error
+        string message
+    }
+    toFriendlyError {
+        unknown error
+        Error friendlyError
+    }
+    parseResponseData {
+        unknown data
+        object parsedData
+    }
+    FatalError {
+        number exitCode
+    }
+    FatalAuthenticationError {
+        number exitCode = 41
+    }
+    FatalInputError {
+        number exitCode = 42
+    }
+    FatalSandboxError {
+        number exitCode = 44
+    }
+    FatalConfigError {
+        number exitCode = 52
+    }
+    FatalTurnLimitedError {
+        number exitCode = 53
+    }
+```

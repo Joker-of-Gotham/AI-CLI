@@ -133,3 +133,90 @@ async getStorageType(): Promise<TokenStorageType>
 ### 常量
 
 - `FORCE_FILE_STORAGE_ENV_VAR = 'GEMINI_FORCE_FILE_STORAGE'` - 强制使用文件存储的环境变量
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    HybridTokenStorage ||--|| TokenStorage : implements
+    HybridTokenStorage ||--|| OAuthCredentials : uses
+    HybridTokenStorage ||--|| TokenStorageType : uses
+    HybridTokenStorage ||--|| KeychainTokenStorage : uses
+    HybridTokenStorage ||--|| FileTokenStorage : uses
+    HybridTokenStorage ||--|| process : uses
+    
+    initializeStorage ||--|| process : calls
+    initializeStorage ||--|| KeychainTokenStorage : creates
+    initializeStorage ||--|| FileTokenStorage : creates
+    
+    getStorage ||--|| initializeStorage : calls
+    
+    getCredentials ||--|| getStorage : calls
+    
+    setCredentials ||--|| getStorage : calls
+    
+    deleteCredentials ||--|| getStorage : calls
+    
+    listServers ||--|| getStorage : calls
+    
+    getAllCredentials ||--|| getStorage : calls
+    
+    clearAll ||--|| getStorage : calls
+    
+    getStorageType ||--|| getStorage : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    HybridTokenStorage {
+        TokenStorage storage
+        TokenStorageType storageType
+        Promise storageInitPromise
+        string serviceName
+    }
+    
+    initializeStorage {
+        boolean forceFileStorage
+        KeychainTokenStorage keychainStorage
+        FileTokenStorage fileStorage
+        TokenStorage initializedStorage
+    }
+    
+    getStorage {
+        TokenStorage activeStorage
+    }
+    
+    getCredentials {
+        TokenStorage storage
+        OAuthCredentials credentials
+    }
+    
+    setCredentials {
+        TokenStorage storage
+    }
+    
+    deleteCredentials {
+        TokenStorage storage
+    }
+    
+    listServers {
+        TokenStorage storage
+        string[] servers
+    }
+    
+    getAllCredentials {
+        TokenStorage storage
+        Map credentials
+    }
+    
+    clearAll {
+        TokenStorage storage
+    }
+    
+    getStorageType {
+        TokenStorage storage
+        TokenStorageType type
+    }
+```

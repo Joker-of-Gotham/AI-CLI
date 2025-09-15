@@ -96,3 +96,68 @@ NodeSDK 实例，全局单例：
 - BatchSpanProcessor - 批量跨度处理
 - BatchLogRecordProcessor - 批量日志处理
 - PeriodicExportingMetricReader - 周期性指标导出
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    sdk ||--|| initializeTelemetry : calls
+    sdk ||--|| shutdownTelemetry : calls
+    sdk ||--|| isTelemetrySdkInitialized : calls
+    sdk ||--|| parseOtlpEndpoint : calls
+    initializeTelemetry ||--|| NodeSDK : creates
+    initializeTelemetry ||--|| Resource : creates
+    initializeTelemetry ||--|| ConsoleSpanExporter : creates
+    initializeTelemetry ||--|| ConsoleLogRecordExporter : creates
+    initializeTelemetry ||--|| ConsoleMetricExporter : creates
+    initializeTelemetry ||--|| FileSpanExporter : creates
+    initializeTelemetry ||--|| FileLogExporter : creates
+    initializeTelemetry ||--|| FileMetricExporter : creates
+    initializeTelemetry ||--|| OTLPTraceExporter : creates
+    initializeTelemetry ||--|| OTLPLogExporter : creates
+    initializeTelemetry ||--|| OTLPMetricExporter : creates
+    initializeTelemetry ||--|| BatchSpanProcessor : creates
+    initializeTelemetry ||--|| BatchLogRecordProcessor : creates
+    initializeTelemetry ||--|| PeriodicExportingMetricReader : creates
+    initializeTelemetry ||--|| process.on : calls
+    shutdownTelemetry ||--|| clearcutLogger.close : calls
+    shutdownTelemetry ||--|| sdk.shutdown : calls
+    parseOtlpEndpoint ||--|| URL : creates
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    sdk {
+        NodeSDK sdk
+        boolean telemetryInitialized
+    }
+    initializeTelemetry {
+        Config config
+        TelemetrySettings settings
+        string serviceName
+        string serviceVersion
+        object resourceAttributes
+        Resource resource
+        string otlpEndpoint
+        object traceExporter
+        object logExporter
+        object metricExporter
+        BatchSpanProcessor spanProcessor
+        BatchLogRecordProcessor logProcessor
+        PeriodicExportingMetricReader metricReader
+        NodeSDK nodeSdk
+    }
+    shutdownTelemetry {
+        // No local variables
+    }
+    isTelemetrySdkInitialized {
+        // No local variables
+    }
+    parseOtlpEndpoint {
+        string endpoint
+        string protocol
+        URL url
+    }
+```

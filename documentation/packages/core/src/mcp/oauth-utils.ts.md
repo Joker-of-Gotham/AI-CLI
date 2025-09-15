@@ -212,3 +212,119 @@ static buildResourceParameter(endpointUrl: string): string
 
 **返回:**
 - 资源参数值
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    OAuthUtils ||--|| fetch : calls
+    OAuthUtils ||--|| URL : uses
+    
+    buildWellKnownUrls ||--|| URL : creates
+    
+    fetchProtectedResourceMetadata ||--|| fetch : calls
+    
+    fetchAuthorizationServerMetadata ||--|| fetch : calls
+    
+    metadataToOAuthConfig ||--|| OAuthAuthorizationServerMetadata : uses
+    
+    discoverAuthorizationServerMetadata ||--|| buildWellKnownUrls : calls
+    discoverAuthorizationServerMetadata ||--|| fetchAuthorizationServerMetadata : calls
+    
+    discoverOAuthConfig ||--|| buildWellKnownUrls : calls
+    discoverOAuthConfig ||--|| fetchProtectedResourceMetadata : calls
+    discoverOAuthConfig ||--|| fetchAuthorizationServerMetadata : calls
+    discoverOAuthConfig ||--|| metadataToOAuthConfig : calls
+    
+    parseWWWAuthenticateHeader ||--|| RegExp : uses
+    
+    discoverOAuthFromWWWAuthenticate ||--|| parseWWWAuthenticateHeader : calls
+    discoverOAuthFromWWWAuthenticate ||--|| fetchProtectedResourceMetadata : calls
+    discoverOAuthFromWWWAuthenticate ||--|| fetchAuthorizationServerMetadata : calls
+    discoverOAuthFromWWWAuthenticate ||--|| metadataToOAuthConfig : calls
+    
+    extractBaseUrl ||--|| URL : uses
+    
+    isSSEEndpoint ||--|| URL : uses
+    
+    buildResourceParameter ||--|| extractBaseUrl : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    OAuthUtils {
+        string AUTH_SERVER_METADATA_PATH
+        string PROTECTED_RESOURCE_METADATA_PATH
+    }
+    
+    buildWellKnownUrls {
+        string baseUrl
+        boolean includePathSuffix
+        object urls
+    }
+    
+    fetchProtectedResourceMetadata {
+        string resourceMetadataUrl
+        object response
+        string text
+        OAuthProtectedResourceMetadata metadata
+    }
+    
+    fetchAuthorizationServerMetadata {
+        string authServerMetadataUrl
+        object response
+        string text
+        OAuthAuthorizationServerMetadata metadata
+    }
+    
+    metadataToOAuthConfig {
+        OAuthAuthorizationServerMetadata metadata
+        MCPOAuthConfig config
+    }
+    
+    discoverAuthorizationServerMetadata {
+        string authServerUrl
+        object urls
+        OAuthAuthorizationServerMetadata metadata
+    }
+    
+    discoverOAuthConfig {
+        string serverUrl
+        object urls
+        OAuthProtectedResourceMetadata protectedResourceMetadata
+        OAuthAuthorizationServerMetadata authServerMetadata
+        MCPOAuthConfig config
+    }
+    
+    parseWWWAuthenticateHeader {
+        string header
+        RegExp regex
+        object match
+    }
+    
+    discoverOAuthFromWWWAuthenticate {
+        string wwwAuthenticate
+        string resourceMetadataUri
+        OAuthProtectedResourceMetadata protectedResourceMetadata
+        OAuthAuthorizationServerMetadata authServerMetadata
+        MCPOAuthConfig config
+    }
+    
+    extractBaseUrl {
+        string mcpServerUrl
+        object url
+        string baseUrl
+    }
+    
+    isSSEEndpoint {
+        string url
+        object parsedUrl
+    }
+    
+    buildResourceParameter {
+        string endpointUrl
+        string baseUrl
+    }
+```

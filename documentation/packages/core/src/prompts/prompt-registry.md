@@ -89,3 +89,49 @@
 - 查找提示词定义
 - 验证提示词存在性
 - 获取提示词元数据
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    PromptRegistry ||--|| registerPrompt : calls
+    PromptRegistry ||--|| getAllPrompts : calls
+    PromptRegistry ||--|| getPrompt : calls
+    PromptRegistry ||--|| getPromptsByServer : calls
+    PromptRegistry ||--|| clear : calls
+    PromptRegistry ||--|| removePromptsByServer : calls
+    registerPrompt ||--|| prompts : uses
+    getAllPrompts ||--|| prompts : uses
+    getPrompt ||--|| prompts : uses
+    getPromptsByServer ||--|| prompts : uses
+    removePromptsByServer ||--|| prompts : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    PromptRegistry {
+        Map prompts
+    }
+    registerPrompt {
+        string name
+        PromptDefinition prompt
+        string serverName
+        string newName
+    }
+    getAllPrompts {
+        PromptDefinition[] promptList
+    }
+    getPrompt {
+        string name
+        PromptDefinition prompt
+    }
+    getPromptsByServer {
+        string serverName
+        PromptDefinition[] serverPrompts
+    }
+    removePromptsByServer {
+        string serverName
+    }
+```

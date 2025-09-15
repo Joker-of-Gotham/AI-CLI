@@ -1,26 +1,38 @@
 # test-setup.ts
 
-## 概述
+这个文件是测试环境的设置文件。
 
-`test-setup.ts` 是 cli 包的测试设置文件，在 Vitest 测试运行之前执行。该文件主要用于配置测试环境，确保测试的一致性和可靠性。
+## 功能概述
 
-## 功能详情
+1. 重置NO_COLOR环境变量以确保测试行为一致
+2. 导入自定义匹配器
 
-### 环境变量配置
-- 检查并删除 `NO_COLOR` 环境变量，确保在本地和 CI 测试运行之间主题行为的一致性
-- 通过删除该环境变量，确保测试不会受到颜色输出设置的影响
+## 代码结构
 
-### 自定义匹配器导入
-- 导入 `./src/test-utils/customMatchers.js` 文件，该文件包含自定义的 Jest 匹配器
-- 这些自定义匹配器扩展了 Vitest 的断言功能，提供更丰富的测试断言选项
+### 环境变量设置
+- 检查并删除NO_COLOR环境变量
 
-## 设计考虑
+### 导入
+- 导入自定义匹配器模块
 
-该文件的设计确保了测试环境的一致性：
-1. 通过清除可能影响测试输出的环境变量
-2. 通过导入自定义匹配器来增强测试能力
-3. 作为 Vitest 配置中指定的 setupFiles，在测试运行前自动执行
+## 依赖关系
 
-## 使用方式
+- 依赖Node.js的process对象
+- 依赖 `./src/test-utils/customMatchers.js` 中的自定义匹配器
 
-该文件通过 `vitest.config.ts` 中的 `setupFiles` 配置项自动加载，在每次测试运行之前执行其中的代码。
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    test-setup ||--|| process : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    test-setup {
+        object process
+        string NO_COLOR
+    }
+```

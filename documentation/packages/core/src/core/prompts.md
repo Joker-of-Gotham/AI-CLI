@@ -53,3 +53,43 @@
 - 并行执行独立工具调用
 - 解释修改命令的目的和影响
 - 正确使用记忆工具
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    getCoreSystemPrompt ||--|| resolvePathFromEnv : calls
+    getCoreSystemPrompt ||--|| fs.existsSync : calls
+    getCoreSystemPrompt ||--|| fs.readFileSync : calls
+    getCoreSystemPrompt ||--|| isGitRepository : calls
+    resolvePathFromEnv ||--|| os.homedir : calls
+    resolvePathFromEnv ||--|| path.join : calls
+    resolvePathFromEnv ||--|| path.resolve : calls
+    getCompressionPrompt ||--|| trim : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    getCoreSystemPrompt {
+        string userMemory
+        boolean systemMdEnabled
+        string systemMdPath
+        object systemMdResolution
+        string basePrompt
+        object writeSystemMdResolution
+        string writePath
+        string memorySuffix
+    }
+    resolvePathFromEnv {
+        string envVar
+        string trimmedEnvVar
+        string lowerEnvVar
+        boolean isDisabled
+        string customPath
+    }
+    getCompressionPrompt {
+        string prompt
+    }
+```

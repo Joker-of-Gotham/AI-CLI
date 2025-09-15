@@ -21,3 +21,20 @@ Token 限制管理模块负责定义和管理不同 Gemini 模型的 token 限�
 ## 使用说明
 
 该模块通过 `tokenLimit()` 函数为聊天压缩和其他需要了解模型容量的功能提供准确的 token 限制信息。这对于确保聊天历史不会超过模型处理能力至关重要。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    tokenLimit ||--|| model : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    tokenLimit {
+        Model model
+        TokenCount tokenCount
+    }
+```

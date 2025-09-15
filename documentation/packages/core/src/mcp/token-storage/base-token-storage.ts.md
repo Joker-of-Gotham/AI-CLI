@@ -114,3 +114,43 @@ protected sanitizeServerName(serverName: string): string
 
 **返回:**
 - 清理后的服务器名称
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    BaseTokenStorage ||--|| TokenStorage : implements
+    BaseTokenStorage ||--|| OAuthCredentials : uses
+    
+    validateCredentials ||--|| OAuthCredentials : uses
+    
+    isTokenExpired ||--|| OAuthCredentials : uses
+    isTokenExpired ||--|| OAuthToken : uses
+    
+    sanitizeServerName ||--|| RegExp : uses
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    BaseTokenStorage {
+        string serviceName
+    }
+    
+    validateCredentials {
+        OAuthCredentials credentials
+    }
+    
+    isTokenExpired {
+        OAuthCredentials credentials
+        OAuthToken token
+        number currentTime
+    }
+    
+    sanitizeServerName {
+        string serverName
+        RegExp regex
+        string sanitized
+    }
+```

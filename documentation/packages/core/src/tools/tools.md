@@ -77,3 +77,69 @@
 
 ### isTool()
 类型守卫函数，检查对象是否为工具。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    ToolInvocation ||--|| getDescription : implements
+    ToolInvocation ||--|| toolLocations : implements
+    ToolInvocation ||--|| shouldConfirmExecute : implements
+    ToolInvocation ||--|| execute : implements
+    ToolBuilder ||--|| build : implements
+    DeclarativeTool ||--|| validateToolParams : implements
+    DeclarativeTool ||--|| buildAndExecute : implements
+    DeclarativeTool ||--|| validateBuildAndExecute : implements
+    BaseDeclarativeTool ||--|| validateToolParamValues : implements
+    BaseDeclarativeTool ||--|| createInvocation : implements
+    BaseDeclarativeTool ||--|| DeclarativeTool : extends
+    buildAndExecute ||--|| validateToolParams : calls
+    buildAndExecute ||--|| createInvocation : calls
+    validateBuildAndExecute ||--|| validateToolParams : calls
+    validateBuildAndExecute ||--|| createInvocation : calls
+    createInvocation ||--|| build : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    ToolInvocation {
+        object params
+        string description
+        string[] locations
+        boolean shouldConfirm
+        ToolResult result
+    }
+    ToolBuilder {
+        string name
+        string displayName
+        string description
+        Kind kind
+        object schema
+        ToolInvocation invocation
+    }
+    DeclarativeTool {
+        object params
+        ToolInvocation invocation
+        ToolResult result
+    }
+    BaseDeclarativeTool {
+        object params
+        ToolInvocation invocation
+    }
+    ToolResult {
+        string llmContent
+        string returnDisplay
+        string error
+    }
+    hasCycleInSchema {
+        object schema
+        Set visited
+        boolean hasCycle
+    }
+    isTool {
+        object obj
+        boolean isToolResult
+    }
+```

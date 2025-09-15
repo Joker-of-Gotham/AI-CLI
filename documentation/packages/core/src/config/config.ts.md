@@ -116,3 +116,86 @@ CLI 扩展的接口，包含名称、版本、激活状态和路径。
 - 来自 mcp/oauth-provider 的 `MCPOAuthConfig` 类型
 - 来自 tools/tools 的 `AnyToolInvocation` 类型
 - 来自 models 的 `DEFAULT_GEMINI_FLASH_MODEL`
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    Config ||--|| StandardFileSystemService : creates
+    Config ||--|| WorkspaceContext : creates
+    Config ||--|| Storage : creates
+    Config ||--|| FileExclusions : creates
+    Config ||--|| initialize : calls
+    Config ||--|| createToolRegistry : calls
+    Config ||--|| refreshAuth : calls
+    Config ||--|| getFileService : calls
+    Config ||--|| getGitService : calls
+    Config ||--|| IdeClient.getInstance : calls
+    Config ||--|| logIdeConnection : calls
+    Config ||--|| logCliConfiguration : calls
+    Config ||--|| geminiClient.initialize : calls
+    Config ||--|| setGlobalDispatcher : calls
+    Config ||--|| setGeminiMdFilename : calls
+    Config ||--|| initializeTelemetry : calls
+    createToolRegistry ||--|| ToolRegistry : creates
+    createToolRegistry ||--|| registerTool : calls
+    createToolRegistry ||--|| discoverAllTools : calls
+    createToolRegistry ||--|| canUseRipgrep : calls
+    createToolRegistry ||--|| logRipgrepFallback : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    Config {
+        string sessionId
+        string model
+        string embeddingModel
+        string targetDir
+        boolean debugMode
+        string[] coreTools
+        string[] allowedTools
+        string[] excludeTools
+        ApprovalMode approvalMode
+        TelemetrySettings telemetrySettings
+        boolean checkpointing
+        string proxy
+        string cwd
+        FileFilteringOptions fileFiltering
+        ToolRegistry toolRegistry
+        PromptRegistry promptRegistry
+        FileDiscoveryService fileDiscoveryService
+        GitService gitService
+        GeminiClient geminiClient
+        ContentGenerator contentGenerator
+        ContentGeneratorConfig contentGeneratorConfig
+        Storage storage
+        FileExclusions fileExclusions
+        boolean initialized
+        boolean inFallbackMode
+        FallbackModelHandler fallbackModelHandler
+        boolean quotaErrorOccurred
+        number maxSessionTurns
+        boolean listExtensions
+        GeminiCLIExtension[] _extensions
+        boolean noBrowser
+        boolean folderTrustFeature
+        boolean folderTrust
+        boolean ideMode
+        boolean experimentalZedIntegration
+        boolean loadMemoryFromIncludeDirectories
+        ChatCompressionSettings chatCompression
+        boolean interactive
+        boolean trustedFolder
+        boolean useRipgrep
+        boolean shouldUseNodePtyShell
+        boolean skipNextSpeakerCheck
+        boolean extensionManagement
+        boolean enablePromptCompletion
+        number truncateToolOutputThreshold
+        number truncateToolOutputLines
+        EventEmitter eventEmitter
+        boolean useSmartEdit
+    }
+```

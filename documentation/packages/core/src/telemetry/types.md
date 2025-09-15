@@ -173,3 +173,53 @@ IDE 连接类型枚举：
 
 ### makeChatCompressionEvent()
 创建聊天压缩事件的工厂函数
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    types ||--|| makeSlashCommandEvent : exports
+    types ||--|| makeChatCompressionEvent : exports
+    types ||--|| BaseTelemetryEvent : exports
+    types ||--|| StartSessionEvent : exports
+    types ||--|| EndSessionEvent : exports
+    types ||--|| UserPromptEvent : exports
+    types ||--|| ToolCallEvent : exports
+    types ||--|| ApiRequestEvent : exports
+    types ||--|| ApiErrorEvent : exports
+    types ||--|| ApiResponseEvent : exports
+    types ||--|| FlashFallbackEvent : exports
+    types ||--|| LoopDetectedEvent : exports
+    types ||--|| NextSpeakerCheckEvent : exports
+    types ||--|| SlashCommandEvent : exports
+    types ||--|| ChatCompressionEvent : exports
+    types ||--|| FileOperationEvent : exports
+    types ||--|| IdeConnectionEvent : exports
+    types ||--|| ConversationFinishedEvent : exports
+    types ||--|| KittySequenceOverflowEvent : exports
+    types ||--|| MalformedJsonResponseEvent : exports
+    types ||--|| InvalidChunkEvent : exports
+    types ||--|| ContentRetryEvent : exports
+    types ||--|| ContentRetryFailureEvent : exports
+    types ||--|| LoopType : exports
+    types ||--|| SlashCommandStatus : exports
+    types ||--|| IdeConnectionType : exports
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    types {
+        // No module-level variables, only type definitions and functions
+    }
+    makeSlashCommandEvent {
+        string command
+        string subcommand
+        SlashCommandStatus status
+    }
+    makeChatCompressionEvent {
+        number originalTokenCount
+        number newTokenCount
+    }
+```

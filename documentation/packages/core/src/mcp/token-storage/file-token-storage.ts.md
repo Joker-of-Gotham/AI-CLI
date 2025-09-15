@@ -169,3 +169,130 @@ async clearAll(): Promise<void>
 ```
 
 通过删除存储文件来清除所有存储的凭据。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    FileTokenStorage ||--|| BaseTokenStorage : extends
+    FileTokenStorage ||--|| TokenStorage : implements
+    FileTokenStorage ||--|| OAuthCredentials : uses
+    FileTokenStorage ||--|| crypto : uses
+    FileTokenStorage ||--|| os : uses
+    FileTokenStorage ||--|| path : uses
+    FileTokenStorage ||--|| fs : uses
+    FileTokenStorage ||--|| getConfigDir : calls
+    
+    deriveEncryptionKey ||--|| os : calls
+    deriveEncryptionKey ||--|| crypto : calls
+    
+    encrypt ||--|| crypto : calls
+    
+    decrypt ||--|| crypto : calls
+    
+    ensureDirectoryExists ||--|| path : calls
+    ensureDirectoryExists ||--|| fs : calls
+    
+    loadTokens ||--|| fs : calls
+    loadTokens ||--|| decrypt : calls
+    
+    saveTokens ||--|| fs : calls
+    saveTokens ||--|| encrypt : calls
+    
+    getCredentials ||--|| loadTokens : calls
+    getCredentials ||--|| isTokenExpired : calls
+    
+    setCredentials ||--|| loadTokens : calls
+    setCredentials ||--|| saveTokens : calls
+    
+    deleteCredentials ||--|| loadTokens : calls
+    deleteCredentials ||--|| saveTokens : calls
+    
+    listServers ||--|| loadTokens : calls
+    
+    getAllCredentials ||--|| loadTokens : calls
+    
+    clearAll ||--|| fs : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    FileTokenStorage {
+        string tokenFilePath
+        Buffer encryptionKey
+        string serviceName
+    }
+    
+    deriveEncryptionKey {
+        string machineId
+        string username
+        Buffer key
+    }
+    
+    encrypt {
+        string text
+        Buffer iv
+        object cipher
+        string encrypted
+        Buffer authTag
+        string result
+    }
+    
+    decrypt {
+        string encryptedData
+        string[] parts
+        Buffer iv
+        Buffer authTag
+        Buffer encrypted
+        object decipher
+        string decrypted
+    }
+    
+    ensureDirectoryExists {
+        string dirPath
+    }
+    
+    loadTokens {
+        string data
+        string decryptedData
+        object parsed
+        Map tokens
+    }
+    
+    saveTokens {
+        Map tokens
+        object serialized
+        string data
+        string encryptedData
+    }
+    
+    getCredentials {
+        Map tokens
+        OAuthCredentials credentials
+    }
+    
+    setCredentials {
+        Map tokens
+        OAuthCredentials credentials
+    }
+    
+    deleteCredentials {
+        Map tokens
+    }
+    
+    listServers {
+        Map tokens
+        string[] serverNames
+    }
+    
+    getAllCredentials {
+        Map tokens
+        Map validTokens
+    }
+    
+    clearAll {
+        string filePath
+    }
+```

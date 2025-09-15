@@ -39,3 +39,38 @@ export function getDiffStat(
 - `user_removed_chars`: 用户删除的字符数
 
 该函数使用 `Diff.structuredPatch` 生成详细的补丁信息，并分析每个区块以计算添加/删除的行数和字符数。
+
+## 函数级调用关系
+
+```mermaid
+erDiagram
+    diffOptions ||--|| DEFAULT_DIFF_OPTIONS : exports
+    diffOptions ||--|| getDiffStat : exports
+    getDiffStat ||--|| Diff.structuredPatch : calls
+```
+
+## 变量级调用关系
+
+```mermaid
+erDiagram
+    diffOptions {
+        Diff.PatchOptions DEFAULT_DIFF_OPTIONS
+    }
+    getDiffStat {
+        string fileName
+        string oldStr
+        string aiStr
+        string userStr
+        object patch1
+        object patch2
+        DiffStat diffStat
+        number modelAddedLines
+        number modelRemovedLines
+        number modelAddedChars
+        number modelRemovedChars
+        number userAddedLines
+        number userRemovedLines
+        number userAddedChars
+        number userRemovedChars
+    }
+```

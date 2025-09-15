@@ -1,62 +1,51 @@
 # readStdin.ts
 
-标准输入读取模块，用于从 stdin 读取数据。
+这个文件定义了一个函数，用于从标准输入读取数据。
 
 ## 功能概述
 
 1. 从标准输入读取数据
-2. 处理管道输入
-3. 限制输入大小
-4. 处理超时情况
+2. 限制读取数据的大小为8MB
+3. 处理超时情况，避免程序卡住
 
-## 主要函数
+## 函数结构
 
-### readStdin(): Promise<string>
-异步读取标准输入数据：
-1. 设置最大输入大小限制（8MB）
-2. 处理可读事件
-3. 累积输入数据
-4. 处理超时情况
-5. 返回读取的数据
+### readStdin
+- 返回一个 Promise，解析为从标准输入读取的字符串
+- 设置最大读取大小为8MB
+- 使用定时器处理超时情况
+- 监听 `readable`、`end` 和 `error` 事件
+- 在 `readable` 事件中读取数据块
+- 如果数据大小超过限制，则截断数据并发出警告
+- 在 `end` 事件中解析 Promise
+- 在 `error` 事件中拒绝 Promise
 
-返回值：
-- Promise<string>: 读取到的输入数据
+## 依赖关系
 
-## 实现细节
+- 依赖 Node.js 的 `process` 对象
 
-### 数据大小限制
-- MAX_STDIN_SIZE: 8MB（8 * 1024 * 1024 字节）
-- 超过限制时会截断数据并发出警告
+## 函数级调用关系
 
-### 超时处理
-- pipedInputShouldBeAvailableInMs: 500ms
-- 如果在 500ms 内没有可用的管道输入，停止读取
-- 这解决了在某些终端中 stdin 永远不是 TTY 且没有管道输入时程序卡住的问题
+```mermaid
+erDiagram
+    readStdin ||--|| Promise : returns
+    readStdin ||--|| process.stdin : uses
+    readStdin ||--|| setTimeout : calls
+    readStdin ||--|| clearTimeout : calls
+```
 
-### 事件处理
-- readable: 当有数据可读时触发
-- end: 当输入结束时触发
-- error: 当发生错误时触发
+## 变量级调用关系
 
-### 数据累积
-- 持续读取数据块直到没有更多数据
-- 跟踪总大小以确保不超过限制
-- 在接近限制时截断数据
-
-## 错误处理
-
-- 捕获并传递读取错误
-- 在发生错误时清理事件监听器
-- 在正常结束时清理事件监听器
-
-## 使用场景
-
-- 处理管道输入（echo "data" | gemini）
-- 读取重定向文件内容（gemini < input.txt）
-- 在非交互模式下获取用户输入
-
-## 注意事项
-
-- 函数会修改 process.stdin 的编码为 'utf8'
-- 函数会设置原始模式以正确处理输入
-- 在完成读取后会清理所有事件监听器
+```mermaid
+erDiagram
+    readStdin {
+        number MAX_STDIN_SIZE
+        string data
+        number totalSize
+        NodeJS.Timeout pipedInputTimerId
+        function onReadable
+        function onEnd
+        function onError
+        function cleanup
+    }
+```
